@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".profile.ProfileFragment">
+
+    <ProgressBar
+        android:id="@+id/progressBar_profile"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="imageView6,tv_password_information,view6,imageView3,imageView4,img_editPassword_profile,btn_edit_profile,tv_phone_information,constraintLayout,tv_name_information,view5,imageView5,view,tv_email_information,view7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view7"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="15dp"
+        android:background="#706A6C"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_password_information" />
+
+    <TextView
+        android:id="@+id/tv_password_information"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="23dp"
+        android:text="@string/password"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:typeface="monospace"
+        app:layout_constraintStart_toStartOf="@+id/tv_email_information"
+        app:layout_constraintTop_toBottomOf="@+id/view6" />
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="15dp"
+        android:background="#706A6C"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_email_information" />
+
+    <TextView
+        android:id="@+id/tv_email_information"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="22dp"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_phone_information"
+        app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="15dp"
+        android:background="#706A6C"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_phone_information" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="210dp"
+        android:background="@drawable/layout_corner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img_profile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/me"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@drawable/me" />
+
+        <ImageView
+            android:id="@+id/img_back_profile"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/baseline_arrow_back_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_name_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:typeface="monospace"
+            app:layout_constraintBottom_toTopOf="@+id/img_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_seniors_profile"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/seniors"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/seniors"
+            android:textColor="#FFFFFF"
+            android:textSize="8sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/img_seniors_profile"
+            app:layout_constraintStart_toStartOf="@+id/img_seniors_profile"
+            app:layout_constraintTop_toBottomOf="@+id/img_seniors_profile" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/user"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:tint="#394CF9" />
+
+    <TextView
+        android:id="@+id/tv_name_information"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="72dp"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:typeface="monospace"
+        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="15dp"
+        android:background="#706A6C"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name_information" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/phone"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:tint="#394CF9" />
+
+    <TextView
+        android:id="@+id/tv_phone_information"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="23dp"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:typeface="monospace"
+        app:layout_constraintStart_toStartOf="@+id/tv_name_information"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/blue_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view5"
+        app:tint="#394CF9" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/lock"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/view6"
+        app:tint="#394CF9" />
+
+    <ImageView
+        android:id="@+id/img_editPassword_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:src="@drawable/edit"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_password_information"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_edit_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_button"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:text="@string/edit_profile"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:typeface="monospace"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view7" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

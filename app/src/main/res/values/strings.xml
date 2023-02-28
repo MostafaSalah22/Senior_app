@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Senior</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="phone">Phone</string>
+    <string name="birthdate">Birthdate</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login">Login</string>
+    <string name="contacts">Contacts</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="email">Email</string>
+    <string name="save">Save</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm Password</string>
+    <string name="seniors">Seniors</string>
+    <string name="update_password">Update Password</string>
+    <string name="name">Name</string>
+    <string name="senior_care" translatable="false">Senior Care</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="add_to_schedule">Add to Schedule</string>
+    <string name="new_event">New Event</string>
+    <string name="submit">Submit</string>
+    <string name="name_senior">Name:</string>
+    <string name="age_senior">Age:</string>
+    <string name="year">YEAR</string>
+</resources>

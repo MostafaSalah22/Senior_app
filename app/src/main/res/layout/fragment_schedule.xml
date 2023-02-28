@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".schedule.ScheduleFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/layout_round_corner"
+        app:layout_constraintBottom_toTopOf="@+id/rv_schedule"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img_back_schedule"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/baseline_arrow_back_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_add_schedule"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_input_add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tv_date_schedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text="14 May 2023"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_day_schedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mon"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date_schedule" />
+
+        <ImageView
+            android:layoutDirection="ltr"
+            android:id="@+id/img_perviousday_schedule"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="5dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/baseline_arrow_back_ios_new_24"
+            app:layout_constraintEnd_toStartOf="@+id/tv_date_schedule"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layoutDirection="ltr"
+            android:id="@+id/img_nextday_schedule"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="35dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/baseline_arrow_forward"
+            app:layout_constraintStart_toEndOf="@+id/tv_date_schedule"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="90dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        tools:listitem="@layout/schedule_item" />
+</androidx.constraintlayout.widget.ConstraintLayout>

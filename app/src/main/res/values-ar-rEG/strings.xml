@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Senior</string>
+    <string name="user_name">اسم المستخدم</string>
+    <string name="password">كلمة السر</string>
+    <string name="phone">رقم الهاتف</string>
+    <string name="birthdate">تاريخ الميلاد</string>
+    <string name="sign_up">حساب جديد</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="contacts">جهات الاتصال</string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="email">البريد الالكتروني</string>
+    <string name="save">حفظ</string>
+    <string name="reset_password">تعديل كلمة السر</string>
+    <string name="current_password">كلمة السر الحالية</string>
+    <string name="new_password">كلمة السر الجديدة</string>
+    <string name="confirm_new_password">تأكيد كلمة السر</string>
+    <string name="seniors">كبار السن</string>
+    <string name="update_password">تحديث كلمة المرور</string>
+    <string name="name">الأسم</string>
+    <string name="title">العنوان</string>
+    <string name="description">الوصف</string>
+    <string name="date">التاريخ</string>
+    <string name="time">الوقت</string>
+    <string name="add_to_schedule">اضافة الى الجدول</string>
+    <string name="new_event">حدث جديد</string>
+    <string name="submit">تأكيد</string>
+    <string name="name_senior">الأسم:</string>
+    <string name="age_senior">العمر:</string>
+    <string name="year">سنة</string>
+</resources>
