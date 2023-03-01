@@ -13,7 +13,8 @@ interface MainRepoInterface {
                                  password: String, confirm_password:String,
                                  phone: String, email: String): AppUser
 
-    suspend fun getProfileDataFromRemote(): ProfileUser
+    suspend fun getProfileDataFromRemoteAndUpdateDataStore()
+    suspend fun getProfileDataFromDataStore(): ProfileUser
     suspend fun changeProfilePassword(oldPassword:String, newPassword:String, confirmPassword:String): ChangeResponse
     suspend fun changeProfileImage(file: MultipartBody.Part): ChangeResponse
 

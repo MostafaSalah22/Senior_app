@@ -50,10 +50,10 @@ class ProfileViewModel @Inject constructor(private val changeProfilePasswordUseC
     suspend fun getProfileData() {
         viewModelScope.launch {
             try {
-                _responseState.value = Resource.Loading()
+                //_responseState.value = Resource.Loading()
                 val user = getProfileDataUseCase()
                 _profileUser.value = user
-                _responseState.value = getProfileDataUseCase.handleResponse().value
+                //_responseState.value = getProfileDataUseCase.handleResponse().value
             } catch (e: Exception){
                 Log.e("LoginViewModel",e.message.toString())
              }
@@ -84,5 +84,9 @@ class ProfileViewModel @Inject constructor(private val changeProfilePasswordUseC
                 Log.e("LoginViewModel",e.message.toString())
             }
         }
+    }
+
+    suspend fun getProfileDataFromRemoteAndUpdateDataStore() {
+        changeProfileImageUseCase.getProfileDataFromRemoteAndUpdateDataStore()
     }
 }

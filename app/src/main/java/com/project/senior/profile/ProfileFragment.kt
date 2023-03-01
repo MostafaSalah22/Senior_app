@@ -20,6 +20,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -33,10 +34,8 @@ import com.project.senior.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
@@ -45,7 +44,7 @@ import java.io.File
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
-    private val viewModel: ProfileViewModel by viewModels()
+    private val viewModel: ProfileViewModel by activityViewModels()
     private lateinit var body: MultipartBody.Part
     private val REQUEST_CODE_PICK_IMAGE = 101
 
@@ -64,19 +63,12 @@ class ProfileFragment : Fragment() {
             viewModel.getProfileData()
         }
 
-        viewModel.responseState.observe(viewLifecycleOwner, Observer {state ->
-            when(state){
-                is Resource.Success -> successState()
-                is Resource.Loading -> loadingState()
-                is Resource.Error -> errorState()
-                else -> errorState()
-            }
-        })
+        getProfileData()
 
-       clickListener()
+        clickListener()
     }
 
-    private fun successState() {
+    private fun getProfileData() {
         viewModel.profileUser.observe(viewLifecycleOwner, Observer { profileUser ->
 
             binding.tvNameProfile.text = profileUser.data.name
@@ -85,22 +77,10 @@ class ProfileFragment : Fragment() {
                 transformations(CircleCropTransformation())
                 placeholder(R.drawable.loading_img)
             }
-            //binding.tvDateInformation.text = profileUser.data.birthdate
             binding.tvPhoneInformation.text = profileUser.data.phone
             binding.tvEmailInformation.text = profileUser.data.email
 
         })
-        binding.groupProfile.visibility = View.VISIBLE
-        binding.progressBarProfile.visibility = View.GONE
-    }
-
-    private fun loadingState() {
-        binding.groupProfile.visibility = View.GONE
-        binding.progressBarProfile.visibility = View.VISIBLE
-    }
-
-    private fun errorState() {
-        Log.i("ProfileViewModel", "ERROR")
     }
 
     private fun clickListener() {
@@ -120,37 +100,6 @@ class ProfileFragment : Fragment() {
             navigateToSeniorsFragment()
         }
 
-        binding.imgProfile.setOnClickListener {
-            verifyStoragePermissions(requireActivity())
-            viewModel.changeImageResponseState.observe(viewLifecycleOwner, Observer {state ->
-                when(state){
-                    is Resource.Success -> imageSuccessState()
-                    is Resource.Loading -> loadingState()
-                    is Resource.Error -> imageErrorState()
-                    else -> Snackbar.make(requireView(),"Something Error! Please, Try Again.",Snackbar.LENGTH_LONG).show()
-                }
-            })
-        }
-    }
-
-    private fun imageSuccessState() {
-        runBlocking {
-            viewModel.getProfileData()
-        }
-        successState()
-    }
-
-    private fun imageErrorState() {
-        binding.progressBarProfile.visibility = View.GONE
-        binding.groupProfile.visibility = View.VISIBLE
-        viewModel.changeImageResponse.observe(viewLifecycleOwner, Observer { userResponse ->
-            if(userResponse.status == "E03" || userResponse.status == "E00") Snackbar.make(requireView(),userResponse.message,Snackbar.LENGTH_LONG).show()
-            else {
-                lifecycleScope.launchWhenCreated {
-                    viewModel.changeProfileImage(body)
-                }
-            }
-        })
     }
 
     private fun backToChatFragment() {
@@ -163,68 +112,6 @@ class ProfileFragment : Fragment() {
 
     private fun navigateToSeniorsFragment() {
         findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToSeniorsFragment())
-    }
-
-    private val REQUEST_EXTERNAL_STORAGE = 1
-    private val PERMISSIONS_STORAGE = arrayOf(
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
-
-    private fun verifyStoragePermissions(activity: Activity?) {
-        // Check if we have write permission
-        val permission = ActivityCompat.checkSelfPermission(
-            activity!!,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                activity,
-                PERMISSIONS_STORAGE,
-                REQUEST_EXTERNAL_STORAGE
-            )
-        }
-        else pickImageFromGallery()
-    }
-
-
-    private fun pickImageFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
-            val imageUri = data?.data ?: return
-            val filePath = getRealPathFromURI(imageUri)
-            Log.i("ProfileViewModel", "onActivityResult: $filePath")
-            val file = File(filePath!!)
-            lifecycleScope.launchWhenCreated {
-                uploadImage(file)
-            }
-        }
-    }
-
-    private fun getRealPathFromURI(uri: Uri): String? {
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = requireContext().contentResolver.query(uri, projection, null, null, null)
-        return if (cursor != null) {
-            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            cursor.moveToFirst()
-            val filePath = cursor.getString(columnIndex)
-            cursor.close()
-            filePath
-        } else {
-            uri.path
-        }
-    }
-
-    private suspend fun uploadImage(file: File) {
-        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-        body = MultipartBody.Part.createFormData("image", file.name, requestFile)
-        viewModel.changeProfileImage(body)
     }
 
     private fun showPasswordDialog(context: Context) {
