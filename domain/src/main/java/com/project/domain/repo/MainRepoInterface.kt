@@ -5,6 +5,7 @@ import com.project.domain.model.AppUser
 import com.project.domain.model.ChangeResponse
 import com.project.domain.model.ProfileUser
 import okhttp3.MultipartBody
+import retrofit2.http.Query
 
 interface MainRepoInterface {
 
@@ -15,13 +16,15 @@ interface MainRepoInterface {
 
     suspend fun getProfileDataFromRemoteAndUpdateDataStore()
     suspend fun getProfileDataFromDataStore(): ProfileUser
+    suspend fun updateProfileData(name: String, username: String, phone: String, email: String)
+
     suspend fun changeProfilePassword(oldPassword:String, newPassword:String, confirmPassword:String): ChangeResponse
     suspend fun changeProfileImage(file: MultipartBody.Part): ChangeResponse
-
 
     suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?>
     suspend fun handleRegisterResponse(): LiveData<Resource<AppUser>?>
     suspend fun handleProfileResponse(): LiveData<Resource<ProfileUser>?>
+    suspend fun handleUpdateProfileDataResponse(): LiveData<Resource<ProfileUser>?>
     suspend fun handleChangePasswordResponse(): LiveData<Resource<ChangeResponse>?>
     suspend fun handleChangeImageResponse(): LiveData<Resource<ChangeResponse>?>
 

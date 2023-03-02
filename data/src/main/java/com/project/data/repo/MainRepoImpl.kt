@@ -23,6 +23,7 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     private lateinit var loginResponse: Response<AppUser>
     private lateinit var registerResponse: Response<AppUser>
     private lateinit var profileResponse: Response<ProfileUser>
+    private lateinit var updateProfileDataResponse: Response<ProfileUser>
     private lateinit var changePasswordResponse: Response<ChangeResponse>
     private lateinit var changeImageResponse: Response<ChangeResponse>
 
@@ -91,11 +92,9 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         dataStoreRepoInterface.saveToDataStore("image",
             profileResponse.body()?.data?.image.toString()
         )
-        //return profileResponse.body()!!
     }
 
     override suspend fun getProfileDataFromDataStore(): ProfileUser {
-        //getProfileDataFromRemoteAndUpdateDataStore()
         return ProfileUser(data = DataX(id = dataStoreRepoInterface.readFromDataStore("id")?.toInt()!!,
                                         username = dataStoreRepoInterface.readFromDataStore("username")!!,
                                         name = dataStoreRepoInterface.readFromDataStore("name")!!,
@@ -104,6 +103,15 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
                                         image = dataStoreRepoInterface.readFromDataStore("image")!!
                                         ), successful = true
         )
+    }
+
+    override suspend fun updateProfileData(
+        name: String,
+        username: String,
+        phone: String,
+        email: String
+    ) {
+        updateProfileDataResponse = apiService.updateProfileData(dataStoreRepoInterface.readFromDataStore("token").toString(), name, username, phone, email)
     }
 
 
@@ -115,11 +123,9 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     }
 
     override suspend fun changeProfileImage(file: MultipartBody.Part): ChangeResponse {
-        //getProfileDataFromRemoteAndUpdateDataStore()
         val token = dataStoreRepoInterface.readFromDataStore("token").toString()
         changeImageResponse = apiService.changeProfileImage(token, file)
         return returnChangeTrueResponse(changeImageResponse)
-        //val test = returnChangeTrueResponse(response)
     }
 
     override suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?> {
@@ -132,6 +138,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
 
     override suspend fun handleProfileResponse(): LiveData<Resource<ProfileUser>?> {
         return handleResponse(profileResponse)
+    }
+
+    override suspend fun handleUpdateProfileDataResponse(): LiveData<Resource<ProfileUser>?> {
+        return handleResponse(updateProfileDataResponse)
     }
 
     override suspend fun handleChangePasswordResponse(): LiveData<Resource<ChangeResponse>?> {

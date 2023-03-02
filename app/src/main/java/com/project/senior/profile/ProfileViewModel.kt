@@ -11,6 +11,7 @@ import com.project.domain.repo.Resource
 import com.project.domain.usecase.ChangeProfileImageUseCase
 import com.project.domain.usecase.ChangeProfilePasswordUseCase
 import com.project.domain.usecase.GetProfileDataUseCase
+import com.project.domain.usecase.UpdateProfileDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -19,16 +20,17 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val changeProfilePasswordUseCase: ChangeProfilePasswordUseCase,
     private val getProfileDataUseCase: GetProfileDataUseCase,
-    private val changeProfileImageUseCase: ChangeProfileImageUseCase
+    private val changeProfileImageUseCase: ChangeProfileImageUseCase,
+    private val updateProfileDataUseCase: UpdateProfileDataUseCase
 ): ViewModel() {
 
     private val _profileUser: MutableLiveData<ProfileUser> = MutableLiveData()
     val profileUser: LiveData<ProfileUser>
     get() = _profileUser
 
-    private val _responseState: MutableLiveData<Resource<ProfileUser>?> = MutableLiveData()
-    val responseState: LiveData<Resource<ProfileUser>?>
-    get() = _responseState
+    private val _updateProfileDataResponseState: MutableLiveData<Resource<ProfileUser>?> = MutableLiveData()
+    val updateProfileDataResponseState: LiveData<Resource<ProfileUser>?>
+    get() = _updateProfileDataResponseState
 
     private val _changePasswordResponse: MutableLiveData<ChangeResponse> = MutableLiveData()
     val changePasswordResponse: LiveData<ChangeResponse>
@@ -81,12 +83,25 @@ class ProfileViewModel @Inject constructor(private val changeProfilePasswordUseC
                 _changeImageResponse.value = changeResponse
                 _changeImageResponseState.value = changeProfileImageUseCase.handleResponse().value
             } catch (e: Exception){
-                Log.e("LoginViewModel",e.message.toString())
+                Log.e("ProfileViewModel",e.message.toString())
             }
         }
     }
 
     suspend fun getProfileDataFromRemoteAndUpdateDataStore() {
         changeProfileImageUseCase.getProfileDataFromRemoteAndUpdateDataStore()
+    }
+
+    suspend fun updateProfileData(name: String, username: String, phone: String, email: String) {
+        viewModelScope.launch {
+            try {
+                _updateProfileDataResponseState.value = Resource.Loading()
+                updateProfileDataUseCase(name, username, phone, email)
+                _updateProfileDataResponseState.value =
+                    updateProfileDataUseCase.handleResponse().value
+            } catch (e:Exception){
+                Log.e("ProfileViewModel",e.message.toString())
+            }
+        }
     }
 }

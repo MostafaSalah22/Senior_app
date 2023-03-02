@@ -35,4 +35,9 @@ object UseCaseModule {
     fun provideChangeProfileImageUseCase(mainRepoInterface: MainRepoInterface): ChangeProfileImageUseCase{
         return ChangeProfileImageUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideUpdateProfileDataUseCase(mainRepoInterface: MainRepoInterface): UpdateProfileDataUseCase{
+        return UpdateProfileDataUseCase(mainRepoInterface)
+    }
 }

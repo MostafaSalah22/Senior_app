@@ -36,4 +36,11 @@ interface ApiService {
     @POST("care-takers/profile/changeImage")
     suspend fun changeProfileImage(@Query("token") token: String,
                                    @Part image: MultipartBody.Part):Response<ChangeResponse>
+
+    @POST("care-takers/profile/update")
+    suspend fun updateProfileData(@Query("token") token:String,
+                                  @Query("name") name: String,
+                                  @Query("username") username: String,
+                                  @Query("phone") phone: String,
+                                  @Query("email") email: String):Response<ProfileUser>
 }

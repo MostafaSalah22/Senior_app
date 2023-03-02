@@ -98,6 +98,25 @@ class EditProfileFragment : Fragment() {
                 }
             })
         }
+
+        binding.btnSaveEditProfile.setOnClickListener {
+            lifecycleScope.launchWhenCreated {
+                viewModel.updateProfileData(binding.etNameEditProfile.text.toString().trim(),
+                                            binding.etUsernameEditProfile.text.toString().trim(),
+                                            binding.etPhoneEditProfile.text.toString().trim(),
+                                            binding.etEmailEditProfile.text.toString().trim())
+            }
+            viewModel.updateProfileDataResponseState.observe(viewLifecycleOwner, Observer {state ->
+                when(state){
+                    is Resource.Success -> updateSuccessState()
+                    is Resource.Loading -> loadingState()
+                    is Resource.Error -> Snackbar.make(requireView(),"Something Error! Please, Try Again.",
+                        Snackbar.LENGTH_LONG).show()
+                    else -> Snackbar.make(requireView(),"Something Error! Please, Try Again.",
+                        Snackbar.LENGTH_LONG).show()
+                }
+            })
+        }
     }
 
 
@@ -113,6 +132,13 @@ class EditProfileFragment : Fragment() {
         getProfileData()
         binding.groupEditProfile.visibility = View.VISIBLE
         binding.progressBarEditProfile.visibility = View.GONE
+    }
+
+    private fun updateSuccessState() {
+        runBlocking {
+            viewModel.getProfileDataFromRemoteAndUpdateDataStore()
+        }
+        backToProfileFragment()
     }
 
     private fun loadingState() {
