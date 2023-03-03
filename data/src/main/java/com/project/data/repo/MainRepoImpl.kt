@@ -54,7 +54,8 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     }
 
     override suspend fun isEmailLoggedIn(): Boolean {
-        return dataStoreRepoInterface.readFromDataStore("token") != null.toString()
+        return !(dataStoreRepoInterface.readFromDataStore("token") == null.toString() || dataStoreRepoInterface.readFromDataStore("token") == null)
+        //return dataStoreRepoInterface.readFromDataStore("token") != null.toString()
     }
 
     override suspend fun postRegisterUser(
