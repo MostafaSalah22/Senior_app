@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.domain.model.AppUser
 import com.project.domain.repo.Resource
+import com.project.domain.usecase.GetProfileDataAndUpdateDataStoreUseCase
 import com.project.domain.usecase.PostLoginUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val postLoginUserUseCase: PostLoginUserUseCase
+    private val postLoginUserUseCase: PostLoginUserUseCase,
+    private val getProfileDataAndUpdateDataStoreUseCase: GetProfileDataAndUpdateDataStoreUseCase
 ): ViewModel() {
 
     private val _loginUser: MutableLiveData<AppUser> = MutableLiveData()
@@ -59,5 +61,13 @@ class LoginViewModel @Inject constructor(
                 Log.e("LoginViewModel",e.message.toString())
             }
         }
+    }
+
+    suspend fun isEmailLoggedIn(): Boolean{
+        return postLoginUserUseCase.isEmailLoggedIn()
+    }
+
+    suspend fun updateProfileData() {
+        getProfileDataAndUpdateDataStoreUseCase()
     }
 }

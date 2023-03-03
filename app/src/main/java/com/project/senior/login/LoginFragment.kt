@@ -17,6 +17,7 @@ import com.project.senior.R
 import com.project.senior.databinding.FragmentLoginBinding
 import com.project.senior.utils.showPassword
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -30,6 +31,14 @@ class LoginFragment : Fragment() {
     ): View? {
         binding =
             FragmentLoginBinding.inflate(inflater, container , false)
+        lifecycleScope.launchWhenCreated {
+            Log.i("LoginViewModel", "onCreateView: ${viewModel.isEmailLoggedIn()}")
+            if (viewModel.isEmailLoggedIn()){
+                loadingState()
+                viewModel.updateProfileData()
+                navigateToChatFragment()
+            }
+        }
         return binding.root
     }
 

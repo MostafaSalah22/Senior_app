@@ -1,6 +1,5 @@
 package com.project.data.repo
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.project.data.remote.ApiService
 import com.project.domain.model.AppUser
@@ -10,12 +9,7 @@ import com.project.domain.model.ProfileUser
 import com.project.domain.repo.DataStoreRepoInterface
 import com.project.domain.repo.MainRepoInterface
 import com.project.domain.repo.Resource
-import okhttp3.MediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 
 class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepoInterface: DataStoreRepoInterface): MainRepoInterface {
@@ -57,6 +51,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         )
 
         return returnTrueResponse(loginResponse)
+    }
+
+    override suspend fun isEmailLoggedIn(): Boolean {
+        return dataStoreRepoInterface.readFromDataStore("token") != null.toString()
     }
 
     override suspend fun postRegisterUser(
@@ -103,6 +101,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
                                         image = dataStoreRepoInterface.readFromDataStore("image")!!
                                         ), successful = true
         )
+    }
+
+    override suspend fun logout() {
+        dataStoreRepoInterface.saveToDataStore("token", null.toString())
     }
 
     override suspend fun updateProfileData(

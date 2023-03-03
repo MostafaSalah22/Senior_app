@@ -100,10 +100,21 @@ class ProfileFragment : Fragment() {
             navigateToSeniorsFragment()
         }
 
+        binding.btnLogoutProfile.setOnClickListener {
+            lifecycleScope.launchWhenCreated {
+                viewModel.logout()
+                backToLoginFragment()
+            }
+        }
+
     }
 
     private fun backToChatFragment() {
         findNavController().popBackStack()
+    }
+
+    private fun backToLoginFragment() {
+        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToLoginFragment())
     }
 
     private fun navigateToEditProfileFragment() {

@@ -8,10 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.project.domain.model.ChangeResponse
 import com.project.domain.model.ProfileUser
 import com.project.domain.repo.Resource
-import com.project.domain.usecase.ChangeProfileImageUseCase
-import com.project.domain.usecase.ChangeProfilePasswordUseCase
-import com.project.domain.usecase.GetProfileDataUseCase
-import com.project.domain.usecase.UpdateProfileDataUseCase
+import com.project.domain.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -21,7 +18,9 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(private val changeProfilePasswordUseCase: ChangeProfilePasswordUseCase,
     private val getProfileDataUseCase: GetProfileDataUseCase,
     private val changeProfileImageUseCase: ChangeProfileImageUseCase,
-    private val updateProfileDataUseCase: UpdateProfileDataUseCase
+    private val updateProfileDataUseCase: UpdateProfileDataUseCase,
+    private val getProfileDataAndUpdateDataStoreUseCase: GetProfileDataAndUpdateDataStoreUseCase,
+    private val logoutUseCase: LogoutUseCase
 ): ViewModel() {
 
     private val _profileUser: MutableLiveData<ProfileUser> = MutableLiveData()
@@ -89,7 +88,7 @@ class ProfileViewModel @Inject constructor(private val changeProfilePasswordUseC
     }
 
     suspend fun getProfileDataFromRemoteAndUpdateDataStore() {
-        changeProfileImageUseCase.getProfileDataFromRemoteAndUpdateDataStore()
+        getProfileDataAndUpdateDataStoreUseCase()
     }
 
     suspend fun updateProfileData(name: String, username: String, phone: String, email: String) {
@@ -103,5 +102,9 @@ class ProfileViewModel @Inject constructor(private val changeProfilePasswordUseC
                 Log.e("ProfileViewModel",e.message.toString())
             }
         }
+    }
+
+    suspend fun logout() {
+        logoutUseCase()
     }
 }

@@ -17,6 +17,11 @@ object UseCaseModule {
     }
 
     @Provides
+    fun provideLogoutUseCase(mainRepoInterface: MainRepoInterface): LogoutUseCase{
+        return LogoutUseCase(mainRepoInterface)
+    }
+
+    @Provides
     fun provideRegisterUseCase(mainRepoInterface: MainRepoInterface): PostRegisterUserUseCase{
         return PostRegisterUserUseCase(mainRepoInterface)
     }
@@ -39,5 +44,10 @@ object UseCaseModule {
     @Provides
     fun provideUpdateProfileDataUseCase(mainRepoInterface: MainRepoInterface): UpdateProfileDataUseCase{
         return UpdateProfileDataUseCase(mainRepoInterface)
+    }
+
+    @Provides
+    fun provideGetProfileDataAndUpdateDataStoreUseCase(mainRepoInterface: MainRepoInterface): GetProfileDataAndUpdateDataStoreUseCase{
+        return GetProfileDataAndUpdateDataStoreUseCase(mainRepoInterface)
     }
 }

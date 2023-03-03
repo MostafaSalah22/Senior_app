@@ -21,7 +21,7 @@
         android:id="@+id/group_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="imageView6,tv_password_information,view6,imageView3,imageView4,img_editPassword_profile,btn_edit_profile,tv_phone_information,constraintLayout,tv_name_information,view5,imageView5,view,tv_email_information,view7"
+        app:constraint_referenced_ids="imageView6,tv_password_information,view6,imageView3,imageView4,img_editPassword_profile,btn_edit_profile,tv_phone_information,constraintLayout,tv_name_information,view5,imageView5,view,tv_email_information,view7,btn_logout_profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,6 +79,24 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_phone_information" />
+
+    <Button
+        android:id="@+id/btn_logout_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#F30000"
+        android:paddingStart="20dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="10dp"
+        android:text="Logout"
+        android:textSize="20sp"
+        android:typeface="monospace"
+        app:cornerRadius="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -248,9 +266,16 @@
         android:textSize="20sp"
         android:typeface="monospace"
         app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view7" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.86" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
