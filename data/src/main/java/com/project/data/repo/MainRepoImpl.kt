@@ -2,10 +2,7 @@ package com.project.data.repo
 
 import androidx.lifecycle.LiveData
 import com.project.data.remote.ApiService
-import com.project.domain.model.AppUser
-import com.project.domain.model.ChangeResponse
-import com.project.domain.model.DataX
-import com.project.domain.model.ProfileUser
+import com.project.domain.model.*
 import com.project.domain.repo.DataStoreRepoInterface
 import com.project.domain.repo.MainRepoInterface
 import com.project.domain.repo.Resource
@@ -20,6 +17,7 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     private lateinit var updateProfileDataResponse: Response<ProfileUser>
     private lateinit var changePasswordResponse: Response<ChangeResponse>
     private lateinit var changeImageResponse: Response<ChangeResponse>
+    private lateinit var mySeniorsResponse: Response<MySeniorsResponse>
 
     override suspend fun postLoginUser(username: String, password: String): AppUser {
         loginResponse = apiService.postLoginUser(username, password)
@@ -131,6 +129,11 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         return returnChangeTrueResponse(changeImageResponse)
     }
 
+    override suspend fun getMySeniorsFromRemote(): MySeniorsResponse {
+        mySeniorsResponse = apiService.getMySeniors(dataStoreRepoInterface.readFromDataStore("token").toString())
+        return mySeniorsResponse.body()!!
+    }
+
     override suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?> {
         return handleResponse(loginResponse)
     }
@@ -153,6 +156,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
 
     override suspend fun handleChangeImageResponse(): LiveData<Resource<ChangeResponse>?> {
         return handleResponse(changeImageResponse)
+    }
+
+    override suspend fun handleGetMySeniorsResponse(): LiveData<Resource<MySeniorsResponse>?> {
+        return handleResponse(mySeniorsResponse)
     }
 
 }

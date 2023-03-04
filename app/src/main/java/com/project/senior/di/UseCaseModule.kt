@@ -50,4 +50,9 @@ object UseCaseModule {
     fun provideGetProfileDataAndUpdateDataStoreUseCase(mainRepoInterface: MainRepoInterface): GetProfileDataAndUpdateDataStoreUseCase{
         return GetProfileDataAndUpdateDataStoreUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideGetMySeniorsUseCase(mainRepoInterface: MainRepoInterface): GetMySeniorsUseCase{
+        return GetMySeniorsUseCase(mainRepoInterface)
+    }
 }

@@ -2,13 +2,18 @@ package com.project.senior.profile
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -101,12 +106,28 @@ class ProfileFragment : Fragment() {
         }
 
         binding.btnLogoutProfile.setOnClickListener {
+            showLogoutDialog()
+        }
+
+    }
+
+    private fun showLogoutDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val title = SpannableString("Logout")
+        title.setSpan(ForegroundColorSpan(Color.RED), 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.setTitle(title)
+        builder.setMessage("Are you sure you want to logout?")
+        builder.setPositiveButton("Yes") { dialog, which ->
+            dialog.dismiss()
             lifecycleScope.launchWhenCreated {
                 viewModel.logout()
                 backToLoginFragment()
             }
         }
-
+        builder.setNegativeButton("No") { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
 
     private fun backToChatFragment() {

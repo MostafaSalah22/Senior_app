@@ -2,6 +2,7 @@ package com.project.data.remote
 
 import com.project.domain.model.AppUser
 import com.project.domain.model.ChangeResponse
+import com.project.domain.model.MySeniorsResponse
 import com.project.domain.model.ProfileUser
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -43,4 +44,7 @@ interface ApiService {
                                   @Query("username") username: String,
                                   @Query("phone") phone: String,
                                   @Query("email") email: String):Response<ProfileUser>
+
+    @GET("care-takers/my-senior")
+    suspend fun getMySeniors(@Query("token") token: String): Response<MySeniorsResponse>
 }

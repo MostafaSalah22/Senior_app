@@ -9,13 +9,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.project.domain.model.MySeniorsData
 import com.project.senior.R
 import com.project.senior.databinding.SeniorItemBinding
 
 class SeniorsAdapter :
-    ListAdapter<SeniorModel, SeniorsAdapter.SeniorViewHolder>(SeniorDiffCallback()) {
+    ListAdapter<MySeniorsData, SeniorsAdapter.SeniorViewHolder>(SeniorDiffCallback()) {
 
-    var onItemClick: ((SeniorModel) -> Unit)? = null
+    var onItemClick: ((MySeniorsData) -> Unit)? = null
 
     class SeniorViewHolder(private val binding: SeniorItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -41,7 +42,8 @@ class SeniorsAdapter :
 
         holder.name.text = item.name
         holder.age.text = item.age.toString()
-        holder.picture.load(R.drawable.me){
+        holder.picture.load(item.image){
+            placeholder(R.drawable.loading_img)
             transformations(CircleCropTransformation())
         }
 
@@ -52,17 +54,17 @@ class SeniorsAdapter :
 
 }
 
-class SeniorDiffCallback() : DiffUtil.ItemCallback<SeniorModel>() {
+class SeniorDiffCallback() : DiffUtil.ItemCallback<MySeniorsData>() {
     override fun areItemsTheSame(
-        oldItem: SeniorModel,
-        newItem: SeniorModel
+        oldItem: MySeniorsData,
+        newItem: MySeniorsData
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: SeniorModel,
-        newItem: SeniorModel
+        oldItem: MySeniorsData,
+        newItem: MySeniorsData
     ): Boolean {
         return areItemsTheSame(oldItem, newItem)
     }

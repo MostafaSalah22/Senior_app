@@ -10,12 +10,19 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import com.project.domain.repo.Resource
 import com.project.senior.R
 import com.project.senior.chat.recyclerview.ChatAdapter
 import com.project.senior.chat.recyclerview.ChatModel
 import com.project.senior.databinding.FragmentSeniorsBinding
+import com.project.senior.profile.ProfileViewModel
 import com.project.senior.seniors.recyclerview.SeniorModel
 import com.project.senior.seniors.recyclerview.SeniorsAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +32,7 @@ class SeniorsFragment : Fragment() {
 
     private lateinit var binding: FragmentSeniorsBinding
     private lateinit var seniorsAdapter: SeniorsAdapter
+    private val viewModel: SeniorsViewModel by viewModels()
     private val arr:ArrayList<SeniorModel> = ArrayList()
 
     override fun onCreateView(
@@ -40,20 +48,34 @@ class SeniorsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arr.add(SeniorModel(0,"Mostafa Salah",65))
+        lifecycleScope.launchWhenCreated {
+            viewModel.getMySeniors()
+        }
+
+        viewModel.getSeniorsResponseState.observe(viewLifecycleOwner, Observer { state ->
+
+            when (state) {
+                is Resource.Success -> successState()
+                is Resource.Loading -> loadingState()
+                is Resource.Error -> errorState()
+                else -> errorState()
+            }
+
+        })
+        /*arr.add(SeniorModel(0,"Mostafa Salah",65))
         arr.add(SeniorModel(1,"Mostafa Salah",65))
         arr.add(SeniorModel(2,"Mostafa Salah",65))
         arr.add(SeniorModel(3,"Mostafa Salah",65))
         arr.add(SeniorModel(4,"Mostafa Salah",65))
         arr.add(SeniorModel(5,"Mostafa Salah",65))
         arr.add(SeniorModel(6,"Mostafa Salah",65))
-        arr.add(SeniorModel(7,"Mostafa Salah",65))
+        arr.add(SeniorModel(7,"Mostafa Salah",65))*/
 
         val layoutManger = LinearLayoutManager(context)
         binding.rvSeniors.layoutManager = layoutManger
         seniorsAdapter = SeniorsAdapter()
         binding.rvSeniors.adapter = seniorsAdapter
-        seniorsAdapter.submitList(arr)
+        //seniorsAdapter.submitList(arr)
 
         clickListener()
     }
@@ -70,6 +92,26 @@ class SeniorsFragment : Fragment() {
         seniorsAdapter.onItemClick = {
             navigateToScheduleFragment()
         }
+    }
+
+    private fun successState() {
+        viewModel.seniorsList.observe(viewLifecycleOwner, Observer {seniorsList ->
+        seniorsAdapter.submitList(seniorsList)
+        })
+
+        binding.groupSeniors.visibility = View.VISIBLE
+        binding.progressBarSeniors.visibility = View.GONE
+    }
+
+    private fun loadingState() {
+        binding.groupSeniors.visibility = View.GONE
+        binding.progressBarSeniors.visibility = View.VISIBLE
+    }
+
+    private fun errorState() {
+        Snackbar.make(requireView(),"Something Error! please, Try Again.", Snackbar.LENGTH_LONG).show()
+        binding.groupSeniors.visibility = View.VISIBLE
+        binding.progressBarSeniors.visibility = View.GONE
     }
 
     private fun backToProfileFragment() {
