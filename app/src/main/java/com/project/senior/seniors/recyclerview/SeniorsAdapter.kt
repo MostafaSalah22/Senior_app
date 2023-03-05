@@ -16,7 +16,7 @@ import com.project.senior.databinding.SeniorItemBinding
 class SeniorsAdapter :
     ListAdapter<MySeniorsData, SeniorsAdapter.SeniorViewHolder>(SeniorDiffCallback()) {
 
-    var onItemClick: ((MySeniorsData) -> Unit)? = null
+    var onProfileClick: ((MySeniorsData) -> Unit)? = null
 
     class SeniorViewHolder(private val binding: SeniorItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -24,6 +24,8 @@ class SeniorsAdapter :
             val name: TextView = binding.tvNameSeniorItem
             val age: TextView = binding.tvAgeSeniorItem
             val picture: ImageView = binding.imgPictureSeniorItem
+            val delete: ImageView = binding.imgDeleteSeniorItem
+            val profile: ImageView = binding.imgProfileSeniorItem
 
     }
 
@@ -37,7 +39,7 @@ class SeniorsAdapter :
         return SeniorViewHolder(listItemBinding)
     }
 
-    override fun onBindViewHolder(holder: SeniorsAdapter.SeniorViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SeniorViewHolder, position: Int) {
         val item = getItem(position)
 
         holder.name.text = item.name
@@ -47,8 +49,8 @@ class SeniorsAdapter :
             transformations(CircleCropTransformation())
         }
 
-        holder.itemView.setOnClickListener {
-            onItemClick?.invoke(item)
+        holder.profile.setOnClickListener {
+            onProfileClick?.invoke(item)
         }
     }
 

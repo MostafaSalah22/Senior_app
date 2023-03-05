@@ -78,8 +78,8 @@ class SeniorsFragment : Fragment() {
             showNewSeniorDialog(requireContext())
         }
 
-        seniorsAdapter.onItemClick = {
-            navigateToScheduleFragment()
+        seniorsAdapter.onProfileClick = {seniorData->
+            navigateToSeniorDetailsFragment(seniorData.id)
         }
     }
 
@@ -107,8 +107,8 @@ class SeniorsFragment : Fragment() {
         findNavController().popBackStack()
     }
 
-    private fun navigateToScheduleFragment() {
-        findNavController().navigate(SeniorsFragmentDirections.actionSeniorsFragmentToScheduleFragment())
+    private fun navigateToSeniorDetailsFragment(userId: Int) {
+        findNavController().navigate(SeniorsFragmentDirections.actionSeniorsFragmentToSeniorDetailsFragment(userId))
     }
 
     private fun showNewSeniorDialog(context: Context) {

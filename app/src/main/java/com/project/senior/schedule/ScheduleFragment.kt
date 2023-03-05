@@ -13,6 +13,7 @@ import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.senior.R
 import com.project.senior.databinding.FragmentScheduleBinding
@@ -27,6 +28,7 @@ class ScheduleFragment : Fragment() {
     private lateinit var scheduleViewModel: ScheduleViewModel
     private lateinit var scheduleAdapter: ScheduleAdapter
     private val arr:ArrayList<ScheduleModel> = ArrayList()
+    private var userId: Int? = null
 
 
     override fun onCreateView(
@@ -35,6 +37,8 @@ class ScheduleFragment : Fragment() {
     ): View? {
         binding =
             FragmentScheduleBinding.inflate(inflater , container , false)
+        val scheduleFragmentArgs by navArgs<ScheduleFragmentArgs>()
+        userId = scheduleFragmentArgs.userId
         scheduleViewModel = ViewModelProvider(this)[ScheduleViewModel::class.java]
         return binding.root
     }
