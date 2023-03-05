@@ -15,9 +15,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     private lateinit var registerResponse: Response<AppUser>
     private lateinit var profileResponse: Response<ProfileUser>
     private lateinit var updateProfileDataResponse: Response<ProfileUser>
-    private lateinit var changePasswordResponse: Response<ChangeResponse>
-    private lateinit var changeImageResponse: Response<ChangeResponse>
+    private lateinit var changePasswordResponse: Response<MiniResponse>
+    private lateinit var changeImageResponse: Response<MiniResponse>
     private lateinit var mySeniorsResponse: Response<MySeniorsResponse>
+    private lateinit var addNewSeniorResponse: Response<MiniResponse>
 
     override suspend fun postLoginUser(username: String, password: String): AppUser {
         loginResponse = apiService.postLoginUser(username, password)
@@ -116,14 +117,14 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     }
 
 
-    override suspend fun changeProfilePassword(oldPassword:String, newPassword:String, confirmPassword:String): ChangeResponse {
+    override suspend fun changeProfilePassword(oldPassword:String, newPassword:String, confirmPassword:String): MiniResponse {
         changePasswordResponse = apiService.changeProfilePassword(dataStoreRepoInterface.readFromDataStore("token").toString(),
                                                             oldPassword, newPassword, confirmPassword)
 
         return returnChangeTrueResponse(changePasswordResponse)
     }
 
-    override suspend fun changeProfileImage(file: MultipartBody.Part): ChangeResponse {
+    override suspend fun changeProfileImage(file: MultipartBody.Part): MiniResponse {
         val token = dataStoreRepoInterface.readFromDataStore("token").toString()
         changeImageResponse = apiService.changeProfileImage(token, file)
         return returnChangeTrueResponse(changeImageResponse)
@@ -132,6 +133,12 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     override suspend fun getMySeniorsFromRemote(): MySeniorsResponse {
         mySeniorsResponse = apiService.getMySeniors(dataStoreRepoInterface.readFromDataStore("token").toString())
         return mySeniorsResponse.body()!!
+    }
+
+    override suspend fun addNewSenior(username: String): MiniResponse {
+        addNewSeniorResponse = apiService.addNewSenior(dataStoreRepoInterface.readFromDataStore("token").toString(),
+                                                username)
+        return returnChangeTrueResponse(addNewSeniorResponse)
     }
 
     override suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?> {
@@ -150,16 +157,21 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         return handleResponse(updateProfileDataResponse)
     }
 
-    override suspend fun handleChangePasswordResponse(): LiveData<Resource<ChangeResponse>?> {
+    override suspend fun handleChangePasswordResponse(): LiveData<Resource<MiniResponse>?> {
         return handleResponse(changePasswordResponse)
     }
 
-    override suspend fun handleChangeImageResponse(): LiveData<Resource<ChangeResponse>?> {
+    override suspend fun handleChangeImageResponse(): LiveData<Resource<MiniResponse>?> {
         return handleResponse(changeImageResponse)
     }
 
     override suspend fun handleGetMySeniorsResponse(): LiveData<Resource<MySeniorsResponse>?> {
         return handleResponse(mySeniorsResponse)
     }
+
+    override suspend fun handleAddNewSeniorResponse(): LiveData<Resource<MiniResponse>?> {
+        return handleResponse(addNewSeniorResponse)
+    }
+
 
 }

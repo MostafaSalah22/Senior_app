@@ -55,4 +55,9 @@ object UseCaseModule {
     fun provideGetMySeniorsUseCase(mainRepoInterface: MainRepoInterface): GetMySeniorsUseCase{
         return GetMySeniorsUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideAddNewSeniorUseCase(mainRepoInterface: MainRepoInterface): AddNewSeniorUseCase{
+        return AddNewSeniorUseCase(mainRepoInterface)
+    }
 }

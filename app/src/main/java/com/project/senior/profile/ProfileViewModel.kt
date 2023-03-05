@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.project.domain.model.ChangeResponse
+import com.project.domain.model.MiniResponse
 import com.project.domain.model.ProfileUser
 import com.project.domain.repo.Resource
 import com.project.domain.usecase.*
@@ -31,20 +31,20 @@ class ProfileViewModel @Inject constructor(private val changeProfilePasswordUseC
     val updateProfileDataResponseState: LiveData<Resource<ProfileUser>?>
     get() = _updateProfileDataResponseState
 
-    private val _changePasswordResponse: MutableLiveData<ChangeResponse> = MutableLiveData()
-    val changePasswordResponse: LiveData<ChangeResponse>
+    private val _changePasswordResponse: MutableLiveData<MiniResponse> = MutableLiveData()
+    val changePasswordResponse: LiveData<MiniResponse>
     get() = _changePasswordResponse
 
-    private val _changePasswordResponseState: MutableLiveData<Resource<ChangeResponse>?> = MutableLiveData()
-    val changePasswordResponseState: LiveData<Resource<ChangeResponse>?>
+    private val _changePasswordResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
+    val changePasswordResponseState: LiveData<Resource<MiniResponse>?>
     get() = _changePasswordResponseState
 
-    private val _changeImageResponse: MutableLiveData<ChangeResponse> = MutableLiveData()
-    val changeImageResponse: LiveData<ChangeResponse>
+    private val _changeImageResponse: MutableLiveData<MiniResponse> = MutableLiveData()
+    val changeImageResponse: LiveData<MiniResponse>
     get() = _changeImageResponse
 
-    private val _changeImageResponseState: MutableLiveData<Resource<ChangeResponse>?> = MutableLiveData()
-    val changeImageResponseState: LiveData<Resource<ChangeResponse>?>
+    private val _changeImageResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
+    val changeImageResponseState: LiveData<Resource<MiniResponse>?>
     get() = _changeImageResponseState
 
 

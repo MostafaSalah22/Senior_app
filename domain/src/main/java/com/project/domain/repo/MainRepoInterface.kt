@@ -2,7 +2,7 @@ package com.project.domain.repo
 
 import androidx.lifecycle.LiveData
 import com.project.domain.model.AppUser
-import com.project.domain.model.ChangeResponse
+import com.project.domain.model.MiniResponse
 import com.project.domain.model.MySeniorsResponse
 import com.project.domain.model.ProfileUser
 import okhttp3.MultipartBody
@@ -20,17 +20,19 @@ interface MainRepoInterface {
     suspend fun logout()
     suspend fun updateProfileData(name: String, username: String, phone: String, email: String)
 
-    suspend fun changeProfilePassword(oldPassword:String, newPassword:String, confirmPassword:String): ChangeResponse
-    suspend fun changeProfileImage(file: MultipartBody.Part): ChangeResponse
+    suspend fun changeProfilePassword(oldPassword:String, newPassword:String, confirmPassword:String): MiniResponse
+    suspend fun changeProfileImage(file: MultipartBody.Part): MiniResponse
 
     suspend fun getMySeniorsFromRemote(): MySeniorsResponse
+    suspend fun addNewSenior(username: String): MiniResponse
 
     suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?>
     suspend fun handleRegisterResponse(): LiveData<Resource<AppUser>?>
     suspend fun handleProfileResponse(): LiveData<Resource<ProfileUser>?>
     suspend fun handleUpdateProfileDataResponse(): LiveData<Resource<ProfileUser>?>
-    suspend fun handleChangePasswordResponse(): LiveData<Resource<ChangeResponse>?>
-    suspend fun handleChangeImageResponse(): LiveData<Resource<ChangeResponse>?>
+    suspend fun handleChangePasswordResponse(): LiveData<Resource<MiniResponse>?>
+    suspend fun handleChangeImageResponse(): LiveData<Resource<MiniResponse>?>
     suspend fun handleGetMySeniorsResponse(): LiveData<Resource<MySeniorsResponse>?>
+    suspend fun handleAddNewSeniorResponse(): LiveData<Resource<MiniResponse>?>
 
 }

@@ -5,9 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.project.domain.repo.Resource
 import com.project.domain.model.AppUser
-import com.project.domain.model.ChangeResponse
+import com.project.domain.model.MiniResponse
 import com.project.domain.model.ErrorResponse
-import com.project.domain.model.ProfileUser
 import retrofit2.Response
 
     fun returnTrueResponse(response: Response<AppUser>): AppUser {
@@ -22,14 +21,14 @@ import retrofit2.Response
         return response.body()!!
     }
 
-    fun returnChangeTrueResponse(response: Response<ChangeResponse>): ChangeResponse {
+    fun returnChangeTrueResponse(response: Response<MiniResponse>): MiniResponse {
         if (response.code() == 403 || response.code() == 400) {
             val gson = Gson()
             val errorBody = response.errorBody()?.string()
             val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
             val errorMessage = errorResponse.message
 
-            return ChangeResponse(successful = false, message = errorMessage, status = errorResponse.status)
+            return MiniResponse(successful = false, message = errorMessage, status = errorResponse.status)
         }
         return response.body()!!
     }

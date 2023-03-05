@@ -110,10 +110,8 @@ class EditProfileFragment : Fragment() {
                 when(state){
                     is Resource.Success -> updateSuccessState()
                     is Resource.Loading -> loadingState()
-                    is Resource.Error -> Snackbar.make(requireView(),"Something Error! Please, Try Again.",
-                        Snackbar.LENGTH_LONG).show()
-                    else -> Snackbar.make(requireView(),"Something Error! Please, Try Again.",
-                        Snackbar.LENGTH_LONG).show()
+                    is Resource.Error -> updateErrorState()
+                    else -> updateErrorState()
                 }
             })
         }
@@ -144,6 +142,13 @@ class EditProfileFragment : Fragment() {
     private fun loadingState() {
         binding.groupEditProfile.visibility = View.GONE
         binding.progressBarEditProfile.visibility = View.VISIBLE
+    }
+
+    private fun updateErrorState() {
+        binding.groupEditProfile.visibility = View.VISIBLE
+        binding.progressBarEditProfile.visibility = View.GONE
+        Snackbar.make(requireView(),"Something Error! Please, check your data and try again.",
+            Snackbar.LENGTH_LONG).show()
     }
 
     private fun imageErrorState() {

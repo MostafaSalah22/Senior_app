@@ -1,12 +1,10 @@
 package com.project.data.remote
 
 import com.project.domain.model.AppUser
-import com.project.domain.model.ChangeResponse
+import com.project.domain.model.MiniResponse
 import com.project.domain.model.MySeniorsResponse
 import com.project.domain.model.ProfileUser
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -31,12 +29,12 @@ interface ApiService {
     suspend fun changeProfilePassword(@Query("token")token:String,
                                       @Query("old_password")oldPassword:String,
                                       @Query("password")newPassword:String,
-                                      @Query("confirm_password")confirmPassword:String):Response<ChangeResponse>
+                                      @Query("confirm_password")confirmPassword:String):Response<MiniResponse>
 
     @Multipart
     @POST("care-takers/profile/changeImage")
     suspend fun changeProfileImage(@Query("token") token: String,
-                                   @Part image: MultipartBody.Part):Response<ChangeResponse>
+                                   @Part image: MultipartBody.Part):Response<MiniResponse>
 
     @POST("care-takers/profile/update")
     suspend fun updateProfileData(@Query("token") token:String,
@@ -47,4 +45,8 @@ interface ApiService {
 
     @GET("care-takers/my-senior")
     suspend fun getMySeniors(@Query("token") token: String): Response<MySeniorsResponse>
+
+    @POST("care-takers/my-senior/link")
+    suspend fun addNewSenior(@Query("token") token: String,
+                             @Query("username") username: String): Response<MiniResponse>
 }

@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -19,13 +19,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.project.domain.repo.Resource
 import com.project.senior.R
-import com.project.senior.chat.recyclerview.ChatAdapter
-import com.project.senior.chat.recyclerview.ChatModel
 import com.project.senior.databinding.FragmentSeniorsBinding
-import com.project.senior.profile.ProfileViewModel
-import com.project.senior.seniors.recyclerview.SeniorModel
 import com.project.senior.seniors.recyclerview.SeniorsAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class SeniorsFragment : Fragment() {
@@ -33,7 +31,6 @@ class SeniorsFragment : Fragment() {
     private lateinit var binding: FragmentSeniorsBinding
     private lateinit var seniorsAdapter: SeniorsAdapter
     private val viewModel: SeniorsViewModel by viewModels()
-    private val arr:ArrayList<SeniorModel> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,19 +54,11 @@ class SeniorsFragment : Fragment() {
             when (state) {
                 is Resource.Success -> successState()
                 is Resource.Loading -> loadingState()
-                is Resource.Error -> errorState()
-                else -> errorState()
+                is Resource.Error -> errorState("Something Error! please, Try Again.")
+                else -> errorState("Something Error! please, Try Again.")
             }
 
         })
-        /*arr.add(SeniorModel(0,"Mostafa Salah",65))
-        arr.add(SeniorModel(1,"Mostafa Salah",65))
-        arr.add(SeniorModel(2,"Mostafa Salah",65))
-        arr.add(SeniorModel(3,"Mostafa Salah",65))
-        arr.add(SeniorModel(4,"Mostafa Salah",65))
-        arr.add(SeniorModel(5,"Mostafa Salah",65))
-        arr.add(SeniorModel(6,"Mostafa Salah",65))
-        arr.add(SeniorModel(7,"Mostafa Salah",65))*/
 
         val layoutManger = LinearLayoutManager(context)
         binding.rvSeniors.layoutManager = layoutManger
@@ -108,8 +97,8 @@ class SeniorsFragment : Fragment() {
         binding.progressBarSeniors.visibility = View.VISIBLE
     }
 
-    private fun errorState() {
-        Snackbar.make(requireView(),"Something Error! please, Try Again.", Snackbar.LENGTH_LONG).show()
+    private fun errorState(message: String) {
+        Snackbar.make(requireView(),message, Snackbar.LENGTH_LONG).show()
         binding.groupSeniors.visibility = View.VISIBLE
         binding.progressBarSeniors.visibility = View.GONE
     }
@@ -138,15 +127,43 @@ class SeniorsFragment : Fragment() {
         myDialog.show()
         myDialog.window?.attributes = lp
 
+        val username = dialogBinding.findViewById<EditText>(R.id.et_username_new_senior)
+
         val addNewEventBtn = dialogBinding.findViewById<Button>(R.id.btn_submit_new_senior)
         addNewEventBtn.setOnClickListener {
-            myDialog.dismiss()
+            lifecycleScope.launch {
+                viewModel.addNewSenior(username.text.toString())
+            }
+            viewModel.addSeniorResponseState.observe(viewLifecycleOwner, Observer { state ->
+                when (state) {
+                    is Resource.Success -> addSeniorSuccessState(myDialog)
+                    is Resource.Loading -> addSeniorLoadingState(myDialog)
+                    is Resource.Error -> errorState("Something Error! please, check username and try again.")
+                    else -> errorState("Something Error! please, check username and try again.")
+                }
+
+            })
         }
 
         val backNewEvent = dialogBinding.findViewById<ImageView>(R.id.img_back_new_senior)
         backNewEvent.setOnClickListener {
             myDialog.dismiss()
         }
+    }
+
+    private fun addSeniorSuccessState(myDialog: Dialog) {
+        runBlocking {
+            viewModel.getMySeniors()
+        }
+        viewModel.addSeniorMessage.observe(viewLifecycleOwner, Observer { message->
+            Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
+        })
+        myDialog.dismiss()
+        successState()
+    }
+    private fun addSeniorLoadingState(myDialog: Dialog) {
+        myDialog.dismiss()
+        loadingState()
     }
 
 }

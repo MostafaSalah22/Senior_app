@@ -4,16 +4,19 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.project.domain.model.MiniResponse
 import com.project.domain.model.MySeniorsData
 import com.project.domain.model.MySeniorsResponse
 import com.project.domain.repo.Resource
+import com.project.domain.usecase.AddNewSeniorUseCase
 import com.project.domain.usecase.GetMySeniorsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SeniorsViewModel @Inject constructor(
-    private val getMySeniorsUseCase: GetMySeniorsUseCase
+    private val getMySeniorsUseCase: GetMySeniorsUseCase,
+    private val addNewSeniorUseCase: AddNewSeniorUseCase
     ): ViewModel() {
 
     private val _seniorsList: MutableLiveData<ArrayList<MySeniorsData>> = MutableLiveData()
@@ -24,11 +27,29 @@ class SeniorsViewModel @Inject constructor(
     val getSeniorsResponseState: LiveData<Resource<MySeniorsResponse>?>
     get() = _getSeniorsResponseState
 
+    private val _addSeniorMessage: MutableLiveData<String> = MutableLiveData()
+    val addSeniorMessage: LiveData<String>
+    get() = _addSeniorMessage
+
+    private val _addSeniorResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
+    val addSeniorResponseState: LiveData<Resource<MiniResponse>?>
+    get() = _addSeniorResponseState
+
     suspend fun getMySeniors() {
         try {
             _getSeniorsResponseState.value = Resource.Loading()
             _seniorsList.value = getMySeniorsUseCase().data
             _getSeniorsResponseState.value = getMySeniorsUseCase.handleResponse().value
+        }catch (e:Exception){
+            Log.e("SeniorsViewModel",e.message.toString())
+        }
+    }
+
+    suspend fun addNewSenior(username: String) {
+        try {
+            _addSeniorResponseState.value = Resource.Loading()
+            _addSeniorMessage.value = addNewSeniorUseCase(username).message
+            _addSeniorResponseState.value = addNewSeniorUseCase.handleResponse().value
         }catch (e:Exception){
             Log.e("SeniorsViewModel",e.message.toString())
         }
