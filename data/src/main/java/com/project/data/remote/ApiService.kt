@@ -50,4 +50,8 @@ interface ApiService {
     @GET("care-takers/schedules")
     suspend fun getSchedules(@Query("token") token: String,
                              @Query("user_id") userId: Int): Response<SeniorSchedules>
+
+    @POST("care-takers/schedules/cancel")
+    suspend fun cancelSchedule(@Query("token") token: String,
+                               @Query("schedule_id") scheduleId: Int):Response<MiniResponse>
 }

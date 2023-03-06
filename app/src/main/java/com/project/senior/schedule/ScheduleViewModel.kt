@@ -9,9 +9,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.project.domain.model.AppUser
+import com.project.domain.model.MiniResponse
 import com.project.domain.model.ScheduleData
 import com.project.domain.model.SeniorSchedules
 import com.project.domain.repo.Resource
+import com.project.domain.usecase.CancelScheduleUseCase
 import com.project.domain.usecase.GetSchedulesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.runBlocking
@@ -22,7 +24,8 @@ import kotlin.collections.ArrayList
 
 @HiltViewModel
 class ScheduleViewModel @Inject constructor(
-    private val getSchedulesUseCase: GetSchedulesUseCase
+    private val getSchedulesUseCase: GetSchedulesUseCase,
+    private val cancelScheduleUseCase: CancelScheduleUseCase
 ): ViewModel() {
 
     private val calendar = Calendar.getInstance()
@@ -50,6 +53,10 @@ class ScheduleViewModel @Inject constructor(
     private var _scheduleList = MutableLiveData<ArrayList<ScheduleData>>()
     val scheduleList: LiveData<ArrayList<ScheduleData>>
     get() = _scheduleList
+
+    private val _cancelScheduleResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
+    val cancelScheduleResponseState: LiveData<Resource<MiniResponse>?>
+    get() = _cancelScheduleResponseState
 
     init {
         _date.value = dateFormat.format(currentTime)
@@ -113,5 +120,15 @@ class ScheduleViewModel @Inject constructor(
             }
         }
         _scheduleList.value = arr
+    }
+
+    suspend fun cancelSchedule(scheduleId: Int) {
+        try {
+            _cancelScheduleResponseState.value = Resource.Loading()
+            cancelScheduleUseCase(scheduleId)
+            _cancelScheduleResponseState.value = cancelScheduleUseCase.handleResponse().value
+        } catch (e:Exception){
+            Log.e("ScheduleViewModel",e.message.toString())
+        }
     }
 }

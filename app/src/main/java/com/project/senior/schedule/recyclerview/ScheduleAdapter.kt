@@ -2,6 +2,7 @@ package com.project.senior.schedule.recyclerview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,7 +13,7 @@ import com.project.senior.databinding.ScheduleItemBinding
 class ScheduleAdapter :
     ListAdapter<ScheduleData, ScheduleAdapter.ScheduleViewHolder>(ScheduleDiffCallback()) {
 
-    var onItemClick: ((ScheduleData) -> Unit)? = null
+    var onCancelClick: ((ScheduleData) -> Unit)? = null
 
     class ScheduleViewHolder(private val binding: ScheduleItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -20,6 +21,7 @@ class ScheduleAdapter :
             val title: TextView = binding.tvTitleScheduleItem
             val time: TextView = binding.tvTimeScheduleItem
             val description: TextView = binding.tvDescriptionScheduleItem
+            val cancel: Button = binding.btnCancelScheduleItem
     }
 
 
@@ -41,8 +43,8 @@ class ScheduleAdapter :
         }
         else holder.description.text = item.description.toString()
 
-        holder.itemView.setOnClickListener {
-            onItemClick?.invoke(item)
+        holder.cancel.setOnClickListener {
+            onCancelClick?.invoke(item)
         }
     }
 

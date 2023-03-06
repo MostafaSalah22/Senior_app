@@ -3,7 +3,6 @@ package com.project.senior.schedule
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -22,9 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.project.domain.repo.Resource
 import com.project.senior.R
 import com.project.senior.databinding.FragmentScheduleBinding
-import com.project.senior.login.LoginViewModel
 import com.project.senior.schedule.recyclerview.ScheduleAdapter
-import com.project.senior.schedule.recyclerview.ScheduleModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 
@@ -61,8 +57,6 @@ class ScheduleFragment : Fragment() {
         }
 
         viewModel.getSchedulesResponseState.observe(viewLifecycleOwner, Observer { state->
-
-            Log.i("ScheduleViewModel", "onViewCreated: $state")
 
             when(state){
                 is Resource.Success -> successState()
@@ -114,11 +108,33 @@ class ScheduleFragment : Fragment() {
         binding.imgAddSchedule.setOnClickListener {
             showNewEventDialog(requireContext())
         }
+
+        scheduleAdapter.onCancelClick = { schedule->
+            lifecycleScope.launchWhenCreated {
+                viewModel.cancelSchedule(schedule.id)
+            }
+            viewModel.cancelScheduleResponseState.observe(viewLifecycleOwner, Observer { state->
+
+                when(state){
+                    is Resource.Success -> cancelSuccessState()
+                    is Resource.Loading -> loadingState()
+                    is Resource.Error -> errorState()
+                    else -> errorState()
+                }
+            })
+        }
     }
 
     private fun successState() {
         binding.rvSchedule.visibility = View.VISIBLE
         binding.progressBarSchedule.visibility =View.GONE
+    }
+
+    private fun cancelSuccessState() {
+        runBlocking {
+            viewModel.getSchedules(userId!!)
+        }
+        successState()
     }
 
     private fun loadingState() {

@@ -65,4 +65,9 @@ object UseCaseModule {
     fun provideGetSchedulesUseCase(mainRepoInterface: MainRepoInterface): GetSchedulesUseCase{
         return GetSchedulesUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideCancelScheduleUseCase(mainRepoInterface: MainRepoInterface): CancelScheduleUseCase{
+        return CancelScheduleUseCase(mainRepoInterface)
+    }
 }
