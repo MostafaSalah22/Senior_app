@@ -25,6 +25,7 @@ interface MainRepoInterface {
 
     suspend fun getSchedulesFromRemote(userId: Int): SeniorSchedules
     suspend fun cancelSchedule(scheduleId: Int): MiniResponse
+    suspend fun addNewSchedule(userId: Int, title: String, date: String, time: String, description: String)
 
     suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?>
     suspend fun handleRegisterResponse(): LiveData<Resource<AppUser>?>
@@ -36,5 +37,6 @@ interface MainRepoInterface {
     suspend fun handleAddNewSeniorResponse(): LiveData<Resource<MiniResponse>?>
     suspend fun handleGetSchedulesResponse(): LiveData<Resource<SeniorSchedules>?>
     suspend fun handleCancelScheduleResponse(): LiveData<Resource<MiniResponse>?>
+    suspend fun handleAddNewScheduleResponse(): LiveData<Resource<MiniResponse>?>
 
 }

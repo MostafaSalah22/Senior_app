@@ -37,7 +37,10 @@ class ScheduleAdapter :
     override fun onBindViewHolder(holder: ScheduleAdapter.ScheduleViewHolder, position: Int) {
         val item = getItem(position)
         holder.title.text = item.title
-        holder.time.text = item.time
+        if(item.time == null){
+            holder.time.text = ""
+        }
+        else holder.time.text = item.time
         if(item.description == null){
             holder.description.text = "No Description"
         }

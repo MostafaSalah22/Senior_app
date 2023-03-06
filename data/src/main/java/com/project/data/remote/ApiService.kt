@@ -53,5 +53,14 @@ interface ApiService {
 
     @POST("care-takers/schedules/cancel")
     suspend fun cancelSchedule(@Query("token") token: String,
-                               @Query("schedule_id") scheduleId: Int):Response<MiniResponse>
+                               @Query("schedule_id") scheduleId: Int): Response<MiniResponse>
+
+    @POST("care-takers/schedules/create")
+    suspend fun addNewSchedule(@Query("token") token: String,
+                                @Query("user_id") userId: Int,
+                                @Query("title") title: String,
+                                @Query("date") date: String,
+                                @Query("time") time: String,
+                                @Query("type") type: Int,
+                                @Query("description") description: String): Response<MiniResponse>
 }

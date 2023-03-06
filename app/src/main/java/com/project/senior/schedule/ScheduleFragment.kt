@@ -3,12 +3,14 @@ package com.project.senior.schedule
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -164,15 +166,50 @@ class ScheduleFragment : Fragment() {
         myDialog.show()
         myDialog.window?.attributes = lp
 
+        val title = dialogBinding.findViewById<EditText>(R.id.et_title_new_event)
+        val date = dialogBinding.findViewById<EditText>(R.id.et_date_new_event)
+        val time = dialogBinding.findViewById<EditText>(R.id.et_time_new_event)
+        val description = dialogBinding.findViewById<EditText>(R.id.et_description_new_event)
+
         val addNewEventBtn = dialogBinding.findViewById<Button>(R.id.btn_add_new_event)
+        date.setOnClickListener {
+            viewModel.showCalenderEt(requireActivity())
+        }
+        viewModel.dateEt.observe(viewLifecycleOwner, Observer { calenderDate->
+            date.setText(calenderDate)
+        })
         addNewEventBtn.setOnClickListener {
-            myDialog.dismiss()
+            lifecycleScope.launchWhenCreated {
+                viewModel.addNewSchedule(userId!!, title.text.toString(), date.text.toString(), time.text.toString(), description.text.toString())
+            }
+            viewModel.addNewScheduleResponseState.observe(viewLifecycleOwner, Observer { state->
+                Log.i("ScheduleViewModel", "showNewEventDialog: $state")
+                when(state){
+                    is Resource.Success -> addSuccessState(myDialog)
+                    is Resource.Loading -> addLoadingState(myDialog)
+                    is Resource.Error -> errorState()
+                    else -> errorState()
+                }
+            })
         }
 
         val backNewEvent = dialogBinding.findViewById<ImageView>(R.id.img_back_new_event)
         backNewEvent.setOnClickListener {
             myDialog.dismiss()
         }
+    }
+
+    private fun addSuccessState(myDialog: Dialog) {
+        lifecycleScope.launchWhenCreated {
+            viewModel.getSchedules(userId!!)
+        }
+        myDialog.dismiss()
+        successState()
+    }
+
+    private fun addLoadingState(myDialog: Dialog) {
+        myDialog.dismiss()
+        loadingState()
     }
 
 }

@@ -13,6 +13,7 @@ import com.project.domain.model.MiniResponse
 import com.project.domain.model.ScheduleData
 import com.project.domain.model.SeniorSchedules
 import com.project.domain.repo.Resource
+import com.project.domain.usecase.AddNewScheduleUseCase
 import com.project.domain.usecase.CancelScheduleUseCase
 import com.project.domain.usecase.GetSchedulesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,11 +26,14 @@ import kotlin.collections.ArrayList
 @HiltViewModel
 class ScheduleViewModel @Inject constructor(
     private val getSchedulesUseCase: GetSchedulesUseCase,
-    private val cancelScheduleUseCase: CancelScheduleUseCase
+    private val cancelScheduleUseCase: CancelScheduleUseCase,
+    private val addNewScheduleUseCase: AddNewScheduleUseCase
 ): ViewModel() {
 
     private val calendar = Calendar.getInstance()
     private var currentTime = calendar.time
+    private val calendarEt = Calendar.getInstance()
+    private var currentTimeEt = calendar.time
     private val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
     private val dateFormatApi = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val dayFormat = SimpleDateFormat("EEEE" , Locale.getDefault())
@@ -38,6 +42,10 @@ class ScheduleViewModel @Inject constructor(
     private var _date = MutableLiveData<String>()
     val date: LiveData<String>
     get() = _date
+
+    private val _dateEt = MutableLiveData<String>()
+    val dateEt: LiveData<String>
+    get() = _dateEt
 
     private var _dayName = MutableLiveData<String>()
     val dayName: LiveData<String>
@@ -58,7 +66,12 @@ class ScheduleViewModel @Inject constructor(
     val cancelScheduleResponseState: LiveData<Resource<MiniResponse>?>
     get() = _cancelScheduleResponseState
 
+    private val _addNewScheduleResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
+    val addNewScheduleResponseState: LiveData<Resource<MiniResponse>?>
+    get() = _addNewScheduleResponseState
+
     init {
+        _dateEt.value = dateFormatApi.format(currentTimeEt)
         _date.value = dateFormat.format(currentTime)
         _dayName.value = dayFormat.format(currentTime)
     }
@@ -88,9 +101,25 @@ class ScheduleViewModel @Inject constructor(
         return datePicker
     }
 
+    private fun datePickerEt(): DatePickerDialog.OnDateSetListener {
+        val datePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            calendarEt.set(Calendar.YEAR, year)
+            calendarEt.set(Calendar.MONTH, month)
+            calendarEt.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            currentTimeEt = calendarEt.time
+            _dateEt.value = dateFormatApi.format(currentTimeEt)
+        }
+        return datePicker
+    }
+
     fun showCalender(context: Context) {
         DatePickerDialog(context, datePicker(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)).show()
+    }
+
+    fun showCalenderEt(context: Context) {
+        DatePickerDialog(context, datePickerEt(), calendarEt.get(Calendar.YEAR), calendarEt.get(Calendar.MONTH),
+                                calendarEt.get(Calendar.DAY_OF_MONTH)).show()
     }
 
     private fun updateDateAndDayName() {
@@ -127,6 +156,16 @@ class ScheduleViewModel @Inject constructor(
             _cancelScheduleResponseState.value = Resource.Loading()
             cancelScheduleUseCase(scheduleId)
             _cancelScheduleResponseState.value = cancelScheduleUseCase.handleResponse().value
+        } catch (e:Exception){
+            Log.e("ScheduleViewModel",e.message.toString())
+        }
+    }
+
+    suspend fun addNewSchedule(userId: Int, title: String, date: String, time: String, description: String){
+        try {
+            _addNewScheduleResponseState.value = Resource.Loading()
+            addNewScheduleUseCase(userId, title, date, time, description)
+            _addNewScheduleResponseState.value = addNewScheduleUseCase.handleResponse().value
         } catch (e:Exception){
             Log.e("ScheduleViewModel",e.message.toString())
         }

@@ -21,6 +21,7 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     private lateinit var addNewSeniorResponse: Response<MiniResponse>
     private lateinit var seniorSchedulesResponse: Response<SeniorSchedules>
     private lateinit var cancelScheduleResponse: Response<MiniResponse>
+    private lateinit var addNewScheduleResponse: Response<MiniResponse>
 
     override suspend fun postLoginUser(username: String, password: String): AppUser {
         loginResponse = apiService.postLoginUser(username, password)
@@ -155,6 +156,19 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         return returnChangeTrueResponse(cancelScheduleResponse)
     }
 
+    override suspend fun addNewSchedule(
+        userId: Int,
+        title: String,
+        date: String,
+        time: String,
+        description: String
+    ) {
+        addNewScheduleResponse = apiService.addNewSchedule(dataStoreRepoInterface.readFromDataStore("token").toString(),
+                                                            userId, title, date, time, 1, description)
+
+        returnChangeTrueResponse(addNewScheduleResponse)
+    }
+
     override suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?> {
         return handleResponse(loginResponse)
     }
@@ -193,6 +207,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
 
     override suspend fun handleCancelScheduleResponse(): LiveData<Resource<MiniResponse>?> {
         return handleResponse(cancelScheduleResponse)
+    }
+
+    override suspend fun handleAddNewScheduleResponse(): LiveData<Resource<MiniResponse>?> {
+        return handleResponse(addNewScheduleResponse)
     }
 
 
