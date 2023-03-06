@@ -19,6 +19,7 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     private lateinit var changeImageResponse: Response<MiniResponse>
     private lateinit var mySeniorsResponse: Response<MySeniorsResponse>
     private lateinit var addNewSeniorResponse: Response<MiniResponse>
+    private lateinit var seniorSchedulesResponse: Response<SeniorSchedules>
 
     override suspend fun postLoginUser(username: String, password: String): AppUser {
         loginResponse = apiService.postLoginUser(username, password)
@@ -141,6 +142,12 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         return returnChangeTrueResponse(addNewSeniorResponse)
     }
 
+    override suspend fun getSchedulesFromRemote(userId: Int): SeniorSchedules {
+        seniorSchedulesResponse = apiService.getSchedules(dataStoreRepoInterface.readFromDataStore("token").toString(),
+                                                            userId)
+        return seniorSchedulesResponse.body()!!
+    }
+
     override suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?> {
         return handleResponse(loginResponse)
     }
@@ -171,6 +178,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
 
     override suspend fun handleAddNewSeniorResponse(): LiveData<Resource<MiniResponse>?> {
         return handleResponse(addNewSeniorResponse)
+    }
+
+    override suspend fun handleGetSchedulesResponse(): LiveData<Resource<SeniorSchedules>?> {
+        return handleResponse(seniorSchedulesResponse)
     }
 
 

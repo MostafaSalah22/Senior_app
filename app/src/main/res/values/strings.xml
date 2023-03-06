@@ -30,4 +30,8 @@
     <string name="name_senior">Name:</string>
     <string name="age_senior">Age:</string>
     <string name="year">YEAR</string>
+    <string name="send_notification">Send Notification</string>
+    <string name="history">History</string>
+    <string name="medicines">Medicines</string>
+    <string name="schedule">Schedule</string>
 </resources>

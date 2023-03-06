@@ -6,12 +6,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.project.domain.model.ScheduleData
 import com.project.senior.databinding.ScheduleItemBinding
 
 class ScheduleAdapter :
-    ListAdapter<ScheduleModel, ScheduleAdapter.ScheduleViewHolder>(ScheduleDiffCallback()) {
+    ListAdapter<ScheduleData, ScheduleAdapter.ScheduleViewHolder>(ScheduleDiffCallback()) {
 
-    var onItemClick: ((ScheduleModel) -> Unit)? = null
+    var onItemClick: ((ScheduleData) -> Unit)? = null
 
     class ScheduleViewHolder(private val binding: ScheduleItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -35,7 +36,10 @@ class ScheduleAdapter :
         val item = getItem(position)
         holder.title.text = item.title
         holder.time.text = item.time
-        holder.description.text = item.description
+        if(item.description == null){
+            holder.description.text = "No Description"
+        }
+        else holder.description.text = item.description.toString()
 
         holder.itemView.setOnClickListener {
             onItemClick?.invoke(item)
@@ -44,17 +48,17 @@ class ScheduleAdapter :
 
 }
 
-class ScheduleDiffCallback() : DiffUtil.ItemCallback<ScheduleModel>() {
+class ScheduleDiffCallback() : DiffUtil.ItemCallback<ScheduleData>() {
     override fun areItemsTheSame(
-        oldItem: ScheduleModel,
-        newItem: ScheduleModel
+        oldItem: ScheduleData,
+        newItem: ScheduleData
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: ScheduleModel,
-        newItem: ScheduleModel
+        oldItem: ScheduleData,
+        newItem: ScheduleData
     ): Boolean {
         return areItemsTheSame(oldItem, newItem)
     }

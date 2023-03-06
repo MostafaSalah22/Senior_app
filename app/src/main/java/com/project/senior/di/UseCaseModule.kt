@@ -60,4 +60,9 @@ object UseCaseModule {
     fun provideAddNewSeniorUseCase(mainRepoInterface: MainRepoInterface): AddNewSeniorUseCase{
         return AddNewSeniorUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideGetSchedulesUseCase(mainRepoInterface: MainRepoInterface): GetSchedulesUseCase{
+        return GetSchedulesUseCase(mainRepoInterface)
+    }
 }
