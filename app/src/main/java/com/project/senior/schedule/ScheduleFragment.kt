@@ -46,28 +46,16 @@ class ScheduleFragment : Fragment() {
             FragmentScheduleBinding.inflate(inflater , container , false)
         val scheduleFragmentArgs by navArgs<ScheduleFragmentArgs>()
         userId = scheduleFragmentArgs.userId
-        //scheduleViewModel = ViewModelProvider(this)[ScheduleViewModel::class.java]
+        val layoutManger = LinearLayoutManager(context)
+        binding.rvSchedule.layoutManager = layoutManger
+        scheduleAdapter = ScheduleAdapter()
+        binding.rvSchedule.adapter = scheduleAdapter
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*arr.add(ScheduleModel(0,"Doctor","5:30pm","go to doctor go to doctor go to doctor go to doctor"))
-        arr.add(ScheduleModel(1,"Doctor","5:30pm","go to doctor go to doctor go to doctor go to doctor"))
-        arr.add(ScheduleModel(2,"Doctor","5:30pm","go to doctor go to doctor go to doctor go to doctor"))
-        arr.add(ScheduleModel(3,"Doctor","5:30pm","go to doctor go to doctor go to doctor go to doctor"))
-        arr.add(ScheduleModel(4,"Doctor","5:30pm","go to doctor go to doctor go to doctor go to doctor"))
-        arr.add(ScheduleModel(5,"Doctor","5:30pm","go to doctor go to doctor go to doctor go to doctor"))
-        arr.add(ScheduleModel(6,"Doctor","5:30pm","go to doctor go to doctor go to doctor go to doctor"))
-        arr.add(ScheduleModel(7,"Doctor","5:30pm","go to doctor go to doctor go to doctor go to doctor"))
-        arr.add(ScheduleModel(8,"Doctor00","5:30pm","go to doctor go to doctor go to doctor go to doctor"))*/
-
-        val layoutManger = LinearLayoutManager(context)
-        binding.rvSchedule.layoutManager = layoutManger
-        scheduleAdapter = ScheduleAdapter()
-        binding.rvSchedule.adapter = scheduleAdapter
-        //scheduleAdapter.submitList(arr)
         lifecycleScope.launchWhenCreated {
             viewModel.getSchedules(userId!!)
         }
@@ -102,6 +90,32 @@ class ScheduleFragment : Fragment() {
         clickListener()
     }
 
+    private fun clickListener() {
+        binding.imgNextdaySchedule.setOnClickListener {
+            lifecycleScope.launchWhenCreated {
+                viewModel.nextDayClick()
+            }
+        }
+
+        binding.imgPerviousdaySchedule.setOnClickListener {
+            lifecycleScope.launchWhenCreated {
+                viewModel.previousDayClick()
+            }
+        }
+
+        binding.tvDateSchedule.setOnClickListener {
+            viewModel.showCalender(requireActivity())
+        }
+
+        binding.imgBackSchedule.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding.imgAddSchedule.setOnClickListener {
+            showNewEventDialog(requireContext())
+        }
+    }
+
     private fun successState() {
         binding.rvSchedule.visibility = View.VISIBLE
         binding.progressBarSchedule.visibility =View.GONE
@@ -114,32 +128,8 @@ class ScheduleFragment : Fragment() {
 
     private fun errorState() {
         Snackbar.make(requireView(), "Something Error! Please, Try Again.",Snackbar.LENGTH_LONG).show()
-    }
-
-    private fun clickListener() {
-        binding.imgNextdaySchedule.setOnClickListener {
-            runBlocking {
-                viewModel.nextDayClick(userId!!)
-            }
-        }
-
-        binding.imgPerviousdaySchedule.setOnClickListener {
-            runBlocking {
-                viewModel.previousDayClick(userId!!)
-            }
-        }
-
-        binding.tvDateSchedule.setOnClickListener {
-            viewModel.showCalender(requireActivity(), userId!!)
-        }
-
-        binding.imgBackSchedule.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        binding.imgAddSchedule.setOnClickListener {
-            showNewEventDialog(requireContext())
-        }
+        binding.rvSchedule.visibility = View.VISIBLE
+        binding.progressBarSchedule.visibility =View.GONE
     }
 
     private fun showNewEventDialog(context: Context) {

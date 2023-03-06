@@ -56,33 +56,33 @@ class ScheduleViewModel @Inject constructor(
         _dayName.value = dayFormat.format(currentTime)
     }
 
-    suspend fun nextDayClick(userId: Int) {
+    suspend fun nextDayClick() {
         calendar.add(Calendar.DAY_OF_YEAR, 1)
         updateDateAndDayName()
-        getSchedules(userId)
+        filterSchedules()
     }
 
-    suspend fun previousDayClick(userId: Int) {
+    suspend fun previousDayClick() {
         calendar.add(Calendar.DAY_OF_YEAR, -1)
         updateDateAndDayName()
-        getSchedules(userId)
+        filterSchedules()
     }
 
-    private fun datePicker(userId: Int): DatePickerDialog.OnDateSetListener {
+    private fun datePicker(): DatePickerDialog.OnDateSetListener {
         val datePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, month)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             updateDateAndDayName()
             runBlocking {
-                getSchedules(userId)
+                filterSchedules()
             }
         }
         return datePicker
     }
 
-    fun showCalender(context: Context, userId: Int) {
-        DatePickerDialog(context, datePicker(userId), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+    fun showCalender(context: Context) {
+        DatePickerDialog(context, datePicker(), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)).show()
     }
 
@@ -97,27 +97,21 @@ class ScheduleViewModel @Inject constructor(
         try {
             _getSchedulesResponseState.value = Resource.Loading()
             schedules = getSchedulesUseCase(userId).data
-            Log.i("ScheduleViewModel", "getSchedules: $schedules")
             _getSchedulesResponseState.value = getSchedulesUseCase.handleResponse().value
         } catch (e:Exception){
             Log.e("ScheduleViewModel",e.message.toString())
         }
-        Log.i("ScheduleViewModel", "getSchedules: $currentDate")
         filterSchedules()
     }
 
     private suspend fun filterSchedules() {
         val arr = ArrayList<ScheduleData>()
         for(item in schedules){
-            Log.i("ScheduleViewModel", "filterSchedules: ${item.date}")
-            Log.i("ScheduleViewModel", "filterSchedules: $currentDate")
-            Log.i("ScheduleViewModel", "filterSchedules: ${item.date == currentDate}")
             if(item.date == currentDate){
                 arr.add(item)
                 //_scheduleList.value?.add(item)
             }
         }
         _scheduleList.value = arr
-        Log.i("ScheduleViewModel", "filterSchedules: ${_scheduleList.value}")
     }
 }
