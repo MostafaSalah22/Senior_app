@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".schedule.ScheduleFragment">
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_empty_schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="img_empty_schedule,tv_empty_schedule" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
@@ -112,4 +119,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_empty_schedule"
+        android:layout_width="181dp"
+        android:layout_height="179dp"
+        android:src="@drawable/empty_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_empty_schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:text="@string/no_data_to_show"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/img_empty_schedule"
+        app:layout_constraintStart_toStartOf="@+id/img_empty_schedule"
+        app:layout_constraintTop_toBottomOf="@+id/img_empty_schedule" />
 </androidx.constraintlayout.widget.ConstraintLayout>

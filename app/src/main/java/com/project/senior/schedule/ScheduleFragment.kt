@@ -127,9 +127,22 @@ class ScheduleFragment : Fragment() {
         }
     }
 
+    private var isListEmpty = false
     private fun successState() {
-        binding.rvSchedule.visibility = View.VISIBLE
-        binding.progressBarSchedule.visibility =View.GONE
+        viewModel.scheduleList.observe(viewLifecycleOwner, Observer { scheduleList->
+            if (scheduleList.size == 0) {
+                isListEmpty = true
+                binding.rvSchedule.visibility = View.GONE
+                binding.progressBarSchedule.visibility =View.GONE
+                binding.groupEmptySchedule.visibility = View.VISIBLE
+            }
+            else {
+                isListEmpty = false
+                binding.rvSchedule.visibility = View.VISIBLE
+                binding.progressBarSchedule.visibility =View.GONE
+                binding.groupEmptySchedule.visibility = View.GONE
+            }
+        })
     }
 
     private fun cancelSuccessState() {
@@ -141,13 +154,23 @@ class ScheduleFragment : Fragment() {
 
     private fun loadingState() {
         binding.rvSchedule.visibility = View.GONE
+        binding.groupEmptySchedule.visibility = View.GONE
         binding.progressBarSchedule.visibility =View.VISIBLE
     }
 
     private fun errorState() {
         Snackbar.make(requireView(), "Something Error! Please, Try Again.",Snackbar.LENGTH_LONG).show()
-        binding.rvSchedule.visibility = View.VISIBLE
-        binding.progressBarSchedule.visibility =View.GONE
+        if(isListEmpty) {
+            binding.rvSchedule.visibility = View.GONE
+            binding.progressBarSchedule.visibility = View.GONE
+            binding.groupEmptySchedule.visibility = View.VISIBLE
+        }
+
+        else {
+            binding.rvSchedule.visibility = View.VISIBLE
+            binding.progressBarSchedule.visibility = View.GONE
+            binding.groupEmptySchedule.visibility = View.GONE
+        }
     }
 
     private fun showNewEventDialog(context: Context) {

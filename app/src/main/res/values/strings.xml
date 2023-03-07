@@ -34,4 +34,5 @@
     <string name="history">History</string>
     <string name="medicines">Medicines</string>
     <string name="schedule">Schedule</string>
+    <string name="no_data_to_show">NO DATA TO SHOW</string>
 </resources>

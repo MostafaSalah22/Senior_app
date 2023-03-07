@@ -3,6 +3,7 @@ package com.project.senior.seniors
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -83,24 +84,44 @@ class SeniorsFragment : Fragment() {
         }
     }
 
+    private var isListEmpty = false
     private fun successState() {
         viewModel.seniorsList.observe(viewLifecycleOwner, Observer {seniorsList ->
-        seniorsAdapter.submitList(seniorsList)
+            if (seniorsList.size == 0) {
+                isListEmpty = true
+                binding.rvSeniors.visibility = View.GONE
+                binding.groupEmptySeniors.visibility = View.VISIBLE
+                binding.progressBarSeniors.visibility = View.GONE
+                binding.fabAddSeniors.visibility = View.VISIBLE
+            }
+            else {
+                isListEmpty = false
+                seniorsAdapter.submitList(seniorsList)
+                binding.groupSeniors.visibility = View.VISIBLE
+                binding.progressBarSeniors.visibility = View.GONE
+            }
         })
-
-        binding.groupSeniors.visibility = View.VISIBLE
-        binding.progressBarSeniors.visibility = View.GONE
     }
 
     private fun loadingState() {
         binding.groupSeniors.visibility = View.GONE
+        binding.groupEmptySeniors.visibility = View.GONE
         binding.progressBarSeniors.visibility = View.VISIBLE
     }
 
     private fun errorState(message: String) {
         Snackbar.make(requireView(),message, Snackbar.LENGTH_LONG).show()
-        binding.groupSeniors.visibility = View.VISIBLE
-        binding.progressBarSeniors.visibility = View.GONE
+        if(isListEmpty) {
+            binding.rvSeniors.visibility = View.GONE
+            binding.progressBarSeniors.visibility = View.GONE
+            binding.groupEmptySeniors.visibility = View.VISIBLE
+            binding.fabAddSeniors.visibility = View.VISIBLE
+        }
+        else {
+            binding.groupSeniors.visibility = View.VISIBLE
+            binding.progressBarSeniors.visibility = View.GONE
+            binding.groupEmptySeniors.visibility = View.GONE
+        }
     }
 
     private fun backToProfileFragment() {

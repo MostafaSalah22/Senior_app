@@ -7,6 +7,13 @@
     tools:context=".seniors.SeniorsFragment">
 
     <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_empty_seniors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="img_empty_seniors,tv_empty_seniors" />
+
+    <androidx.constraintlayout.widget.Group
         android:id="@+id/group_seniors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,4 +79,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_empty_seniors"
+        android:layout_width="181dp"
+        android:layout_height="179dp"
+        android:src="@drawable/empty_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_empty_seniors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:text="@string/no_data_to_show"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/img_empty_seniors"
+        app:layout_constraintStart_toStartOf="@+id/img_empty_seniors"
+        app:layout_constraintTop_toBottomOf="@+id/img_empty_seniors" />
 </androidx.constraintlayout.widget.ConstraintLayout>
