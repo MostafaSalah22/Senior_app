@@ -17,6 +17,7 @@ class SeniorsAdapter :
     ListAdapter<MySeniorsData, SeniorsAdapter.SeniorViewHolder>(SeniorDiffCallback()) {
 
     var onProfileClick: ((MySeniorsData) -> Unit)? = null
+    var onDeleteClick: ((MySeniorsData) -> Unit)? = null
 
     class SeniorViewHolder(private val binding: SeniorItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -51,6 +52,10 @@ class SeniorsAdapter :
 
         holder.profile.setOnClickListener {
             onProfileClick?.invoke(item)
+        }
+
+        holder.delete.setOnClickListener {
+            onDeleteClick?.invoke(item)
         }
     }
 

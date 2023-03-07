@@ -62,6 +62,11 @@ object UseCaseModule {
     }
 
     @Provides
+    fun provideDeleteSeniorUseCase(mainRepoInterface: MainRepoInterface): DeleteSeniorUseCase{
+        return DeleteSeniorUseCase(mainRepoInterface)
+    }
+
+    @Provides
     fun provideGetSchedulesUseCase(mainRepoInterface: MainRepoInterface): GetSchedulesUseCase{
         return GetSchedulesUseCase(mainRepoInterface)
     }

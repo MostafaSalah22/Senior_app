@@ -9,6 +9,7 @@ import com.project.domain.model.MySeniorsData
 import com.project.domain.model.MySeniorsResponse
 import com.project.domain.repo.Resource
 import com.project.domain.usecase.AddNewSeniorUseCase
+import com.project.domain.usecase.DeleteSeniorUseCase
 import com.project.domain.usecase.GetMySeniorsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SeniorsViewModel @Inject constructor(
     private val getMySeniorsUseCase: GetMySeniorsUseCase,
-    private val addNewSeniorUseCase: AddNewSeniorUseCase
+    private val addNewSeniorUseCase: AddNewSeniorUseCase,
+    private val deleteSeniorUseCase: DeleteSeniorUseCase
     ): ViewModel() {
 
     private val _seniorsList: MutableLiveData<ArrayList<MySeniorsData>> = MutableLiveData()
@@ -31,9 +33,17 @@ class SeniorsViewModel @Inject constructor(
     val addSeniorMessage: LiveData<String>
     get() = _addSeniorMessage
 
+    private val _deleteSeniorResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
+    val deleteSeniorResponseState: LiveData<Resource<MiniResponse>?>
+    get() = _deleteSeniorResponseState
+
+    private val _deleteSeniorMessage: MutableLiveData<String> = MutableLiveData()
+    val deleteSeniorMessage: LiveData<String>
+    get() = _deleteSeniorMessage
+
     private val _addSeniorResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
     val addSeniorResponseState: LiveData<Resource<MiniResponse>?>
-    get() = _addSeniorResponseState
+        get() = _addSeniorResponseState
 
     suspend fun getMySeniors() {
         try {
@@ -50,6 +60,16 @@ class SeniorsViewModel @Inject constructor(
             _addSeniorResponseState.value = Resource.Loading()
             _addSeniorMessage.value = addNewSeniorUseCase(username).message
             _addSeniorResponseState.value = addNewSeniorUseCase.handleResponse().value
+        }catch (e:Exception){
+            Log.e("SeniorsViewModel",e.message.toString())
+        }
+    }
+
+    suspend fun deleteSenior(userId: Int) {
+        try {
+            _deleteSeniorResponseState.value = Resource.Loading()
+            _deleteSeniorMessage.value = deleteSeniorUseCase(userId).message
+            _deleteSeniorResponseState.value = deleteSeniorUseCase.handleResponse().value
         }catch (e:Exception){
             Log.e("SeniorsViewModel",e.message.toString())
         }

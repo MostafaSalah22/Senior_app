@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.project.domain.repo.DataStoreRepoInterface
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "TOKEN")
 
@@ -21,11 +22,13 @@ class DataStoreRepoImpl (
         }
     }
 
-    override suspend fun readFromDataStore(key: String): String? {
+    override fun readFromDataStore(key: String): String? {
         return try {
-            val preferencesKey = stringPreferencesKey(key)
-            val preferences = context.dataStore.data.first()
-            preferences[preferencesKey]
+            runBlocking {
+                val preferencesKey = stringPreferencesKey(key)
+                val preferences = context.dataStore.data.first()
+                preferences[preferencesKey]
+            }
         }catch (e: Exception){
             e.printStackTrace()
             null

@@ -47,6 +47,10 @@ interface ApiService {
     suspend fun addNewSenior(@Query("token") token: String,
                              @Query("username") username: String): Response<MiniResponse>
 
+    @POST("care-takers/my-senior/remove")
+    suspend fun deleteSenior(@Query("token") token: String,
+                                @Query("user_id") userId: Int): Response<MiniResponse>
+
     @GET("care-takers/schedules")
     suspend fun getSchedules(@Query("token") token: String,
                              @Query("user_id") userId: Int): Response<SeniorSchedules>

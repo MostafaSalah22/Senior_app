@@ -1,8 +1,13 @@
 package com.project.senior.seniors
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -65,7 +70,6 @@ class SeniorsFragment : Fragment() {
         binding.rvSeniors.layoutManager = layoutManger
         seniorsAdapter = SeniorsAdapter()
         binding.rvSeniors.adapter = seniorsAdapter
-        //seniorsAdapter.submitList(arr)
 
         clickListener()
     }
@@ -82,6 +86,39 @@ class SeniorsFragment : Fragment() {
         seniorsAdapter.onProfileClick = {seniorData->
             navigateToSeniorDetailsFragment(seniorData.id)
         }
+
+        seniorsAdapter.onDeleteClick = {seniorData->
+            showDeleteDialog(seniorData.id)
+        }
+    }
+
+    private fun showDeleteDialog(seniorId: Int) {
+        val builder = AlertDialog.Builder(requireContext())
+        val title = SpannableString("Delete")
+        title.setSpan(ForegroundColorSpan(Color.RED), 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.setTitle(title)
+        builder.setMessage("Are you sure you want to delete this senior?")
+        builder.setPositiveButton("Yes") { dialog, which ->
+            dialog.dismiss()
+            lifecycleScope.launchWhenCreated {
+                lifecycleScope.launchWhenCreated {
+                    viewModel.deleteSenior(seniorId)
+                }
+
+                viewModel.deleteSeniorResponseState.observe(viewLifecycleOwner, Observer { state->
+                    when (state) {
+                        is Resource.Success -> deleteSeniorSuccessState()
+                        is Resource.Loading -> loadingState()
+                        is Resource.Error -> errorState("Something Error! please, check username and try again.")
+                        else -> errorState("Something Error! please, check username and try again.")
+                    }
+                })
+            }
+        }
+        builder.setNegativeButton("No") { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
 
     private var isListEmpty = false
@@ -101,6 +138,16 @@ class SeniorsFragment : Fragment() {
                 binding.progressBarSeniors.visibility = View.GONE
             }
         })
+    }
+
+    private fun deleteSeniorSuccessState() {
+        runBlocking {
+            viewModel.getMySeniors()
+        }
+        viewModel.deleteSeniorMessage.observe(viewLifecycleOwner, Observer { message->
+            Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
+        })
+        successState()
     }
 
     private fun loadingState() {

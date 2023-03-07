@@ -1,8 +1,13 @@
 package com.project.senior.schedule
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -112,8 +117,20 @@ class ScheduleFragment : Fragment() {
         }
 
         scheduleAdapter.onCancelClick = { schedule->
+            showCancelDialog(schedule.id)
+        }
+    }
+
+    private fun showCancelDialog(scheduleId: Int) {
+        val builder = AlertDialog.Builder(requireContext())
+        val title = SpannableString("Delete")
+        title.setSpan(ForegroundColorSpan(Color.RED), 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.setTitle(title)
+        builder.setMessage("Are you sure you want to delete this appointment?")
+        builder.setPositiveButton("Yes") { dialog, which ->
+            dialog.dismiss()
             lifecycleScope.launchWhenCreated {
-                viewModel.cancelSchedule(schedule.id)
+                viewModel.cancelSchedule(scheduleId)
             }
             viewModel.cancelScheduleResponseState.observe(viewLifecycleOwner, Observer { state->
 
@@ -125,6 +142,10 @@ class ScheduleFragment : Fragment() {
                 }
             })
         }
+        builder.setNegativeButton("No") { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
 
     private var isListEmpty = false
