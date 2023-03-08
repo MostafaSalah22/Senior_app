@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.project.domain.repo.Resource
+import com.project.senior.MainActivity
 import com.project.senior.R
 import com.project.senior.databinding.FragmentSignupBinding
 import com.project.senior.login.LoginViewModel
@@ -56,18 +57,21 @@ class SignupFragment : Fragment() {
         }
 
         binding.btnSignup.setOnClickListener {
-            lifecycleScope.launchWhenCreated {
-                postRegisterUser()
+            if((requireActivity() as MainActivity).isInternetAvailable) {
+                lifecycleScope.launchWhenCreated {
+                    postRegisterUser()
 
-                viewModel.responseState.observe(viewLifecycleOwner, Observer {state ->
-                    when(state){
-                        is Resource.Success -> successState()
-                        is Resource.Loading -> loadingState()
-                        is Resource.Error -> errorState()
-                        else -> Log.i("LoginViewModel", "ERROR")
-                    }
-                })
+                    viewModel.responseState.observe(viewLifecycleOwner, Observer { state ->
+                        when (state) {
+                            is Resource.Success -> successState()
+                            is Resource.Loading -> loadingState()
+                            is Resource.Error -> errorState()
+                            else -> Log.i("LoginViewModel", "ERROR")
+                        }
+                    })
+                }
             }
+            else Snackbar.make(requireView(), "Check the internet and try again.", Snackbar.LENGTH_LONG).show()
         }
     }
 

@@ -37,6 +37,7 @@ class SignupViewModel @Inject constructor(
                 _responseState.value = postRegisterUserUseCase.handleResponse().value
             } catch (e: Exception){
                 Log.e("SignupViewModel",e.message.toString())
+                _responseState.value = Resource.Error(e.message.toString())
             }
         }
     }

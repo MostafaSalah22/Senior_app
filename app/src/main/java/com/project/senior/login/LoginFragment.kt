@@ -12,7 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.project.domain.repo.Resource
+import com.project.senior.MainActivity
 import com.project.senior.R
 import com.project.senior.databinding.FragmentLoginBinding
 import com.project.senior.utils.showPassword
@@ -32,10 +34,10 @@ class LoginFragment : Fragment() {
         binding =
             FragmentLoginBinding.inflate(inflater, container , false)
         lifecycleScope.launchWhenCreated {
-            Log.i("LoginViewModel", "onCreateView: ${viewModel.isEmailLoggedIn()}")
             if (viewModel.isEmailLoggedIn()){
                 loadingState()
-                viewModel.updateProfileData()
+                if((requireActivity() as MainActivity).isInternetAvailable)
+                    viewModel.updateProfileData()
                 navigateToChatFragment()
             }
         }
@@ -58,18 +60,21 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnLogin.setOnClickListener {
-            lifecycleScope.launchWhenCreated {
-                postLoginUser()
+            if ((requireActivity() as MainActivity).isInternetAvailable) {
+                lifecycleScope.launchWhenCreated {
+                    postLoginUser()
 
-                viewModel.responseState.observe(viewLifecycleOwner, Observer {state ->
-                    when(state){
-                        is Resource.Success -> successState()
-                        is Resource.Loading -> loadingState()
-                        is Resource.Error -> errorState()
-                        else -> Log.i("LoginViewModel", "ERROR")
-                    }
-                })
+                    viewModel.responseState.observe(viewLifecycleOwner, Observer { state ->
+                        when (state) {
+                            is Resource.Success -> successState()
+                            is Resource.Loading -> loadingState()
+                            is Resource.Error -> errorState()
+                            else -> Log.i("LoginViewModel", "ERROR")
+                        }
+                    })
+                }
             }
+            else Snackbar.make(requireView(), "Check the internet and try again.", Snackbar.LENGTH_LONG).show()
         }
     }
 

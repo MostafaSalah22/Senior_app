@@ -59,6 +59,7 @@ class LoginViewModel @Inject constructor(
                 _responseState.value = postLoginUserUseCase.handleResponse().value
             } catch (e: Exception){
                 Log.e("LoginViewModel",e.message.toString())
+                _responseState.value = Resource.Error(e.message.toString())
             }
         }
     }
