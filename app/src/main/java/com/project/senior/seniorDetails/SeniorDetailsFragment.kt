@@ -10,8 +10,9 @@ import androidx.navigation.fragment.navArgs
 import com.project.senior.R
 import com.project.senior.databinding.FragmentSeniorDetailsBinding
 import com.project.senior.databinding.FragmentSeniorsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SeniorDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentSeniorDetailsBinding

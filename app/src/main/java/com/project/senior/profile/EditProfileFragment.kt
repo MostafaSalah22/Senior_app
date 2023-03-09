@@ -22,6 +22,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
 import com.project.domain.repo.Resource
+import com.project.senior.MainActivity
 import com.project.senior.R
 import com.project.senior.databinding.FragmentEditProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -88,32 +89,44 @@ class EditProfileFragment : Fragment() {
 
         binding.imgEditProfile.setOnClickListener {
             verifyStoragePermissions(requireActivity())
-            viewModel.changeImageResponseState.observe(viewLifecycleOwner, Observer {state ->
-                when(state){
-                    is Resource.Success -> imageSuccessState()
-                    is Resource.Loading -> loadingState()
-                    is Resource.Error -> imageErrorState()
-                    else -> Snackbar.make(requireView(),"Something Error! Please, Try Again.",
-                        Snackbar.LENGTH_LONG).show()
-                }
-            })
+            if((requireActivity() as MainActivity).isInternetAvailable) {
+                viewModel.changeImageResponseState.observe(viewLifecycleOwner, Observer { state ->
+                    when (state) {
+                        is Resource.Success -> imageSuccessState()
+                        is Resource.Loading -> loadingState()
+                        is Resource.Error -> imageErrorState()
+                        else -> Snackbar.make(
+                            requireView(), "Something Error! Please, Try Again.",
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    }
+                })
+            }
+            else Snackbar.make(requireView(), "Check the internet and try again.", Snackbar.LENGTH_LONG).show()
         }
 
         binding.btnSaveEditProfile.setOnClickListener {
-            lifecycleScope.launchWhenCreated {
-                viewModel.updateProfileData(binding.etNameEditProfile.text.toString().trim(),
-                                            binding.etUsernameEditProfile.text.toString().trim(),
-                                            binding.etPhoneEditProfile.text.toString().trim(),
-                                            binding.etEmailEditProfile.text.toString().trim())
-            }
-            viewModel.updateProfileDataResponseState.observe(viewLifecycleOwner, Observer {state ->
-                when(state){
-                    is Resource.Success -> updateSuccessState()
-                    is Resource.Loading -> loadingState()
-                    is Resource.Error -> updateErrorState()
-                    else -> updateErrorState()
+            if((requireActivity() as MainActivity).isInternetAvailable) {
+                lifecycleScope.launchWhenCreated {
+                    viewModel.updateProfileData(
+                        binding.etNameEditProfile.text.toString().trim(),
+                        binding.etUsernameEditProfile.text.toString().trim(),
+                        binding.etPhoneEditProfile.text.toString().trim(),
+                        binding.etEmailEditProfile.text.toString().trim()
+                    )
                 }
-            })
+                viewModel.updateProfileDataResponseState.observe(
+                    viewLifecycleOwner,
+                    Observer { state ->
+                        when (state) {
+                            is Resource.Success -> updateSuccessState()
+                            is Resource.Loading -> loadingState()
+                            is Resource.Error -> updateErrorState()
+                            else -> updateErrorState()
+                        }
+                    })
+            }
+            else Snackbar.make(requireView(), "Check the internet and try again.", Snackbar.LENGTH_LONG).show()
         }
     }
 
