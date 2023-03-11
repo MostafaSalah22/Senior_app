@@ -161,6 +161,7 @@ class ProfileFragment : Fragment() {
 
         myDialog.show()
         myDialog.window?.attributes = lp
+        myDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val oldPassword = dialogBinding.findViewById<EditText>(R.id.et_current_password)
         val newPassword = dialogBinding.findViewById<EditText>(R.id.et_new_password)

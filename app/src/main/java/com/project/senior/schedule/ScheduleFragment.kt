@@ -209,6 +209,7 @@ class ScheduleFragment : Fragment() {
 
         myDialog.show()
         myDialog.window?.attributes = lp
+        myDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val title = dialogBinding.findViewById<EditText>(R.id.et_title_new_event)
         val date = dialogBinding.findViewById<EditText>(R.id.et_date_new_event)

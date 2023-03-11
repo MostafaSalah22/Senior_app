@@ -19,13 +19,14 @@
 
     <TextView
         android:id="@+id/tv_title_schedule_item"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="Doctor"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/btn_cancel_schedule_item"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,11 +34,10 @@
         android:id="@+id/tv_time_schedule_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:text="05:30pm"
         android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_title_schedule_item"
-        app:layout_constraintStart_toEndOf="@+id/tv_title_schedule_item" />
+        app:layout_constraintStart_toStartOf="@+id/tv_title_schedule_item"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_schedule_item" />
 
     <Button
         android:id="@+id/btn_cancel_schedule_item"
@@ -55,10 +55,9 @@
         android:id="@+id/tv_description_schedule_item"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:text="go to doctor go to doctor go to doctor go to doctor"
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/tv_title_schedule_item"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_schedule_item" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_time_schedule_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

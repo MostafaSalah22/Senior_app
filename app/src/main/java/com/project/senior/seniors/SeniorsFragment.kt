@@ -194,6 +194,7 @@ class SeniorsFragment : Fragment() {
 
         myDialog.show()
         myDialog.window?.attributes = lp
+        myDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val username = dialogBinding.findViewById<EditText>(R.id.et_username_new_senior)
 

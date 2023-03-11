@@ -24,7 +24,7 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     private lateinit var cancelScheduleResponse: Response<MiniResponse>
     private lateinit var addNewScheduleResponse: Response<MiniResponse>
     
-    val TOKEN = dataStoreRepoInterface.readFromDataStore("token").toString()
+    private val TOKEN = dataStoreRepoInterface.readFromDataStore("token").toString()
 
     override suspend fun postLoginUser(username: String, password: String): AppUser {
         loginResponse = apiService.postLoginUser(username, password)
