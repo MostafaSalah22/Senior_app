@@ -80,4 +80,9 @@ object UseCaseModule {
     fun provideAddNewScheduleUseCase(mainRepoInterface: MainRepoInterface): AddNewScheduleUseCase{
         return AddNewScheduleUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideSendNotificationUseCase(mainRepoInterface: MainRepoInterface): SendNotificationUseCase{
+        return SendNotificationUseCase(mainRepoInterface)
+    }
 }

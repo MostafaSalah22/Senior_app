@@ -67,4 +67,10 @@ interface ApiService {
                                 @Query("time") time: String,
                                 @Query("type") type: Int,
                                 @Query("description") description: String): Response<MiniResponse>
+
+    @POST("care-takers/notifications/create")
+    suspend fun sendNotification(@Query("token") token: String,
+                                 @Query("user_id") userId: Int,
+                                 @Query("title") title: String,
+                                 @Query("content") content: String): Response<MiniResponse>
 }

@@ -7,6 +7,23 @@
     android:background="#FFFFFF"
     tools:context=".seniorDetails.SeniorDetailsFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar_senior_details"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_senior_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="card_history_senior_details,card_schedule_senior_details,card_notification_senior_details" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/card_notification_senior_details"
         android:layout_width="wrap_content"
