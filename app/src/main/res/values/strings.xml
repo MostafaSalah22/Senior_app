@@ -36,4 +36,7 @@
     <string name="schedule">Schedule</string>
     <string name="no_data_to_show">NO DATA TO SHOW</string>
     <string name="content">Content</string>
+    <string name="user">USER</string>
+    <string name="doctor">DOCTOR</string>
+    <string name="who_are_you">Who are you?</string>
 </resources>
