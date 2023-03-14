@@ -90,7 +90,7 @@
         android:paddingTop="10dp"
         android:paddingEnd="20dp"
         android:paddingBottom="10dp"
-        android:text="Logout"
+        android:text="@string/logout"
         android:textSize="20sp"
         android:typeface="monospace"
         app:cornerRadius="40dp"
@@ -152,17 +152,19 @@
             android:adjustViewBounds="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/seniors"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tv_seniors_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/seniors"
             android:textColor="#FFFFFF"
             android:textSize="8sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/img_seniors_profile"
             app:layout_constraintStart_toStartOf="@+id/img_seniors_profile"
             app:layout_constraintTop_toBottomOf="@+id/img_seniors_profile" />

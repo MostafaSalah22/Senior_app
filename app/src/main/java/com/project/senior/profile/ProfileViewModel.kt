@@ -20,7 +20,8 @@ class ProfileViewModel @Inject constructor(private val changeProfilePasswordUseC
     private val changeProfileImageUseCase: ChangeProfileImageUseCase,
     private val updateProfileDataUseCase: UpdateProfileDataUseCase,
     private val getProfileDataAndUpdateDataStoreUseCase: GetProfileDataAndUpdateDataStoreUseCase,
-    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase,
+    private val dataStoreTypeUseCase: DataStoreTypeUseCase
 ): ViewModel() {
 
     private val _profileUser: MutableLiveData<ProfileUser> = MutableLiveData()
@@ -102,6 +103,10 @@ class ProfileViewModel @Inject constructor(private val changeProfilePasswordUseC
                 Log.e("ProfileViewModel",e.message.toString())
             }
         }
+    }
+
+    suspend fun getType(): String{
+        return dataStoreTypeUseCase.getType()
     }
 
     suspend fun logout() {

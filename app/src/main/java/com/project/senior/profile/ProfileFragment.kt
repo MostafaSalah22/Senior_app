@@ -50,8 +50,6 @@ class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
     private val viewModel: ProfileViewModel by activityViewModels()
-    private lateinit var body: MultipartBody.Part
-    private val REQUEST_CODE_PICK_IMAGE = 101
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +57,12 @@ class ProfileFragment : Fragment() {
     ): View? {
         binding =
             FragmentProfileBinding.inflate(inflater , container , false)
+        lifecycleScope.launchWhenCreated {
+            if (viewModel.getType() == "user"){
+                binding.imgSeniorsProfile.visibility = View.VISIBLE
+                binding.tvSeniorsProfile.visibility = View.VISIBLE
+            }
+        }
         return binding.root
     }
 

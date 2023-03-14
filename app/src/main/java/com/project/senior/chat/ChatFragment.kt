@@ -62,9 +62,9 @@ class ChatFragment : Fragment() {
             navigateToProfileFragment()
         }
 
-        binding.includeChat.iconNotificationChat.setOnClickListener {
+        /*binding.includeChat.iconNotificationChat.setOnClickListener {
             navigateToNotificationFragment()
-        }
+        }*/
     }
 
     private fun navigateToProfileFragment() {
