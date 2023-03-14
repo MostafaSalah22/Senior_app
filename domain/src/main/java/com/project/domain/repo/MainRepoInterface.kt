@@ -6,6 +6,8 @@ import okhttp3.MultipartBody
 
 interface MainRepoInterface {
 
+    suspend fun setUserType(type: String)
+    suspend fun getUserType(): String
     suspend fun postLoginUser(username:String,password:String): AppUser
     suspend fun isEmailLoggedIn(): Boolean
     suspend fun postRegisterUser(username: String, name: String,

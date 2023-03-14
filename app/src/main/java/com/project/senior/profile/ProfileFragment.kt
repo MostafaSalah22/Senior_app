@@ -121,7 +121,7 @@ class ProfileFragment : Fragment() {
             dialog.dismiss()
             lifecycleScope.launchWhenCreated {
                 viewModel.logout()
-                backToLoginFragment()
+                backToFirstFragment()
             }
         }
         builder.setNegativeButton("No") { dialog, which ->
@@ -134,8 +134,8 @@ class ProfileFragment : Fragment() {
         findNavController().popBackStack()
     }
 
-    private fun backToLoginFragment() {
-        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToLoginFragment())
+    private fun backToFirstFragment() {
+        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToFirstFragment())
     }
 
     private fun navigateToEditProfileFragment() {

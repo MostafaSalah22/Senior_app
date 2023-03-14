@@ -11,6 +11,10 @@ interface ApiService {
     suspend fun postLoginUser(@Query("username")username:String,
                               @Query("password")password:String): Response<AppUser>
 
+    @POST("doctors/login")
+    suspend fun postLoginDoctor(@Query("username")username:String,
+                                @Query("password")password:String): Response<AppUser>
+
     @POST("care-takers/register")
     suspend fun postRegisterUser(@Query("username")username: String,
                                  @Query("name")name: String,

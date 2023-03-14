@@ -12,6 +12,11 @@ import dagger.hilt.components.SingletonComponent
 object UseCaseModule {
 
     @Provides
+    fun provideDataStoreTypeUseCase(mainRepoInterface: MainRepoInterface): DataStoreTypeUseCase{
+        return DataStoreTypeUseCase(mainRepoInterface)
+    }
+
+    @Provides
     fun provideLoginUseCase(mainRepoInterface: MainRepoInterface): PostLoginUserUseCase{
         return PostLoginUserUseCase(mainRepoInterface)
     }

@@ -26,9 +26,19 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     private lateinit var sendNotificationResponse: Response<MiniResponse>
 
     private val TOKEN = dataStoreRepoInterface.readFromDataStore("token").toString()
+    override suspend fun setUserType(type: String) {
+        dataStoreRepoInterface.saveToDataStore("type", type)
+    }
+
+    override suspend fun getUserType(): String {
+        return dataStoreRepoInterface.readFromDataStore("type").toString()
+    }
 
     override suspend fun postLoginUser(username: String, password: String): AppUser {
-        loginResponse = apiService.postLoginUser(username, password)
+        if(dataStoreRepoInterface.readFromDataStore("type") == "user")
+            loginResponse = apiService.postLoginUser(username, password)
+        else
+            loginResponse = apiService.postLoginDoctor(username, password)
 
         dataStoreRepoInterface.saveToDataStore("token", loginResponse.body()?.data?.token.toString())
 
