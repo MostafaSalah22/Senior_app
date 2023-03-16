@@ -220,6 +220,14 @@ class ScheduleFragment : Fragment() {
         date.setOnClickListener {
             viewModel.showCalenderEt(requireActivity())
         }
+
+        time.setOnClickListener {
+            viewModel.showTimeDialog(requireActivity())
+        }
+
+        viewModel.time.observe(viewLifecycleOwner, Observer { setTime->
+            time.setText(setTime)
+        })
         viewModel.dateEt.observe(viewLifecycleOwner, Observer { calenderDate->
             date.setText(calenderDate)
         })
@@ -228,7 +236,6 @@ class ScheduleFragment : Fragment() {
                 viewModel.addNewSchedule(userId!!, title.text.toString(), date.text.toString(), time.text.toString(), description.text.toString())
             }
             viewModel.addNewScheduleResponseState.observe(viewLifecycleOwner, Observer { state->
-                Log.i("ScheduleViewModel", "showNewEventDialog: $state")
                 when(state){
                     is Resource.Success -> addSuccessState(myDialog)
                     is Resource.Loading -> addLoadingState(myDialog)

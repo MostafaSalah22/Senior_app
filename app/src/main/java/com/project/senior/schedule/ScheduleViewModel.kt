@@ -2,6 +2,7 @@ package com.project.senior.schedule
 
 import android.app.Application
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
@@ -47,6 +48,10 @@ class ScheduleViewModel @Inject constructor(
     val dateEt: LiveData<String>
     get() = _dateEt
 
+    private val _time = MutableLiveData<String>()
+    val time: LiveData<String>
+    get() = _time
+
     private var _dayName = MutableLiveData<String>()
     val dayName: LiveData<String>
     get() = _dayName
@@ -74,6 +79,7 @@ class ScheduleViewModel @Inject constructor(
         _dateEt.value = dateFormatApi.format(currentTimeEt)
         _date.value = dateFormat.format(currentTime)
         _dayName.value = dayFormat.format(currentTime)
+        _time.value = "" //SimpleDateFormat("HH:mm").format(currentTime)
     }
 
     suspend fun nextDayClick() {
@@ -122,6 +128,14 @@ class ScheduleViewModel @Inject constructor(
                                 calendarEt.get(Calendar.DAY_OF_MONTH)).show()
     }
 
+    fun showTimeDialog(context: Context) {
+        val timeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            calendar.set(Calendar.MINUTE, minute)
+            _time.value = SimpleDateFormat("HH:mm").format(calendar.time)
+        }
+        TimePickerDialog(context, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show()
+    }
     private fun updateDateAndDayName() {
         currentTime = calendar.time
         _date.value = dateFormat.format(currentTime)
