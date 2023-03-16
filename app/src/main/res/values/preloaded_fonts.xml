@@ -2,5 +2,6 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/akaya_telivigala</item>
+        <item>@font/fredoka_one</item>
     </array>
 </resources>

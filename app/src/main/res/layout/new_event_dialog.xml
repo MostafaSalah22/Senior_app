@@ -27,9 +27,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
+            android:fontFamily="@font/fredoka_one"
             android:inputType="text"
-            android:textColor="#FFFFFF"
-            android:typeface="monospace" />
+            android:textColor="#FFFFFF" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -52,11 +52,11 @@
             android:id="@+id/et_date_new_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:backgroundTint="@android:color/transparent"
+            android:focusable="false"
+            android:fontFamily="@font/fredoka_one"
             android:inputType="text"
-            android:textColor="#FFFFFF"
-            android:typeface="monospace" />
+            android:textColor="#FFFFFF" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -80,9 +80,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
+            android:fontFamily="@font/fredoka_one"
             android:inputType="text"
-            android:textColor="#FFFFFF"
-            android:typeface="monospace" />
+            android:textColor="#FFFFFF" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
@@ -101,11 +101,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:fontFamily="@font/fredoka_one"
         android:text="@string/new_event"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
         android:textStyle="bold"
-        android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -131,9 +131,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
+            android:fontFamily="@font/fredoka_one"
             android:inputType="text"
-            android:textColor="#FFFFFF"
-            android:typeface="monospace" />
+            android:textColor="#FFFFFF" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -143,10 +143,10 @@
         android:layout_marginTop="60dp"
         android:layout_marginBottom="30dp"
         android:backgroundTint="#FFFFFF"
+        android:fontFamily="@font/fredoka_one"
         android:text="@string/add_to_schedule"
         android:textColor="#394CF9"
         android:textSize="16sp"
-        android:typeface="monospace"
         app:cornerRadius="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

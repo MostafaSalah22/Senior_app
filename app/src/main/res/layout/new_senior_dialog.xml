@@ -38,8 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/transparent"
-            android:textColor="#FFFFFF"
-            android:typeface="monospace" />
+            android:fontFamily="@font/fredoka_one"
+            android:textColor="#FFFFFF" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -49,12 +49,12 @@
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
         android:backgroundTint="#FFFFFF"
+        android:fontFamily="@font/fredoka_one"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:text="@string/submit"
         android:textColor="#394CF9"
         android:textSize="16sp"
-        android:typeface="monospace"
         app:cornerRadius="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
