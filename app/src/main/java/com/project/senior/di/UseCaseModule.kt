@@ -90,4 +90,9 @@ object UseCaseModule {
     fun provideSendNotificationUseCase(mainRepoInterface: MainRepoInterface): SendNotificationUseCase{
         return SendNotificationUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideGetSeniorProfileUseCase(mainRepoInterface: MainRepoInterface): GetSeniorProfileUseCase{
+        return GetSeniorProfileUseCase(mainRepoInterface)
+    }
 }

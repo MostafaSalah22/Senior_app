@@ -24,6 +24,7 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     private lateinit var cancelScheduleResponse: Response<MiniResponse>
     private lateinit var addNewScheduleResponse: Response<MiniResponse>
     private lateinit var sendNotificationResponse: Response<MiniResponse>
+    private lateinit var getSeniorProfileResponse: Response<SeniorProfile>
 
     //private val TOKEN = dataStoreRepoInterface.readFromDataStore("token").toString()
     //private val TYPE = dataStoreRepoInterface.readFromDataStore("type")
@@ -206,6 +207,11 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         //returnChangeTrueResponse(sendNotificationResponse)
     }
 
+    override suspend fun getSeniorProfile(userId: Int): SeniorProfile {
+        getSeniorProfileResponse = apiService.getSeniorProfile(userId)
+        return getSeniorProfileResponse.body()!!
+    }
+
     override suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?> {
         return handleResponse(loginResponse)
     }
@@ -256,6 +262,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
 
     override suspend fun handleSendNotificationResponse(): LiveData<Resource<MiniResponse>?> {
         return handleResponse(sendNotificationResponse)
+    }
+
+    override suspend fun handleGetSeniorProfileResponse(): LiveData<Resource<SeniorProfile>?> {
+        return handleResponse(getSeniorProfileResponse)
     }
 
 

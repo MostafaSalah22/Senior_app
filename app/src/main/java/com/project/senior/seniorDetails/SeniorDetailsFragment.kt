@@ -55,6 +55,10 @@ class SeniorDetailsFragment : Fragment() {
             navigateToScheduleFragment(userId!!)
         }
 
+        binding.cardProfileSeniorDetails.setOnClickListener {
+            navigateToSeniorProfileFragment(userId!!)
+        }
+
         binding.cardNotificationSeniorDetails.setOnClickListener {
             sendNotificationDialog(requireContext())
         }
@@ -66,6 +70,10 @@ class SeniorDetailsFragment : Fragment() {
 
     private fun navigateToScheduleFragment(userId: Int) {
         findNavController().navigate(SeniorDetailsFragmentDirections.actionSeniorDetailsFragmentToScheduleFragment(userId))
+    }
+
+    private fun navigateToSeniorProfileFragment(userId: Int) {
+        findNavController().navigate(SeniorDetailsFragmentDirections.actionSeniorDetailsFragmentToSeniorProfileFragment(userId))
     }
 
     private fun backToSeniorsFragment() {

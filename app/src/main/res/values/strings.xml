@@ -40,4 +40,5 @@
     <string name="who_are_you">Who are you?</string>
     <string name="logout">Logout</string>
     <string name="senior_details">Senior Details</string>
+    <string name="profile">Profile</string>
 </resources>
