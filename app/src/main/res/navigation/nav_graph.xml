@@ -136,6 +136,13 @@
             app:exitAnim="@anim/anim_to_left"
             app:popEnterAnim="@anim/anim_from_left"
             app:popExitAnim="@anim/anim_to_right"/>
+        <action
+            android:id="@+id/action_seniorDetailsFragment_to_seniorInformationFragment"
+            app:destination="@id/seniorInformationFragment"
+            app:enterAnim="@anim/anim_from_right"
+            app:exitAnim="@anim/anim_to_left"
+            app:popEnterAnim="@anim/anim_from_left"
+            app:popExitAnim="@anim/anim_to_right"/>
     </fragment>
     <fragment
         android:id="@+id/firstFragment"
@@ -169,6 +176,15 @@
         android:id="@+id/seniorProfileFragment"
         android:name="com.project.senior.seniorProfile.SeniorProfileFragment"
         android:label="SeniorProfileFragment" >
+        <argument
+            android:name="userId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/seniorInformationFragment"
+        android:name="com.project.senior.seniorInformation.SeniorInformationFragment"
+        android:label="fragment_senior_information"
+        tools:layout="@layout/fragment_senior_information" >
         <argument
             android:name="userId"
             app:argType="integer" />

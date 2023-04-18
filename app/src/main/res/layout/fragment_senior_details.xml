@@ -72,22 +72,22 @@
         android:id="@+id/group_senior_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="card_history_senior_details,card_schedule_senior_details,card_notification_senior_details" />
+        app:constraint_referenced_ids="card_information_senior_details,card_schedule_senior_details,card_notification_senior_details" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_notification_senior_details"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_height="0dp"
         android:backgroundTint="#FFFFFF"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/card_profile_senior_details"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/guideline4">
+        app:layout_constraintTop_toTopOf="@+id/card_profile_senior_details">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -125,7 +125,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_history_senior_details"
+        android:id="@+id/card_information_senior_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
@@ -163,7 +163,7 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/fredoka_one"
                 android:gravity="center"
-                android:text="@string/history"
+                android:text="@string/information"
                 android:textColor="#27aae2"
                 android:textSize="24sp"
                 android:textStyle="bold"

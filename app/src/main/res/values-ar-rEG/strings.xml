@@ -29,7 +29,6 @@
     <string name="age_senior">العمر:</string>
     <string name="year">سنة</string>
     <string name="send_notification">ارسال التنبيه</string>
-    <string name="history">معلومات</string>
     <string name="schedule">المواعيد</string>
     <string name="no_data_to_show">لا يوجد شئ لعرضه</string>
     <string name="content">المحتوى</string>
@@ -38,4 +37,6 @@
     <string name="who_are_you">من انت؟</string>
     <string name="logout">تسجيل الخروج</string>
     <string name="senior_details">التفاصيل</string>
+    <string name="profile">الملف الشخصي</string>
+    <string name="information">معلومات</string>
 </resources>
