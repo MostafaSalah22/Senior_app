@@ -109,4 +109,8 @@ interface ApiService {
 
     @GET("guest/seniors/profile")
     suspend fun getSeniorProfile(@Query("user_id") userId: Int): Response<SeniorProfile>
+
+    @GET("care-takers/history-categories")
+    suspend fun getInformationCategories(@Query("token") token: String,
+                                         @Query("user_id") userId: Int): Response<InformationCategories>
 }

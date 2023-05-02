@@ -37,7 +37,6 @@ class ScheduleFragment : Fragment() {
     private lateinit var binding: FragmentScheduleBinding
     private val viewModel: ScheduleViewModel by viewModels()
     private lateinit var scheduleAdapter: ScheduleAdapter
-    //private val arr:ArrayList<ScheduleModel> = ArrayList()
     private var userId: Int? = null
 
 

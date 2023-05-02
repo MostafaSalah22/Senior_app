@@ -31,6 +31,7 @@ interface MainRepoInterface {
     suspend fun addNewSchedule(userId: Int, title: String, date: String, time: String, description: String)
     suspend fun sendNotification(userId: Int, title: String, content: String)
     suspend fun getSeniorProfile(userId: Int): SeniorProfile
+    suspend fun getInformationCategories(userId: Int): ArrayList<CategoryData>?
     suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?>
     suspend fun handleRegisterResponse(): LiveData<Resource<AppUser>?>
     suspend fun handleProfileResponse(): LiveData<Resource<ProfileUser>?>
@@ -45,5 +46,6 @@ interface MainRepoInterface {
     suspend fun handleAddNewScheduleResponse(): LiveData<Resource<MiniResponse>?>
     suspend fun handleSendNotificationResponse(): LiveData<Resource<MiniResponse>?>
     suspend fun handleGetSeniorProfileResponse(): LiveData<Resource<SeniorProfile>?>
+    suspend fun handleGetInformationCategoriesResponse(): LiveData<Resource<InformationCategories>?>
 
 }

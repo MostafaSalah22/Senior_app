@@ -95,4 +95,9 @@ object UseCaseModule {
     fun provideGetSeniorProfileUseCase(mainRepoInterface: MainRepoInterface): GetSeniorProfileUseCase{
         return GetSeniorProfileUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideGetInformationCategoriesUseCase(mainRepoInterface: MainRepoInterface): GetInformationCategoriesUseCase{
+        return GetInformationCategoriesUseCase(mainRepoInterface)
+    }
 }
