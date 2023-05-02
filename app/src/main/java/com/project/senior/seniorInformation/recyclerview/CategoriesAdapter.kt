@@ -2,6 +2,7 @@ package com.project.senior.seniorInformation.recyclerview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -13,11 +14,14 @@ class CategoriesAdapter :
     ListAdapter<CategoryData, CategoriesAdapter.CategoriesViewHolder>(CategoriesDiffCallback()) {
 
     var onItemClick: ((CategoryData) -> Unit)? = null
+    var onDeleteClick: ((CategoryData) -> Unit)? = null
+    var onEditClick: ((CategoryData) -> Unit)? = null
 
     class CategoriesViewHolder(private val binding: InformationItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val title: TextView = binding.tvTitleInformationItem
-
+        val deleteInformation: ImageView = binding.imgCancelInformationItem
+        val editInformation: ImageView = binding.imgEditInformationItem
     }
 
 
@@ -35,8 +39,16 @@ class CategoriesAdapter :
         holder.title.text = item.title
 
 
-        holder.itemView.setOnClickListener {
+        holder.title.setOnClickListener {
             onItemClick?.invoke(item)
+        }
+
+        holder.deleteInformation.setOnClickListener {
+            onDeleteClick?.invoke(item)
+        }
+
+        holder.editInformation.setOnClickListener {
+            onEditClick?.invoke(item)
         }
     }
 
