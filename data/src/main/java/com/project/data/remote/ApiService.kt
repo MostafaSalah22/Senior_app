@@ -113,4 +113,8 @@ interface ApiService {
     @GET("care-takers/history-categories")
     suspend fun getInformationCategories(@Query("token") token: String,
                                          @Query("user_id") userId: Int): Response<InformationCategories>
+
+    @POST("care-takers/history-categories/delete")
+    suspend fun deleteInformationCategory(@Query("token") token: String,
+                                          @Query("history_category_id") categoryId: Int): Response<MiniResponse>
 }

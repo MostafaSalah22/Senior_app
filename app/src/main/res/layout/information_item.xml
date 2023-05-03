@@ -34,6 +34,7 @@
                 android:fontFamily="@font/fredoka_one"
                 android:gravity="center|start"
                 android:text="Title"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:textColor="#27aae2"
                 android:textSize="34sp"
                 app:layout_constraintBottom_toBottomOf="parent"

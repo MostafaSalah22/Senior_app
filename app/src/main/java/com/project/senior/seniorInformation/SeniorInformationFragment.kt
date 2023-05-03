@@ -1,6 +1,11 @@
 package com.project.senior.seniorInformation
 
+import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +25,7 @@ import com.project.senior.schedule.recyclerview.ScheduleAdapter
 import com.project.senior.seniorDetails.SeniorDetailsFragmentArgs
 import com.project.senior.seniorInformation.recyclerview.CategoriesAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class SeniorInformationFragment : Fragment() {
@@ -80,12 +86,59 @@ class SeniorInformationFragment : Fragment() {
     }
 
     private fun errorState() {
-
+        lifecycleScope.launchWhenCreated {
+            viewModel.getInformationCategories(userId!!)
+        }
     }
 
     private fun clickListener() {
         binding.imgBackSeniorInformation.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        categoriesAdapter.onDeleteClick = {categoryData ->
+           showDeleteDialog(categoryData.id)
+        }
+    }
+
+    private fun showDeleteDialog(categoryId: Int) {
+        fun deleteErrorState() {
+            lifecycleScope.launchWhenCreated {
+                viewModel.deleteInformationCategory(categoryId)
+            }
+        }
+        val builder = AlertDialog.Builder(requireContext())
+        val title = SpannableString("Delete")
+        title.setSpan(ForegroundColorSpan(Color.RED), 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.setTitle(title)
+        builder.setMessage("Are you sure you want to delete this category?")
+        builder.setPositiveButton("Yes") { dialog, which ->
+            dialog.dismiss()
+            lifecycleScope.launchWhenCreated {
+                viewModel.deleteInformationCategory(categoryId)
+            }
+            viewModel.deleteInformationCategoryResponseState.observe(viewLifecycleOwner, Observer { state->
+
+                when(state){
+                    is Resource.Success -> deleteSuccessState()
+                    is Resource.Loading -> loadingState()
+                    is Resource.Error -> deleteErrorState()
+                    else -> deleteErrorState()
+                }
+            })
+        }
+        builder.setNegativeButton("No") { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
+
+
+    }
+
+    private fun deleteSuccessState() {
+        runBlocking {
+            viewModel.getInformationCategories(userId!!)
+        }
+        successState()
     }
 }

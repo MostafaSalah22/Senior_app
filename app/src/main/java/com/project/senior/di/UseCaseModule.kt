@@ -100,4 +100,8 @@ object UseCaseModule {
     fun provideGetInformationCategoriesUseCase(mainRepoInterface: MainRepoInterface): GetInformationCategoriesUseCase{
         return GetInformationCategoriesUseCase(mainRepoInterface)
     }
+    @Provides
+    fun provideDeleteInformationCategoryUseCase(mainRepoInterface: MainRepoInterface): DeleteInformationCategoryUseCase{
+        return DeleteInformationCategoryUseCase(mainRepoInterface)
+    }
 }
