@@ -41,4 +41,5 @@
     <string name="logout">Logout</string>
     <string name="senior_details">Senior Details</string>
     <string name="profile">Profile</string>
+    <string name="empty_categories">No categories were added, add the categories you need.</string>
 </resources>

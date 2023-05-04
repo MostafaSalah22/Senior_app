@@ -7,6 +7,38 @@
     tools:context=".seniorInformation.SeniorInformationFragment">
 
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_empty_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="img_empty_categories,tv_empty_categories" />
+
+    <ImageView
+        android:id="@+id/img_empty_categories"
+        android:layout_width="181dp"
+        android:layout_height="179dp"
+        android:src="@drawable/empty_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_empty_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/fredoka_one"
+        android:gravity="center"
+        android:text="@string/empty_categories"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/img_empty_categories"
+        app:layout_constraintStart_toStartOf="@+id/img_empty_categories"
+        app:layout_constraintTop_toBottomOf="@+id/img_empty_categories" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_information"
         android:layout_width="wrap_content"
@@ -50,11 +82,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:paddingBottom="?attr/actionBarSize"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView15"
-        tools:listitem="@layout/information_item"
-        android:paddingBottom="?attr/actionBarSize"/>
+        tools:listitem="@layout/information_item" />
 
     <ProgressBar
         android:id="@+id/progressBar_information"

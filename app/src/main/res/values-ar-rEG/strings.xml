@@ -39,4 +39,5 @@
     <string name="senior_details">التفاصيل</string>
     <string name="profile">الملف الشخصي</string>
     <string name="information">معلومات</string>
+    <string name="empty_categories">قم بأضافة التصنيفات الخاصة بك.</string>
 </resources>

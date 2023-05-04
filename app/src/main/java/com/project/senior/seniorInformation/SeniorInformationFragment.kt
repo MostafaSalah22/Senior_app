@@ -36,6 +36,7 @@ class SeniorInformationFragment : Fragment() {
     private val viewModel: SeniorInformationViewModel by viewModels()
     private lateinit var categoriesAdapter: CategoriesAdapter
     private var userId: Int? = null
+    private var isListEmpty = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,20 +71,37 @@ class SeniorInformationFragment : Fragment() {
         })
 
         viewModel.categoriesList.observe(viewLifecycleOwner, Observer {list ->
-
-        categoriesAdapter.submitList(list)
+        if(list?.size == 0) {
+            isListEmpty = true
+            binding.rvInformation.visibility = View.GONE
+            binding.progressBarInformation.visibility = View.GONE
+            binding.groupEmptyCategories.visibility = View.VISIBLE
+        }
+        else {
+            isListEmpty = false
+            categoriesAdapter.submitList(list)
+        }
 
         })
         clickListener()
     }
 
     private fun successState() {
-        binding.rvInformation.visibility = View.VISIBLE
-        binding.progressBarInformation.visibility = View.GONE
+        if (isListEmpty){
+            binding.rvInformation.visibility = View.GONE
+            binding.progressBarInformation.visibility = View.GONE
+            binding.groupEmptyCategories.visibility = View.VISIBLE
+        }
+        else {
+            binding.rvInformation.visibility = View.VISIBLE
+            binding.progressBarInformation.visibility = View.GONE
+            binding.groupEmptyCategories.visibility = View.GONE
+        }
     }
 
     private fun loadingState() {
         binding.rvInformation.visibility = View.GONE
+        binding.groupEmptyCategories.visibility = View.GONE
         binding.progressBarInformation.visibility = View.VISIBLE
     }
 
