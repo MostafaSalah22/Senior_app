@@ -9,6 +9,7 @@ import com.project.domain.model.CategoryData
 import com.project.domain.model.InformationCategories
 import com.project.domain.model.MiniResponse
 import com.project.domain.repo.Resource
+import com.project.domain.usecase.AddNewCategoryUseCase
 import com.project.domain.usecase.DeleteInformationCategoryUseCase
 import com.project.domain.usecase.EditInformationCategoryTitleUseCase
 import com.project.domain.usecase.GetInformationCategoriesUseCase
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class SeniorInformationViewModel @Inject constructor(
     private val getInformationCategoriesUseCase: GetInformationCategoriesUseCase,
     private val deleteInformationCategoryUseCase: DeleteInformationCategoryUseCase,
-    private val editInformationCategoryTitleUseCase: EditInformationCategoryTitleUseCase
+    private val editInformationCategoryTitleUseCase: EditInformationCategoryTitleUseCase,
+    private val addNewCategoryUseCase: AddNewCategoryUseCase
 ): ViewModel() {
 
     private val _getInformationCategoriesResponseState: MutableLiveData<Resource<InformationCategories>?> = MutableLiveData()
@@ -38,6 +40,10 @@ class SeniorInformationViewModel @Inject constructor(
     private val _editInformationCategoryTitleResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
     val editInformationCategoryTitleResponseState: LiveData<Resource<MiniResponse>?>
     get() = _editInformationCategoryTitleResponseState
+
+    private val _addNewCategoryResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
+    val addNewCategoryResponseState: LiveData<Resource<MiniResponse>?>
+    get() = _addNewCategoryResponseState
 
     suspend fun getInformationCategories(userId: Int){
             try {
@@ -71,6 +77,17 @@ class SeniorInformationViewModel @Inject constructor(
         } catch (e: Exception){
             Log.e("SeniorInformationViewModel",e.message.toString())
             _editInformationCategoryTitleResponseState.value = Resource.Error(e.message.toString())
+        }
+    }
+
+    suspend fun addNewCategory(userId: Int, title: String){
+        try {
+            _addNewCategoryResponseState.value = Resource.Loading()
+            addNewCategoryUseCase(userId, title)
+            _addNewCategoryResponseState.value = addNewCategoryUseCase.handleResponse().value
+        } catch (e: Exception){
+            Log.e("SeniorInformationViewModel",e.message.toString())
+            _addNewCategoryResponseState.value = Resource.Error(e.message.toString())
         }
     }
 }

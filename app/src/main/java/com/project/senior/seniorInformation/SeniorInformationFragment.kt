@@ -24,11 +24,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.domain.repo.Resource
 import com.project.senior.R
-import com.project.senior.databinding.FragmentSeniorDetailsBinding
 import com.project.senior.databinding.FragmentSeniorInformationBinding
-import com.project.senior.schedule.ScheduleViewModel
-import com.project.senior.schedule.recyclerview.ScheduleAdapter
-import com.project.senior.seniorDetails.SeniorDetailsFragmentArgs
 import com.project.senior.seniorInformation.recyclerview.CategoriesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
@@ -107,7 +103,11 @@ class SeniorInformationFragment : Fragment() {
         }
 
         categoriesAdapter.onEditClick = {categoryData ->
-            editTitleDialog(requireContext(), categoryData.id)
+            titleDialog(requireContext(), categoryData.id, 1)
+        }
+
+        binding.fabAddInformation.setOnClickListener {
+            titleDialog(requireContext(), userId!!, 2)
         }
     }
 
@@ -131,7 +131,7 @@ class SeniorInformationFragment : Fragment() {
             viewModel.deleteInformationCategoryResponseState.observe(viewLifecycleOwner, Observer { state->
 
                 when(state){
-                    is Resource.Success -> deleteSuccessState()
+                    is Resource.Success -> getCategoriesAndSuccessState()
                     is Resource.Loading -> loadingState()
                     is Resource.Error -> deleteErrorState()
                     else -> deleteErrorState()
@@ -146,14 +146,14 @@ class SeniorInformationFragment : Fragment() {
 
     }
 
-    private fun deleteSuccessState() {
+    private fun getCategoriesAndSuccessState() {
         runBlocking {
             viewModel.getInformationCategories(userId!!)
         }
         successState()
     }
 
-    private fun editTitleDialog(context: Context, categoryId: Int) {
+    private fun titleDialog(context: Context, requiredId: Int, funId: Int) {
         val dialogBinding = layoutInflater.inflate(R.layout.edit_category_title_dialog,null)
 
         val myDialog = Dialog(context)
@@ -179,22 +179,48 @@ class SeniorInformationFragment : Fragment() {
                 title.requestFocus()
             }
             else {
-                lifecycleScope.launchWhenCreated {
-                    viewModel.editInformationCategoryTitle(categoryId, title.text.toString().trim())
+                if(funId == 1) {
+                    lifecycleScope.launchWhenCreated {
+                        viewModel.editInformationCategoryTitle(
+                            requiredId,
+                            title.text.toString().trim()
+                        )
+                    }
+                    viewModel.editInformationCategoryTitleResponseState.observe(
+                        viewLifecycleOwner,
+                        Observer { state ->
+                            when (state) {
+                                is Resource.Success -> editSuccessState()
+                                is Resource.Loading -> dismissDialogAndLoadingState(myDialog)
+                                is Resource.Error -> editErrorState(
+                                    requiredId,
+                                    title.text.toString().trim()
+                                )
+                                else -> editErrorState(requiredId, title.text.toString().trim())
+                            }
+                        })
                 }
-                viewModel.editInformationCategoryTitleResponseState.observe(
-                    viewLifecycleOwner,
-                    Observer { state ->
-                        when (state) {
-                            is Resource.Success -> editSuccessState()
-                            is Resource.Loading -> editLoadingState(myDialog)
-                            is Resource.Error -> editErrorState(
-                                categoryId,
-                                title.text.toString().trim()
-                            )
-                            else -> editErrorState(categoryId, title.text.toString().trim())
-                        }
-                    })
+                else{
+                    lifecycleScope.launchWhenCreated {
+                        viewModel.addNewCategory(
+                            requiredId,
+                            title.text.toString().trim()
+                        )
+                    }
+                    viewModel.addNewCategoryResponseState.observe(
+                        viewLifecycleOwner,
+                        Observer { state ->
+                            when (state) {
+                                is Resource.Success -> getCategoriesAndSuccessState()
+                                is Resource.Loading -> dismissDialogAndLoadingState(myDialog)
+                                is Resource.Error -> addErrorState(
+                                    requiredId,
+                                    title.text.toString().trim()
+                                )
+                                else -> addErrorState(requiredId, title.text.toString().trim())
+                            }
+                        })
+                }
             }
         }
 
@@ -212,7 +238,7 @@ class SeniorInformationFragment : Fragment() {
         //successState()
     }
 
-    private fun editLoadingState(myDialog: Dialog){
+    private fun dismissDialogAndLoadingState(myDialog: Dialog){
         myDialog.dismiss()
         loadingState()
     }
@@ -220,6 +246,12 @@ class SeniorInformationFragment : Fragment() {
     private fun editErrorState(categoryId: Int, title:String) {
         lifecycleScope.launchWhenCreated {
             viewModel.editInformationCategoryTitle(categoryId, title)
+        }
+    }
+
+    private fun addErrorState(categoryId: Int, title:String) {
+        lifecycleScope.launchWhenCreated {
+            viewModel.addNewCategory(categoryId, title)
         }
     }
 }
