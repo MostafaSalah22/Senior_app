@@ -1,6 +1,8 @@
 package com.project.senior.seniorInformation
 
 import android.app.AlertDialog
+import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
@@ -10,6 +12,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -99,6 +105,10 @@ class SeniorInformationFragment : Fragment() {
         categoriesAdapter.onDeleteClick = {categoryData ->
            showDeleteDialog(categoryData.id)
         }
+
+        categoriesAdapter.onEditClick = {categoryData ->
+            editTitleDialog(requireContext(), categoryData.id)
+        }
     }
 
     private fun showDeleteDialog(categoryId: Int) {
@@ -106,6 +116,7 @@ class SeniorInformationFragment : Fragment() {
             lifecycleScope.launchWhenCreated {
                 viewModel.deleteInformationCategory(categoryId)
             }
+
         }
         val builder = AlertDialog.Builder(requireContext())
         val title = SpannableString("Delete")
@@ -140,5 +151,75 @@ class SeniorInformationFragment : Fragment() {
             viewModel.getInformationCategories(userId!!)
         }
         successState()
+    }
+
+    private fun editTitleDialog(context: Context, categoryId: Int) {
+        val dialogBinding = layoutInflater.inflate(R.layout.edit_category_title_dialog,null)
+
+        val myDialog = Dialog(context)
+        myDialog.setContentView(dialogBinding)
+
+        myDialog.setCancelable(true)
+
+        // Make the dialog width (match_parent)
+        val lp = WindowManager.LayoutParams()
+        lp.copyFrom(myDialog.window?.attributes)
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT
+
+        myDialog.show()
+        myDialog.window?.attributes = lp
+        myDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val title = dialogBinding.findViewById<EditText>(R.id.et_title_edit_category)
+
+        val saveBtn = dialogBinding.findViewById<Button>(R.id.btn_edit_category_title)
+        saveBtn.setOnClickListener {
+            if(title.text.toString().trim() == "") {
+                title.error = "Enter Title"
+                title.requestFocus()
+            }
+            else {
+                lifecycleScope.launchWhenCreated {
+                    viewModel.editInformationCategoryTitle(categoryId, title.text.toString().trim())
+                }
+                viewModel.editInformationCategoryTitleResponseState.observe(
+                    viewLifecycleOwner,
+                    Observer { state ->
+                        when (state) {
+                            is Resource.Success -> editSuccessState()
+                            is Resource.Loading -> editLoadingState(myDialog)
+                            is Resource.Error -> editErrorState(
+                                categoryId,
+                                title.text.toString().trim()
+                            )
+                            else -> editErrorState(categoryId, title.text.toString().trim())
+                        }
+                    })
+            }
+        }
+
+        val backEditTitle = dialogBinding.findViewById<ImageView>(R.id.img_back_edit_category)
+        backEditTitle.setOnClickListener {
+            myDialog.dismiss()
+        }
+    }
+
+    private fun editSuccessState() {
+        runBlocking {
+            viewModel.getInformationCategories(userId!!)
+        }
+        findNavController().navigate(SeniorInformationFragmentDirections.actionSeniorInformationFragmentSelf(userId!!))
+        //successState()
+    }
+
+    private fun editLoadingState(myDialog: Dialog){
+        myDialog.dismiss()
+        loadingState()
+    }
+
+    private fun editErrorState(categoryId: Int, title:String) {
+        lifecycleScope.launchWhenCreated {
+            viewModel.editInformationCategoryTitle(categoryId, title)
+        }
     }
 }

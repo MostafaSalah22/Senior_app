@@ -188,5 +188,9 @@
         <argument
             android:name="userId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_seniorInformationFragment_self"
+            app:destination="@id/seniorInformationFragment"
+            app:popUpTo="@id/seniorDetailsFragment" />
     </fragment>
 </navigation>

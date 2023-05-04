@@ -72,7 +72,7 @@
         android:id="@+id/group_senior_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="card_information_senior_details,card_schedule_senior_details,card_notification_senior_details" />
+        app:constraint_referenced_ids="card_information_senior_details,card_schedule_senior_details,card_notification_senior_details,card_profile_senior_details" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_notification_senior_details"

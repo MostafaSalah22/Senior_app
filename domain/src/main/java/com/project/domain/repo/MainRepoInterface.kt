@@ -33,6 +33,7 @@ interface MainRepoInterface {
     suspend fun getSeniorProfile(userId: Int): SeniorProfile
     suspend fun getInformationCategories(userId: Int): ArrayList<CategoryData>?
     suspend fun deleteInformationCategory(categoryId: Int): MiniResponse
+    suspend fun editInformationCategoryTitle(categoryId: Int, title: String): MiniResponse
     suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?>
     suspend fun handleRegisterResponse(): LiveData<Resource<AppUser>?>
     suspend fun handleProfileResponse(): LiveData<Resource<ProfileUser>?>
@@ -49,5 +50,6 @@ interface MainRepoInterface {
     suspend fun handleGetSeniorProfileResponse(): LiveData<Resource<SeniorProfile>?>
     suspend fun handleGetInformationCategoriesResponse(): LiveData<Resource<InformationCategories>?>
     suspend fun handleDeleteInformationCategoryResponse(): LiveData<Resource<MiniResponse>?>
+    suspend fun handleEditInformationCategoryTitleResponse(): LiveData<Resource<MiniResponse>?>
 
 }
