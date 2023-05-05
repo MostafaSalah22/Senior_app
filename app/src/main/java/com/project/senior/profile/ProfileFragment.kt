@@ -117,18 +117,18 @@ class ProfileFragment : Fragment() {
 
     private fun showLogoutDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        val title = SpannableString("Logout")
+        val title = SpannableString(getString(R.string.logout))
         title.setSpan(ForegroundColorSpan(Color.RED), 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         builder.setTitle(title)
-        builder.setMessage("Are you sure you want to logout?")
-        builder.setPositiveButton("Yes") { dialog, which ->
+        builder.setMessage(getString(R.string.logout_alert_dialog))
+        builder.setPositiveButton(getString(R.string.yes)) { dialog, which ->
             dialog.dismiss()
             lifecycleScope.launchWhenCreated {
                 viewModel.logout()
                 backToFirstFragment()
             }
         }
-        builder.setNegativeButton("No") { dialog, which ->
+        builder.setNegativeButton(getString(R.string.no)) { dialog, which ->
             dialog.dismiss()
         }
         builder.show()

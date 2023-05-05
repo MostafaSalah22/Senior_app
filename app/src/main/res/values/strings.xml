@@ -42,4 +42,10 @@
     <string name="senior_details">Senior Details</string>
     <string name="profile">Profile</string>
     <string name="empty_categories">No categories were added, add the categories you need.</string>
+    <string name="delete">Delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="category_alert_dialog">Are you sure you want to delete this category?</string>
+    <string name="schedule_alert_dialog">Are you sure you want to delete this appointment?</string>
+    <string name="logout_alert_dialog">Are you sure you want to logout?</string>
 </resources>

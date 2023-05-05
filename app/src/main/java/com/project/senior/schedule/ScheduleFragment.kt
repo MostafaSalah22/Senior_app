@@ -122,11 +122,11 @@ class ScheduleFragment : Fragment() {
 
     private fun showCancelDialog(scheduleId: Int) {
         val builder = AlertDialog.Builder(requireContext())
-        val title = SpannableString("Delete")
+        val title = SpannableString(getString(R.string.delete))
         title.setSpan(ForegroundColorSpan(Color.RED), 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         builder.setTitle(title)
-        builder.setMessage("Are you sure you want to delete this appointment?")
-        builder.setPositiveButton("Yes") { dialog, which ->
+        builder.setMessage(getString(R.string.schedule_alert_dialog))
+        builder.setPositiveButton(getString(R.string.yes)) { dialog, which ->
             dialog.dismiss()
             lifecycleScope.launchWhenCreated {
                 viewModel.cancelSchedule(scheduleId)
@@ -141,7 +141,7 @@ class ScheduleFragment : Fragment() {
                 }
             })
         }
-        builder.setNegativeButton("No") { dialog, which ->
+        builder.setNegativeButton(getString(R.string.no)) { dialog, which ->
             dialog.dismiss()
         }
         builder.show()

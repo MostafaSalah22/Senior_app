@@ -40,4 +40,10 @@
     <string name="profile">الملف الشخصي</string>
     <string name="information">معلومات</string>
     <string name="empty_categories">قم بأضافة التصنيفات الخاصة بك.</string>
+    <string name="delete">حذف</string>
+    <string name="category_alert_dialog">هل تريد حذف هذا التصنيف؟</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="schedule_alert_dialog">هل تريد حذف هذا الموعد؟</string>
+    <string name="logout_alert_dialog">هل تريد تسجيل الخروج؟</string>
 </resources>
