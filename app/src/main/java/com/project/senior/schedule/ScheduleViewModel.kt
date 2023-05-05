@@ -36,7 +36,7 @@ class ScheduleViewModel @Inject constructor(
     private val calendarEt = Calendar.getInstance()
     private var currentTimeEt = calendar.time
     private val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-    private val dateFormatApi = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val dateFormatApi = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
     private val dayFormat = SimpleDateFormat("EEEE" , Locale.getDefault())
 
 
