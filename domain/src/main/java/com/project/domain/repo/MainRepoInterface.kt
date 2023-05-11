@@ -37,6 +37,7 @@ interface MainRepoInterface {
     suspend fun addNewCategory(userId: Int, title: String): MiniResponse
     suspend fun getCategoryDetails(categoryId: Int): ArrayList<CategoryDetailsData>?
     suspend fun deleteCategoryDetails(categoryDetailsId: Int): MiniResponse
+    suspend fun editCategoryDetails(categoryDetailsId: Int, title: String, description: String): MiniResponse
     suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?>
     suspend fun handleRegisterResponse(): LiveData<Resource<AppUser>?>
     suspend fun handleProfileResponse(): LiveData<Resource<ProfileUser>?>
@@ -57,5 +58,6 @@ interface MainRepoInterface {
     suspend fun handleAddNewCategoryResponse(): LiveData<Resource<MiniResponse>?>
     suspend fun handleGetCategoryDetailsResponse(): LiveData<Resource<CategoryDetails>?>
     suspend fun handleDeleteCategoryDetailsResponse(): LiveData<Resource<MiniResponse>?>
+    suspend fun handleEditCategoryDetailsResponse(): LiveData<Resource<MiniResponse>?>
 
 }

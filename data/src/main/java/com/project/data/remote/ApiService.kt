@@ -134,4 +134,10 @@ interface ApiService {
     @POST("care-takers/history/delete")
     suspend fun deleteCategoryDetails(@Query("token") token: String,
                                       @Query("history_id") categoryDetailsId: Int): Response<MiniResponse>
+
+    @POST("care-takers/history/update")
+    suspend fun editCategoryDetails(@Query("token") token: String,
+                                        @Query("history_id") categoryDetailsId: Int,
+                                        @Query("title") title: String,
+                                        @Query("description") description: String): Response<MiniResponse>
 }

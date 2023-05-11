@@ -214,5 +214,9 @@
         <argument
             android:name="categoryTitle"
             app:argType="string" />
+        <action
+            android:id="@+id/action_informationDetailsFragment_self"
+            app:destination="@id/informationDetailsFragment"
+            app:popUpTo="@id/seniorInformationFragment" />
     </fragment>
 </navigation>

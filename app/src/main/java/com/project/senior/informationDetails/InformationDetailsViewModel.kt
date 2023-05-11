@@ -9,6 +9,7 @@ import com.project.domain.model.CategoryDetailsData
 import com.project.domain.model.MiniResponse
 import com.project.domain.repo.Resource
 import com.project.domain.usecase.DeleteCategoryDetailsUseCase
+import com.project.domain.usecase.EditCategoryDetailsUseCase
 import com.project.domain.usecase.GetCategoryDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class InformationDetailsViewModel @Inject constructor(
     private val getCategoryDetailsUseCase: GetCategoryDetailsUseCase,
-    private val deleteCategoryDetailsUseCase: DeleteCategoryDetailsUseCase
+    private val deleteCategoryDetailsUseCase: DeleteCategoryDetailsUseCase,
+    private val editCategoryDetailsUseCase: EditCategoryDetailsUseCase
 ): ViewModel() {
     private val _getCategoryDetailsResponseState: MutableLiveData<Resource<CategoryDetails>?> = MutableLiveData()
     val getCategoryDetailsResponseState: LiveData<Resource<CategoryDetails>?>
@@ -30,6 +32,10 @@ class InformationDetailsViewModel @Inject constructor(
     val deleteCategoryDetailsResponseState: LiveData<Resource<MiniResponse>?>
     get() = _deleteCategoryDetailsResponseState
 
+    private val _editCategoryDetailsResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
+    val editCategoryDetailsResponseState: LiveData<Resource<MiniResponse>?>
+    get() = _editCategoryDetailsResponseState
+
     suspend fun getCategoryDetails(categoryId: Int){
         try {
             _getCategoryDetailsResponseState.value = Resource.Loading()
@@ -42,7 +48,7 @@ class InformationDetailsViewModel @Inject constructor(
         }
     }
 
-    suspend fun deleteInformationCategory(categoryDetailsId: Int){
+    suspend fun deleteCategoryDetails(categoryDetailsId: Int){
         try {
             _deleteCategoryDetailsResponseState.value = Resource.Loading()
             deleteCategoryDetailsUseCase(categoryDetailsId)
@@ -50,6 +56,17 @@ class InformationDetailsViewModel @Inject constructor(
         } catch (e: Exception){
             Log.e("InformationDetailsViewModel",e.message.toString())
             _deleteCategoryDetailsResponseState.value = Resource.Error(e.message.toString())
+        }
+    }
+
+    suspend fun editCategoryDetails(categoryDetailsId: Int, title: String, description: String){
+        try {
+            _editCategoryDetailsResponseState.value = Resource.Loading()
+            editCategoryDetailsUseCase(categoryDetailsId, title, description)
+            _editCategoryDetailsResponseState.value = editCategoryDetailsUseCase.handleResponse().value
+        } catch (e: Exception){
+            Log.e("InformationDetailsViewModel",e.message.toString())
+            _editCategoryDetailsResponseState.value = Resource.Error(e.message.toString())
         }
     }
 }

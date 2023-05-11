@@ -124,4 +124,9 @@ object UseCaseModule {
     fun provideDeleteCategoryDetailsUseCase(mainRepoInterface: MainRepoInterface): DeleteCategoryDetailsUseCase{
         return DeleteCategoryDetailsUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideEditCategoryDetailsUseCase(mainRepoInterface: MainRepoInterface): EditCategoryDetailsUseCase{
+        return EditCategoryDetailsUseCase(mainRepoInterface)
+    }
 }
