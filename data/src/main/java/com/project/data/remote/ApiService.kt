@@ -1,5 +1,6 @@
 package com.project.data.remote
 
+import android.service.autofill.FillEventHistory
 import com.project.domain.model.*
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -129,4 +130,8 @@ interface ApiService {
     @GET("care-takers/history")
     suspend fun getCategoryDetails(@Query("token") token: String,
                                    @Query("history_category_id") categoryId: Int): Response<CategoryDetails>
+
+    @POST("care-takers/history/delete")
+    suspend fun deleteCategoryDetails(@Query("token") token: String,
+                                      @Query("history_id") categoryDetailsId: Int): Response<MiniResponse>
 }

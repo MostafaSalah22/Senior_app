@@ -1,6 +1,11 @@
 package com.project.senior.informationDetails
 
+import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +23,7 @@ import com.project.senior.informationDetails.recyclerview.DetailsAdapter
 import com.project.senior.seniorInformation.SeniorInformationViewModel
 import com.project.senior.seniorInformation.recyclerview.CategoriesAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class InformationDetailsFragment : Fragment() {
@@ -27,6 +33,7 @@ class InformationDetailsFragment : Fragment() {
     private lateinit var detailsAdapter: DetailsAdapter
     private var categoryTitle: String? = null
     private var categoryId: Int? = null
+    private var userId: Int? = null
     private var isListEmpty = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +43,7 @@ class InformationDetailsFragment : Fragment() {
         val categoryDetailsArgs by navArgs<InformationDetailsFragmentArgs>()
         categoryTitle = categoryDetailsArgs.categoryTitle
         categoryId = categoryDetailsArgs.categoryId
+        userId = categoryDetailsArgs.userId
         binding.tvCategoryTitleInformationDetails.text = categoryTitle
 
         val layoutManger = LinearLayoutManager(context)
@@ -83,6 +91,12 @@ class InformationDetailsFragment : Fragment() {
         binding.imgBackInformationDetails.setOnClickListener {
             backToCategoriesFragment()
         }
+
+        detailsAdapter.onDeleteClick = {categoryDetailsData ->
+
+            showDeleteDialog(categoryDetailsData.id)
+
+        }
     }
 
     private fun backToCategoriesFragment() {
@@ -112,5 +126,47 @@ class InformationDetailsFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.getCategoryDetails(categoryId!!)
         }
+    }
+
+    private fun showDeleteDialog(categoryDetailsId: Int) {
+        fun deleteErrorState() {
+            lifecycleScope.launchWhenCreated {
+                viewModel.deleteInformationCategory(categoryDetailsId)
+            }
+
+        }
+        val builder = AlertDialog.Builder(requireContext())
+        val title = SpannableString(getString(R.string.delete))
+        title.setSpan(ForegroundColorSpan(Color.RED), 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.setTitle(title)
+        builder.setMessage(getString(R.string.category_alert_dialog))
+        builder.setPositiveButton(getString(R.string.yes)) { dialog, which ->
+            dialog.dismiss()
+            lifecycleScope.launchWhenCreated {
+                viewModel.deleteInformationCategory(categoryDetailsId)
+            }
+            viewModel.deleteCategoryDetailsResponseState.observe(viewLifecycleOwner, Observer { state->
+
+                when(state){
+                    is Resource.Success -> getCategoryDetailsAndSuccessState()
+                    is Resource.Loading -> loadingState()
+                    is Resource.Error -> deleteErrorState()
+                    else -> deleteErrorState()
+                }
+            })
+        }
+        builder.setNegativeButton(getString(R.string.no)) { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
+
+
+    }
+
+    private fun getCategoryDetailsAndSuccessState() {
+        runBlocking {
+            viewModel.getCategoryDetails(categoryId!!)
+        }
+        successState()
     }
 }
