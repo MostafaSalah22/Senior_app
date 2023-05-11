@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Senior</string>
+    <string name="app_name">Senior Care</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="user_name">User Name</string>
@@ -48,4 +48,6 @@
     <string name="category_alert_dialog">Are you sure you want to delete this category?</string>
     <string name="schedule_alert_dialog">Are you sure you want to delete this appointment?</string>
     <string name="logout_alert_dialog">Are you sure you want to logout?</string>
+    <string name="no_description">No Description.</string>
+    <string name="empty_details">No details were added, add the details you need.</string>
 </resources>

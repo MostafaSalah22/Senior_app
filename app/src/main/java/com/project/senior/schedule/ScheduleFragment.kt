@@ -50,7 +50,7 @@ class ScheduleFragment : Fragment() {
         userId = scheduleFragmentArgs.userId
         val layoutManger = LinearLayoutManager(context)
         binding.rvSchedule.layoutManager = layoutManger
-        scheduleAdapter = ScheduleAdapter()
+        scheduleAdapter = ScheduleAdapter(requireContext())
         binding.rvSchedule.adapter = scheduleAdapter
         return binding.root
     }

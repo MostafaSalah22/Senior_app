@@ -124,6 +124,10 @@ class SeniorInformationFragment : Fragment() {
             titleDialog(requireContext(), categoryData.id, 1)
         }
 
+        categoriesAdapter.onItemClick = {categoryData ->
+            findNavController().navigate(SeniorInformationFragmentDirections.actionSeniorInformationFragmentToInformationDetailsFragment(categoryData.id, categoryData.user_id, categoryData.title))
+        }
+
         binding.fabAddInformation.setOnClickListener {
             titleDialog(requireContext(), userId!!, 2)
         }

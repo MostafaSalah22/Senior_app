@@ -136,7 +136,7 @@
         android:id="@+id/tv_empty_schedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="monospace"
+        android:fontFamily="@font/fredoka_one"
         android:text="@string/no_data_to_show"
         android:textColor="#000000"
         android:textSize="20sp"

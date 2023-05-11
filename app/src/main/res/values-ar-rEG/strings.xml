@@ -46,4 +46,6 @@
     <string name="no">لا</string>
     <string name="schedule_alert_dialog">هل تريد حذف هذا الموعد؟</string>
     <string name="logout_alert_dialog">هل تريد تسجيل الخروج؟</string>
+    <string name="no_description">لا يوجد وصف.</string>
+    <string name="empty_details">قم بأضافة التفاصيل.</string>
 </resources>

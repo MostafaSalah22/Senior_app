@@ -132,7 +132,7 @@ class ScheduleViewModel @Inject constructor(
         val timeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
             calendar.set(Calendar.MINUTE, minute)
-            _time.value = SimpleDateFormat("HH:mm").format(calendar.time)
+            _time.value = SimpleDateFormat("HH:mm", Locale.ENGLISH).format(calendar.time)
         }
         TimePickerDialog(context, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show()
     }

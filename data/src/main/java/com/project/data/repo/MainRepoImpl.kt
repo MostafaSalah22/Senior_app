@@ -29,6 +29,7 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     private lateinit var deleteInformationCategoryResponse: Response<MiniResponse>
     private lateinit var editInformationCategoryTitleResponse: Response<MiniResponse>
     private lateinit var addNewCategoryResponse: Response<MiniResponse>
+    private lateinit var getCategoryDetailsResponse: Response<CategoryDetails>
 
     //private val TOKEN = dataStoreRepoInterface.readFromDataStore("token").toString()
     //private val TYPE = dataStoreRepoInterface.readFromDataStore("type")
@@ -243,6 +244,12 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         return addNewCategoryResponse.body()!!
     }
 
+    override suspend fun getCategoryDetails(categoryId: Int): ArrayList<CategoryDetailsData>? {
+        getCategoryDetailsResponse = apiService.getCategoryDetails(dataStoreRepoInterface.readFromDataStore("token").toString(),
+                                                                        categoryId)
+        return getCategoryDetailsResponse.body()?.data
+    }
+
     override suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?> {
         return handleResponse(loginResponse)
     }
@@ -313,6 +320,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
 
     override suspend fun handleAddNewCategoryResponse(): LiveData<Resource<MiniResponse>?> {
         return handleResponse(addNewCategoryResponse)
+    }
+
+    override suspend fun handleGetCategoryDetailsResponse(): LiveData<Resource<CategoryDetails>?> {
+        return handleResponse(getCategoryDetailsResponse)
     }
 
 

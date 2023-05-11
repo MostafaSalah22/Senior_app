@@ -1,5 +1,6 @@
 package com.project.senior.schedule.recyclerview
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
@@ -8,9 +9,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.project.domain.model.ScheduleData
+import com.project.senior.R
 import com.project.senior.databinding.ScheduleItemBinding
+import kotlin.coroutines.coroutineContext
 
-class ScheduleAdapter :
+class ScheduleAdapter(private val context: Context) :
     ListAdapter<ScheduleData, ScheduleAdapter.ScheduleViewHolder>(ScheduleDiffCallback()) {
 
     var onCancelClick: ((ScheduleData) -> Unit)? = null
@@ -42,7 +45,7 @@ class ScheduleAdapter :
         }
         else holder.time.text = item.time
         if(item.description == null){
-            holder.description.text = "No Description"
+            holder.description.text = context.getString(R.string.no_description)
         }
         else holder.description.text = item.description.toString()
 

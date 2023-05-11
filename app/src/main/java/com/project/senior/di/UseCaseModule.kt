@@ -114,4 +114,9 @@ object UseCaseModule {
     fun provideAddNewCategoryUseCase(mainRepoInterface: MainRepoInterface): AddNewCategoryUseCase{
         return AddNewCategoryUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideGetCategoryDetailsUseCase(mainRepoInterface: MainRepoInterface): GetCategoryDetailsUseCase{
+        return GetCategoryDetailsUseCase(mainRepoInterface)
+    }
 }
