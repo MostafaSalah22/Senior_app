@@ -105,6 +105,10 @@ class InformationDetailsFragment : Fragment() {
         detailsAdapter.onEditClick = {categoryDetailsData ->
             titleAndDescriptionDialog(requireContext(), categoryDetailsData.id, 1)
         }
+
+        binding.fabAddInformationDetails.setOnClickListener {
+            titleAndDescriptionDialog(requireContext(), categoryId!!, 2)
+        }
     }
 
     private fun backToCategoriesFragment() {
@@ -200,10 +204,10 @@ class InformationDetailsFragment : Fragment() {
 
         val saveBtn = dialogBinding.findViewById<Button>(R.id.btn_edit_category_details)
         saveBtn.setOnClickListener {
-            if(title.text.toString().trim() == "" && description.text.toString().trim() == "") {
-                title.error = "Enter any data"
+            if(title.text.toString().trim() == "" || description.text.toString().trim() == "") {
+                title.error = getString(R.string.enter_all_data)
                 title.requestFocus()
-                description.error = "Enter any data"
+                description.error = getString(R.string.enter_all_data)
                 description.requestFocus()
             }
             else {
@@ -231,25 +235,28 @@ class InformationDetailsFragment : Fragment() {
                         })
                 }
                 else{
-                    /*lifecycleScope.launchWhenCreated {
-                        viewModel.addNewCategory(
+                    lifecycleScope.launchWhenCreated {
+                        viewModel.addNewCategoryDetails(
                             requiredId,
-                            title.text.toString().trim()
+                            userId!!,
+                            title.text.toString().trim(),
+                            description.text.toString().trim()
                         )
                     }
-                    viewModel.addNewCategoryResponseState.observe(
+                    viewModel.addNewCategoryDetailsResponseState.observe(
                         viewLifecycleOwner,
                         Observer { state ->
                             when (state) {
-                                is Resource.Success -> getCategoriesAndSuccessState()
+                                is Resource.Success -> getCategoryDetailsAndSuccessState()
                                 is Resource.Loading -> dismissDialogAndLoadingState(myDialog)
                                 is Resource.Error -> addErrorState(
                                     requiredId,
-                                    title.text.toString().trim()
+                                    title.text.toString().trim(),
+                                    description.text.toString().trim()
                                 )
-                                else -> addErrorState(requiredId, title.text.toString().trim())
+                                else -> addErrorState(requiredId, title.text.toString().trim(), description.text.toString().trim())
                             }
-                        })*/
+                        })
                 }
             }
         }
@@ -279,6 +286,12 @@ class InformationDetailsFragment : Fragment() {
         Log.i("testt1", "editErrorState: ")
         lifecycleScope.launchWhenCreated {
             viewModel.editCategoryDetails(categoryDetailsId, title, description)
+        }
+    }
+
+    private fun addErrorState(categoryId: Int, title:String, description: String) {
+        lifecycleScope.launchWhenCreated {
+            viewModel.addNewCategoryDetails(categoryId, userId!!, title, description)
         }
     }
 }

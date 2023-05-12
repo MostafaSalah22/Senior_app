@@ -197,7 +197,7 @@ class SeniorInformationFragment : Fragment() {
         val saveBtn = dialogBinding.findViewById<Button>(R.id.btn_edit_category_title)
         saveBtn.setOnClickListener {
             if(title.text.toString().trim() == "") {
-                title.error = "Enter Title"
+                title.error = getString(R.string.enter_title)
                 title.requestFocus()
             }
             else {

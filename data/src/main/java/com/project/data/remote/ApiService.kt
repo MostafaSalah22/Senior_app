@@ -140,4 +140,11 @@ interface ApiService {
                                         @Query("history_id") categoryDetailsId: Int,
                                         @Query("title") title: String,
                                         @Query("description") description: String): Response<MiniResponse>
+
+    @POST("care-takers/history/create")
+    suspend fun addNewCategoryDetails(@Query("token") token: String,
+                                            @Query("history_category_id") categoryId: Int,
+                                            @Query("user_id") userId: Int,
+                                            @Query("title") title: String,
+                                            @Query("description") description: String): Response<MiniResponse>
 }

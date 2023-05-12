@@ -8,6 +8,7 @@ import com.project.domain.model.CategoryDetails
 import com.project.domain.model.CategoryDetailsData
 import com.project.domain.model.MiniResponse
 import com.project.domain.repo.Resource
+import com.project.domain.usecase.AddNewCategoryDetailsUseCase
 import com.project.domain.usecase.DeleteCategoryDetailsUseCase
 import com.project.domain.usecase.EditCategoryDetailsUseCase
 import com.project.domain.usecase.GetCategoryDetailsUseCase
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class InformationDetailsViewModel @Inject constructor(
     private val getCategoryDetailsUseCase: GetCategoryDetailsUseCase,
     private val deleteCategoryDetailsUseCase: DeleteCategoryDetailsUseCase,
-    private val editCategoryDetailsUseCase: EditCategoryDetailsUseCase
+    private val editCategoryDetailsUseCase: EditCategoryDetailsUseCase,
+    private val addNewCategoryDetailsUseCase: AddNewCategoryDetailsUseCase
 ): ViewModel() {
     private val _getCategoryDetailsResponseState: MutableLiveData<Resource<CategoryDetails>?> = MutableLiveData()
     val getCategoryDetailsResponseState: LiveData<Resource<CategoryDetails>?>
@@ -35,6 +37,10 @@ class InformationDetailsViewModel @Inject constructor(
     private val _editCategoryDetailsResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
     val editCategoryDetailsResponseState: LiveData<Resource<MiniResponse>?>
     get() = _editCategoryDetailsResponseState
+
+    private val _addNewCategoryDetailsResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
+    val addNewCategoryDetailsResponseState: LiveData<Resource<MiniResponse>?>
+    get() = _addNewCategoryDetailsResponseState
 
     suspend fun getCategoryDetails(categoryId: Int){
         try {
@@ -67,6 +73,17 @@ class InformationDetailsViewModel @Inject constructor(
         } catch (e: Exception){
             Log.e("InformationDetailsViewModel",e.message.toString())
             _editCategoryDetailsResponseState.value = Resource.Error(e.message.toString())
+        }
+    }
+
+    suspend fun addNewCategoryDetails(categoryId: Int, userId: Int, title: String, description: String){
+        try {
+            _addNewCategoryDetailsResponseState.value = Resource.Loading()
+            addNewCategoryDetailsUseCase(categoryId, userId, title, description)
+            _addNewCategoryDetailsResponseState.value = addNewCategoryDetailsUseCase.handleResponse().value
+        } catch (e: Exception){
+            Log.e("InformationDetailsViewModel",e.message.toString())
+            _addNewCategoryDetailsResponseState.value = Resource.Error(e.message.toString())
         }
     }
 }
