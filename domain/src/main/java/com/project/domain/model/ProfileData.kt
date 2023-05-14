@@ -1,6 +1,6 @@
 package com.project.domain.model
 
-data class DataX(
+data class ProfileData(
     val birthdate: String? = null,
     val email: String,
     val id: Int,

@@ -125,7 +125,7 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     }
 
     override suspend fun getProfileDataFromDataStore(): ProfileUser {
-        return ProfileUser(data = DataX(id = dataStoreRepoInterface.readFromDataStore("id")?.toInt()!!,
+        return ProfileUser(data = ProfileData(id = dataStoreRepoInterface.readFromDataStore("id")?.toInt()!!,
                                         username = dataStoreRepoInterface.readFromDataStore("username")!!,
                                         name = dataStoreRepoInterface.readFromDataStore("name")!!,
                                         phone = dataStoreRepoInterface.readFromDataStore("phone")!!,
