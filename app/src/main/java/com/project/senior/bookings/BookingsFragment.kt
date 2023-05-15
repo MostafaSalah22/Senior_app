@@ -124,7 +124,7 @@ class BookingsFragment : Fragment() {
         val title = SpannableString(getString(R.string.delete))
         title.setSpan(ForegroundColorSpan(Color.RED), 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         builder.setTitle(title)
-        builder.setMessage("Are you sure to delete this booking?")
+        builder.setMessage(getString(R.string.bookings_alert_dialog))
         builder.setPositiveButton(getString(R.string.yes)) { dialog, which ->
             dialog.dismiss()
             lifecycleScope.launchWhenCreated {

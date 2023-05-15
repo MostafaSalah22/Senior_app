@@ -54,4 +54,5 @@
     <string name="enter_all_data">Enter all data</string>
     <string name="bookings">Bookings</string>
     <string name="you_do_not_have_bookings">You do not have bookings.</string>
+    <string name="bookings_alert_dialog">Are you sure to delete this booking?</string>
 </resources>
