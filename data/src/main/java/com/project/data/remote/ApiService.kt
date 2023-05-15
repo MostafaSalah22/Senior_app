@@ -150,4 +150,8 @@ interface ApiService {
 
     @GET("doctors/bookings")
     suspend fun getBookingsData(@Query("token") token: String): Response<BookingsData>
+
+    @POST("doctors/bookings/cancel")
+    suspend fun cancelBooking(@Query("token") token: String,
+                                @Query("booking_id") bookingId: Int): Response<MiniResponse>
 }

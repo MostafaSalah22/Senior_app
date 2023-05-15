@@ -34,6 +34,7 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     private lateinit var editCategoryDetailsResponse: Response<MiniResponse>
     private lateinit var addNewCategoryDetailsResponse: Response<MiniResponse>
     private lateinit var getBookingsDataResponse: Response<BookingsData>
+    private lateinit var cancelBookingResponse: Response<MiniResponse>
 
     //private val TOKEN = dataStoreRepoInterface.readFromDataStore("token").toString()
     //private val TYPE = dataStoreRepoInterface.readFromDataStore("type")
@@ -289,6 +290,12 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         return getBookingsDataResponse.body()?.data
     }
 
+    override suspend fun cancelBooking(bookingId: Int): MiniResponse {
+        cancelBookingResponse = apiService.cancelBooking(dataStoreRepoInterface.readFromDataStore("token").toString(), bookingId)
+
+        return cancelBookingResponse.body()!!
+    }
+
     override suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?> {
         return handleResponse(loginResponse)
     }
@@ -380,6 +387,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
 
     override suspend fun handleGetBookingsDataResponse(): LiveData<Resource<BookingsData>?> {
         return handleResponse(getBookingsDataResponse)
+    }
+
+    override suspend fun handleCancelBookingResponse(): LiveData<Resource<MiniResponse>?> {
+        return handleResponse(cancelBookingResponse)
     }
 
 

@@ -40,6 +40,7 @@ interface MainRepoInterface {
     suspend fun editCategoryDetails(categoryDetailsId: Int, title: String, description: String): MiniResponse
     suspend fun addNewCategoryDetails(categoryId: Int, userId: Int, title: String, description: String): MiniResponse
     suspend fun getBookingsData(): ArrayList<BookingsDetails>?
+    suspend fun cancelBooking(bookingId: Int): MiniResponse
     suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?>
     suspend fun handleRegisterResponse(): LiveData<Resource<AppUser>?>
     suspend fun handleProfileResponse(): LiveData<Resource<ProfileUser>?>
@@ -63,5 +64,6 @@ interface MainRepoInterface {
     suspend fun handleEditCategoryDetailsResponse(): LiveData<Resource<MiniResponse>?>
     suspend fun handleAddNewCategoryDetailsResponse(): LiveData<Resource<MiniResponse>?>
     suspend fun handleGetBookingsDataResponse(): LiveData<Resource<BookingsData>?>
+    suspend fun handleCancelBookingResponse(): LiveData<Resource<MiniResponse>?>
 
 }
