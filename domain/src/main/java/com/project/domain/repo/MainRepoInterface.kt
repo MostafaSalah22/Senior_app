@@ -41,29 +41,6 @@ interface MainRepoInterface {
     suspend fun addNewCategoryDetails(categoryId: Int, userId: Int, title: String, description: String): MiniResponse
     suspend fun getBookingsData(): ArrayList<BookingsDetails>?
     suspend fun cancelBooking(bookingId: Int): MiniResponse
-    suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?>
-    suspend fun handleRegisterResponse(): LiveData<Resource<AppUser>?>
-    suspend fun handleProfileResponse(): LiveData<Resource<ProfileUser>?>
-    suspend fun handleUpdateProfileDataResponse(): LiveData<Resource<ProfileUser>?>
-    suspend fun handleChangePasswordResponse(): LiveData<Resource<MiniResponse>?>
-    suspend fun handleChangeImageResponse(): LiveData<Resource<MiniResponse>?>
-    suspend fun handleGetMySeniorsResponse(): LiveData<Resource<MySeniorsResponse>?>
-    suspend fun handleAddNewSeniorResponse(): LiveData<Resource<MiniResponse>?>
-    suspend fun handleDeleteSeniorResponse(): LiveData<Resource<MiniResponse>?>
-    suspend fun handleGetSchedulesResponse(): LiveData<Resource<SeniorSchedules>?>
-    suspend fun handleCancelScheduleResponse(): LiveData<Resource<MiniResponse>?>
-    suspend fun handleAddNewScheduleResponse(): LiveData<Resource<MiniResponse>?>
-    suspend fun handleSendNotificationResponse(): LiveData<Resource<MiniResponse>?>
-    suspend fun handleGetSeniorProfileResponse(): LiveData<Resource<SeniorProfile>?>
-    suspend fun handleGetInformationCategoriesResponse(): LiveData<Resource<InformationCategories>?>
-    suspend fun handleDeleteInformationCategoryResponse(): LiveData<Resource<MiniResponse>?>
-    suspend fun handleEditInformationCategoryTitleResponse(): LiveData<Resource<MiniResponse>?>
-    suspend fun handleAddNewCategoryResponse(): LiveData<Resource<MiniResponse>?>
-    suspend fun handleGetCategoryDetailsResponse(): LiveData<Resource<CategoryDetails>?>
-    suspend fun handleDeleteCategoryDetailsResponse(): LiveData<Resource<MiniResponse>?>
-    suspend fun handleEditCategoryDetailsResponse(): LiveData<Resource<MiniResponse>?>
-    suspend fun handleAddNewCategoryDetailsResponse(): LiveData<Resource<MiniResponse>?>
-    suspend fun handleGetBookingsDataResponse(): LiveData<Resource<BookingsData>?>
-    suspend fun handleCancelBookingResponse(): LiveData<Resource<MiniResponse>?>
+    suspend fun <T:Any> handleResponse(): LiveData<Resource<T>>
 
 }

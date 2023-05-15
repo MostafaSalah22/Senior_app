@@ -11,33 +11,8 @@ import retrofit2.Response
 
 class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepoInterface: DataStoreRepoInterface): MainRepoInterface {
 
-    private lateinit var loginResponse: Response<AppUser>
-    private lateinit var registerResponse: Response<AppUser>
-    private lateinit var profileResponse: Response<ProfileUser>
-    private lateinit var updateProfileDataResponse: Response<ProfileUser>
-    private lateinit var changePasswordResponse: Response<MiniResponse>
-    private lateinit var changeImageResponse: Response<MiniResponse>
-    private lateinit var mySeniorsResponse: Response<MySeniorsResponse>
-    private lateinit var addNewSeniorResponse: Response<MiniResponse>
-    private lateinit var deleteSeniorResponse: Response<MiniResponse>
-    private lateinit var seniorSchedulesResponse: Response<SeniorSchedules>
-    private lateinit var cancelScheduleResponse: Response<MiniResponse>
-    private lateinit var addNewScheduleResponse: Response<MiniResponse>
-    private lateinit var sendNotificationResponse: Response<MiniResponse>
-    private lateinit var getSeniorProfileResponse: Response<SeniorProfile>
-    private lateinit var getInformationCategoriesResponse: Response<InformationCategories>
-    private lateinit var deleteInformationCategoryResponse: Response<MiniResponse>
-    private lateinit var editInformationCategoryTitleResponse: Response<MiniResponse>
-    private lateinit var addNewCategoryResponse: Response<MiniResponse>
-    private lateinit var getCategoryDetailsResponse: Response<CategoryDetails>
-    private lateinit var deleteCategoryDetailsResponse: Response<MiniResponse>
-    private lateinit var editCategoryDetailsResponse: Response<MiniResponse>
-    private lateinit var addNewCategoryDetailsResponse: Response<MiniResponse>
-    private lateinit var getBookingsDataResponse: Response<BookingsData>
-    private lateinit var cancelBookingResponse: Response<MiniResponse>
+    private lateinit var response: Response<*>
 
-    //private val TOKEN = dataStoreRepoInterface.readFromDataStore("token").toString()
-    //private val TYPE = dataStoreRepoInterface.readFromDataStore("type")
     override suspend fun setUserType(type: String) {
         dataStoreRepoInterface.saveToDataStore("type", type)
     }
@@ -47,38 +22,38 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     }
 
     override suspend fun postLoginUser(username: String, password: String): AppUser {
-        loginResponse = if(dataStoreRepoInterface.readFromDataStore("type") == "user")
+        response = if(dataStoreRepoInterface.readFromDataStore("type") == "user")
             apiService.postLoginUser(username, password)
         else
             apiService.postLoginDoctor(username, password)
 
-        dataStoreRepoInterface.saveToDataStore("token", loginResponse.body()?.data?.token.toString())
+        dataStoreRepoInterface.saveToDataStore("token", (response.body() as AppUser).data?.token.toString())
 
         dataStoreRepoInterface.saveToDataStore("id",
-            loginResponse.body()?.data?.user?.id.toString()
+            (response.body() as AppUser).data?.user?.id.toString()
         )
 
         dataStoreRepoInterface.saveToDataStore("username",
-            loginResponse.body()?.data?.user?.username.toString()
+            (response.body() as AppUser).data?.user?.username.toString()
         )
 
         dataStoreRepoInterface.saveToDataStore("name",
-            loginResponse.body()?.data?.user?.name.toString()
+            (response.body() as AppUser).data?.user?.name.toString()
         )
 
         dataStoreRepoInterface.saveToDataStore("phone",
-            loginResponse.body()?.data?.user?.phone.toString()
+            (response.body() as AppUser).data?.user?.phone.toString()
         )
 
         dataStoreRepoInterface.saveToDataStore("email",
-            loginResponse.body()?.data?.user?.email.toString()
+            (response.body() as AppUser).data?.user?.email.toString()
         )
 
         dataStoreRepoInterface.saveToDataStore("image",
-            loginResponse.body()?.data?.user?.image.toString()
+            (response.body() as AppUser).data?.user?.image.toString()
         )
 
-        return returnTrueResponse(loginResponse)
+        return returnTrueResponse(response as Response<AppUser>)
     }
 
     override suspend fun isEmailLoggedIn(): Boolean {
@@ -93,36 +68,36 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         phone: String,
         email: String
     ): AppUser {
-        registerResponse = if (dataStoreRepoInterface.readFromDataStore("type")  == "user")
+        response = if (dataStoreRepoInterface.readFromDataStore("type")  == "user")
                                 apiService.postRegisterUser(username, name, password, confirm_password, phone, email)
                            else
                                 apiService.postRegisterUserDoctor(username, name, password, confirm_password, phone, email)
-        return returnTrueResponse(registerResponse)
+        return returnTrueResponse(response as Response<AppUser>)
     }
 
     override suspend fun getProfileDataFromRemoteAndUpdateDataStore() {
-        profileResponse = if (dataStoreRepoInterface.readFromDataStore("type") == "user")
+        response = if (dataStoreRepoInterface.readFromDataStore("type") == "user")
                             apiService.getProfileData(dataStoreRepoInterface.readFromDataStore("token").toString())
                           else
                             apiService.getProfileDataDoctor(dataStoreRepoInterface.readFromDataStore("token").toString())
         dataStoreRepoInterface.saveToDataStore("username",
-            profileResponse.body()?.data?.username.toString()
+            (response.body() as ProfileUser).data.username
         )
 
         dataStoreRepoInterface.saveToDataStore("name",
-            profileResponse.body()?.data?.name.toString()
+            (response.body() as ProfileUser).data.name
         )
 
         dataStoreRepoInterface.saveToDataStore("phone",
-            profileResponse.body()?.data?.phone.toString()
+            (response.body() as ProfileUser).data.phone
         )
 
         dataStoreRepoInterface.saveToDataStore("email",
-            profileResponse.body()?.data?.email.toString()
+            (response.body() as ProfileUser).data.email
         )
 
         dataStoreRepoInterface.saveToDataStore("image",
-            profileResponse.body()?.data?.image.toString()
+            (response.body() as ProfileUser).data.image
         )
     }
 
@@ -147,7 +122,7 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         phone: String,
         email: String
     ) {
-        updateProfileDataResponse = if (dataStoreRepoInterface.readFromDataStore("type") == "user")
+        response = if (dataStoreRepoInterface.readFromDataStore("type") == "user")
                                         apiService.updateProfileData(dataStoreRepoInterface.readFromDataStore("token").toString(), name, username, phone, email)
                                     else
                                         apiService.updateProfileDataDoctor(dataStoreRepoInterface.readFromDataStore("token").toString(), name, username, phone, email)
@@ -155,48 +130,48 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
 
 
     override suspend fun changeProfilePassword(oldPassword:String, newPassword:String, confirmPassword:String): MiniResponse {
-        changePasswordResponse = if (dataStoreRepoInterface.readFromDataStore("type") == "user")
+        response = if (dataStoreRepoInterface.readFromDataStore("type") == "user")
                                     apiService.changeProfilePassword(dataStoreRepoInterface.readFromDataStore("token").toString(), oldPassword, newPassword, confirmPassword)
                                  else
                                     apiService.changeProfilePasswordDoctor(dataStoreRepoInterface.readFromDataStore("token").toString(), oldPassword, newPassword, confirmPassword)
 
-        return returnChangeTrueResponse(changePasswordResponse)
+        return returnChangeTrueResponse(response as Response<MiniResponse>)
     }
 
     override suspend fun changeProfileImage(file: MultipartBody.Part): MiniResponse {
         val token = dataStoreRepoInterface.readFromDataStore("token").toString()
-        changeImageResponse = if (dataStoreRepoInterface.readFromDataStore("type") == "user")
+        response = if (dataStoreRepoInterface.readFromDataStore("type") == "user")
                                 apiService.changeProfileImage(token, file)
                               else
                                 apiService.changeProfileImageDoctor(token, file)
-        return returnChangeTrueResponse(changeImageResponse)
+        return returnChangeTrueResponse(response as Response<MiniResponse>)
     }
 
     override suspend fun getMySeniorsFromRemote(): MySeniorsResponse {
-        mySeniorsResponse = apiService.getMySeniors(dataStoreRepoInterface.readFromDataStore("token").toString())
-        return mySeniorsResponse.body()!!
+        response = apiService.getMySeniors(dataStoreRepoInterface.readFromDataStore("token").toString())
+        return response.body() as MySeniorsResponse
     }
 
     override suspend fun addNewSenior(username: String): MiniResponse {
-        addNewSeniorResponse = apiService.addNewSenior(dataStoreRepoInterface.readFromDataStore("token").toString(), username)
-        return returnChangeTrueResponse(addNewSeniorResponse)
+        response = apiService.addNewSenior(dataStoreRepoInterface.readFromDataStore("token").toString(), username)
+        return returnChangeTrueResponse(response as Response<MiniResponse>)
     }
 
     override suspend fun deleteSenior(userId: Int): MiniResponse {
-        deleteSeniorResponse = apiService.deleteSenior(dataStoreRepoInterface.readFromDataStore("token").toString(), userId)
-        return returnChangeTrueResponse(deleteSeniorResponse)
+        response = apiService.deleteSenior(dataStoreRepoInterface.readFromDataStore("token").toString(), userId)
+        return returnChangeTrueResponse(response as Response<MiniResponse>)
     }
 
     override suspend fun getSchedulesFromRemote(userId: Int): SeniorSchedules {
-        seniorSchedulesResponse = apiService.getSchedules(dataStoreRepoInterface.readFromDataStore("token").toString(),
+        response = apiService.getSchedules(dataStoreRepoInterface.readFromDataStore("token").toString(),
                                                             userId)
-        return seniorSchedulesResponse.body()!!
+        return response.body() as SeniorSchedules
     }
 
     override suspend fun cancelSchedule(scheduleId: Int): MiniResponse {
-        cancelScheduleResponse = apiService.cancelSchedule(dataStoreRepoInterface.readFromDataStore("token").toString(),
+        response = apiService.cancelSchedule(dataStoreRepoInterface.readFromDataStore("token").toString(),
                                                                 scheduleId)
-        return returnChangeTrueResponse(cancelScheduleResponse)
+        return returnChangeTrueResponse(response as Response<MiniResponse>)
     }
 
     override suspend fun addNewSchedule(
@@ -206,60 +181,60 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         time: String,
         description: String
     ) {
-        addNewScheduleResponse = apiService.addNewSchedule(dataStoreRepoInterface.readFromDataStore("token").toString(),
+        response = apiService.addNewSchedule(dataStoreRepoInterface.readFromDataStore("token").toString(),
                                                             userId, title, date, time, 1, description)
 
         //returnChangeTrueResponse(addNewScheduleResponse)
     }
 
     override suspend fun sendNotification(userId: Int, title: String, content: String) {
-        sendNotificationResponse = apiService.sendNotification(dataStoreRepoInterface.readFromDataStore("token").toString(), userId, title, content)
+        response = apiService.sendNotification(dataStoreRepoInterface.readFromDataStore("token").toString(), userId, title, content)
         //returnChangeTrueResponse(sendNotificationResponse)
     }
 
     override suspend fun getSeniorProfile(userId: Int): SeniorProfile {
-        getSeniorProfileResponse = apiService.getSeniorProfile(userId)
-        return getSeniorProfileResponse.body()!!
+        response = apiService.getSeniorProfile(userId)
+        return response.body() as SeniorProfile
     }
 
     override suspend fun getInformationCategories(userId: Int): ArrayList<CategoryData>? {
-        getInformationCategoriesResponse = apiService.getInformationCategories(dataStoreRepoInterface.readFromDataStore("token").toString(),
+        response = apiService.getInformationCategories(dataStoreRepoInterface.readFromDataStore("token").toString(),
                                                                                     userId)
-        return getInformationCategoriesResponse.body()?.data
+        return (response.body() as InformationCategories).data
     }
 
     override suspend fun deleteInformationCategory(categoryId: Int): MiniResponse {
-        deleteInformationCategoryResponse = apiService.deleteInformationCategory(dataStoreRepoInterface.readFromDataStore("token").toString(),
+        response = apiService.deleteInformationCategory(dataStoreRepoInterface.readFromDataStore("token").toString(),
                                                                                     categoryId)
-        return deleteInformationCategoryResponse.body()!!
+        return response.body() as MiniResponse
     }
 
     override suspend fun editInformationCategoryTitle(
         categoryId: Int,
         title: String
     ): MiniResponse {
-        editInformationCategoryTitleResponse = apiService.editInformationCategoryTitle(dataStoreRepoInterface.readFromDataStore("token").toString(),
+        response = apiService.editInformationCategoryTitle(dataStoreRepoInterface.readFromDataStore("token").toString(),
                                                                                             categoryId, title)
-        return editInformationCategoryTitleResponse.body()!!
+        return response.body() as MiniResponse
     }
 
     override suspend fun addNewCategory(userId: Int, title: String): MiniResponse {
-        addNewCategoryResponse = apiService.addNewCategory(dataStoreRepoInterface.readFromDataStore("token").toString(),
+        response = apiService.addNewCategory(dataStoreRepoInterface.readFromDataStore("token").toString(),
                                                                 userId, title)
-        return addNewCategoryResponse.body()!!
+        return response.body() as MiniResponse
     }
 
     override suspend fun getCategoryDetails(categoryId: Int): ArrayList<CategoryDetailsData>? {
-        getCategoryDetailsResponse = apiService.getCategoryDetails(dataStoreRepoInterface.readFromDataStore("token").toString(),
+        response = apiService.getCategoryDetails(dataStoreRepoInterface.readFromDataStore("token").toString(),
                                                                         categoryId)
-        return getCategoryDetailsResponse.body()?.data
+        return (response.body() as CategoryDetails).data
     }
 
     override suspend fun deleteCategoryDetails(categoryDetailsId: Int): MiniResponse {
-        deleteCategoryDetailsResponse = apiService.deleteCategoryDetails(dataStoreRepoInterface.readFromDataStore("token").toString(),
+        response = apiService.deleteCategoryDetails(dataStoreRepoInterface.readFromDataStore("token").toString(),
                                                                                 categoryDetailsId)
 
-        return deleteCategoryDetailsResponse.body()!!
+        return response.body() as MiniResponse
     }
 
     override suspend fun editCategoryDetails(
@@ -267,10 +242,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         title: String,
         description: String
     ): MiniResponse {
-        editCategoryDetailsResponse = apiService.editCategoryDetails(dataStoreRepoInterface.readFromDataStore("token").toString(),
+        response = apiService.editCategoryDetails(dataStoreRepoInterface.readFromDataStore("token").toString(),
                                                                                 categoryDetailsId, title, description)
 
-        return editCategoryDetailsResponse.body()!!
+        return response.body() as MiniResponse
     }
 
     override suspend fun addNewCategoryDetails(
@@ -279,118 +254,25 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         title: String,
         description: String
     ): MiniResponse {
-        addNewCategoryDetailsResponse = apiService.addNewCategoryDetails(dataStoreRepoInterface.readFromDataStore("token").toString(),
+        response = apiService.addNewCategoryDetails(dataStoreRepoInterface.readFromDataStore("token").toString(),
                                                                             categoryId, userId, title, description)
-        return addNewCategoryDetailsResponse.body()!!
+        return response.body() as MiniResponse
     }
 
     override suspend fun getBookingsData(): ArrayList<BookingsDetails>? {
-        getBookingsDataResponse = apiService.getBookingsData(dataStoreRepoInterface.readFromDataStore("token").toString())
+        response = apiService.getBookingsData(dataStoreRepoInterface.readFromDataStore("token").toString())
 
-        return getBookingsDataResponse.body()?.data
+        return (response.body() as BookingsData).data
     }
 
     override suspend fun cancelBooking(bookingId: Int): MiniResponse {
-        cancelBookingResponse = apiService.cancelBooking(dataStoreRepoInterface.readFromDataStore("token").toString(), bookingId)
+        response = apiService.cancelBooking(dataStoreRepoInterface.readFromDataStore("token").toString(), bookingId)
 
-        return cancelBookingResponse.body()!!
+        return response.body() as MiniResponse
     }
 
-    override suspend fun handleLoginResponse(): LiveData<Resource<AppUser>?> {
-        return handleResponse(loginResponse)
-    }
-
-    override suspend fun handleRegisterResponse(): LiveData<Resource<AppUser>?> {
-        return handleResponse(registerResponse)
-    }
-
-    override suspend fun handleProfileResponse(): LiveData<Resource<ProfileUser>?> {
-        return handleResponse(profileResponse)
-    }
-
-    override suspend fun handleUpdateProfileDataResponse(): LiveData<Resource<ProfileUser>?> {
-        return handleResponse(updateProfileDataResponse)
-    }
-
-    override suspend fun handleChangePasswordResponse(): LiveData<Resource<MiniResponse>?> {
-        return handleResponse(changePasswordResponse)
-    }
-
-    override suspend fun handleChangeImageResponse(): LiveData<Resource<MiniResponse>?> {
-        return handleResponse(changeImageResponse)
-    }
-
-    override suspend fun handleGetMySeniorsResponse(): LiveData<Resource<MySeniorsResponse>?> {
-        return handleResponse(mySeniorsResponse)
-    }
-
-    override suspend fun handleAddNewSeniorResponse(): LiveData<Resource<MiniResponse>?> {
-        return handleResponse(addNewSeniorResponse)
-    }
-
-    override suspend fun handleDeleteSeniorResponse(): LiveData<Resource<MiniResponse>?> {
-        return handleResponse(deleteSeniorResponse)
-    }
-
-    override suspend fun handleGetSchedulesResponse(): LiveData<Resource<SeniorSchedules>?> {
-        return handleResponse(seniorSchedulesResponse)
-    }
-
-    override suspend fun handleCancelScheduleResponse(): LiveData<Resource<MiniResponse>?> {
-        return handleResponse(cancelScheduleResponse)
-    }
-
-    override suspend fun handleAddNewScheduleResponse(): LiveData<Resource<MiniResponse>?> {
-        return handleResponse(addNewScheduleResponse)
-    }
-
-    override suspend fun handleSendNotificationResponse(): LiveData<Resource<MiniResponse>?> {
-        return handleResponse(sendNotificationResponse)
-    }
-
-    override suspend fun handleGetSeniorProfileResponse(): LiveData<Resource<SeniorProfile>?> {
-        return handleResponse(getSeniorProfileResponse)
-    }
-
-    override suspend fun handleGetInformationCategoriesResponse(): LiveData<Resource<InformationCategories>?> {
-        return handleResponse(getInformationCategoriesResponse)
-    }
-
-    override suspend fun handleDeleteInformationCategoryResponse(): LiveData<Resource<MiniResponse>?> {
-        return handleResponse(deleteInformationCategoryResponse)
-    }
-
-    override suspend fun handleEditInformationCategoryTitleResponse(): LiveData<Resource<MiniResponse>?> {
-        return handleResponse(editInformationCategoryTitleResponse)
-    }
-
-    override suspend fun handleAddNewCategoryResponse(): LiveData<Resource<MiniResponse>?> {
-        return handleResponse(addNewCategoryResponse)
-    }
-
-    override suspend fun handleGetCategoryDetailsResponse(): LiveData<Resource<CategoryDetails>?> {
-        return handleResponse(getCategoryDetailsResponse)
-    }
-
-    override suspend fun handleDeleteCategoryDetailsResponse(): LiveData<Resource<MiniResponse>?> {
-        return handleResponse(deleteCategoryDetailsResponse)
-    }
-
-    override suspend fun handleEditCategoryDetailsResponse(): LiveData<Resource<MiniResponse>?> {
-
-        return handleResponse(editCategoryDetailsResponse)
-    }
-
-    override suspend fun handleAddNewCategoryDetailsResponse(): LiveData<Resource<MiniResponse>?> {
-        return handleResponse(addNewCategoryDetailsResponse)
-    }
-
-    override suspend fun handleGetBookingsDataResponse(): LiveData<Resource<BookingsData>?> {
-        return handleResponse(getBookingsDataResponse)
-    }
-
-    override suspend fun handleCancelBookingResponse(): LiveData<Resource<MiniResponse>?> {
-        return handleResponse(cancelBookingResponse)
+    override suspend fun <T : Any> handleResponse(): LiveData<Resource<T>> {
+        return handleResponse(response) as LiveData<Resource<T>>
     }
 
 

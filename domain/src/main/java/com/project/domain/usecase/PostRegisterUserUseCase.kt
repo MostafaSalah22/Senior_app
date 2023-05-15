@@ -1,5 +1,6 @@
 package com.project.domain.usecase
 
+import com.project.domain.model.AppUser
 import com.project.domain.repo.MainRepoInterface
 
 class PostRegisterUserUseCase(private val mainRepoInterface: MainRepoInterface) {
@@ -9,5 +10,5 @@ class PostRegisterUserUseCase(private val mainRepoInterface: MainRepoInterface) 
                                                 mainRepoInterface.postRegisterUser(username, name, password, confirm_password, phone, email)
 
 
-    suspend fun handleResponse() = mainRepoInterface.handleRegisterResponse()
+    suspend fun handleResponse() = mainRepoInterface.handleResponse<AppUser>()
 }
