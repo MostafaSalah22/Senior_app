@@ -50,4 +50,6 @@
     <string name="empty_details">قم بأضافة التفاصيل.</string>
     <string name="enter_title">ادخل العنوان</string>
     <string name="enter_all_data">ادخل كل البيانات</string>
+    <string name="bookings">الحجوزات</string>
+    <string name="you_do_not_have_bookings">ليس لديك حجوزات.</string>
 </resources>

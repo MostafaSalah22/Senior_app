@@ -53,4 +53,5 @@
     <string name="enter_title">Enter Title</string>
     <string name="enter_all_data">Enter all data</string>
     <string name="bookings">Bookings</string>
+    <string name="you_do_not_have_bookings">You do not have bookings.</string>
 </resources>

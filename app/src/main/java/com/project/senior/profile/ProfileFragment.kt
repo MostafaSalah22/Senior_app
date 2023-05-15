@@ -61,6 +61,14 @@ class ProfileFragment : Fragment() {
             if (viewModel.getType() == "user"){
                 binding.imgSeniorsProfile.visibility = View.VISIBLE
                 binding.tvSeniorsProfile.visibility = View.VISIBLE
+                binding.imgBookingsProfile.visibility = View.GONE
+                binding.tvBookingsProfile.visibility = View.GONE
+            }
+            else if(viewModel.getType() == "doctor"){
+                binding.imgSeniorsProfile.visibility = View.GONE
+                binding.tvSeniorsProfile.visibility = View.GONE
+                binding.imgBookingsProfile.visibility = View.VISIBLE
+                binding.tvBookingsProfile.visibility = View.VISIBLE
             }
         }
         return binding.root
@@ -113,6 +121,10 @@ class ProfileFragment : Fragment() {
             showLogoutDialog()
         }
 
+        binding.imgBookingsProfile.setOnClickListener {
+            navigateToBookingsFragment()
+        }
+
     }
 
     private fun showLogoutDialog() {
@@ -148,6 +160,10 @@ class ProfileFragment : Fragment() {
 
     private fun navigateToSeniorsFragment() {
         findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToSeniorsFragment())
+    }
+
+    private fun navigateToBookingsFragment() {
+        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToBookingsFragment())
     }
 
     private fun showPasswordDialog(context: Context) {

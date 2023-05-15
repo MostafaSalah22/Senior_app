@@ -72,6 +72,9 @@
             app:destination="@id/firstFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_bookingsFragment"
+            app:destination="@id/bookingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -219,4 +222,9 @@
             app:destination="@id/informationDetailsFragment"
             app:popUpTo="@id/seniorInformationFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/bookingsFragment"
+        android:name="com.project.senior.bookings.BookingsFragment"
+        android:label="fragment_bookings"
+        tools:layout="@layout/fragment_bookings" />
 </navigation>

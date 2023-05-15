@@ -161,6 +161,7 @@
             android:id="@+id/tv_seniors_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/fredoka_one"
             android:text="@string/seniors"
             android:textColor="#FFFFFF"
             android:textSize="8sp"
@@ -169,6 +170,33 @@
             app:layout_constraintEnd_toEndOf="@+id/img_seniors_profile"
             app:layout_constraintStart_toStartOf="@+id/img_seniors_profile"
             app:layout_constraintTop_toBottomOf="@+id/img_seniors_profile" />
+
+        <ImageView
+            android:id="@+id/img_bookings_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/doc_bookings"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_bookings_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:fontFamily="@font/fredoka_one"
+            android:text="@string/bookings"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/img_bookings_profile"
+            app:layout_constraintStart_toStartOf="@+id/img_bookings_profile"
+            app:layout_constraintTop_toBottomOf="@+id/img_bookings_profile" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
