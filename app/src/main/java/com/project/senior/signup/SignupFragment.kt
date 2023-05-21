@@ -13,6 +13,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.project.domain.model.AppUser
 import com.project.domain.repo.Resource
 import com.project.senior.MainActivity
 import com.project.senior.R
@@ -20,12 +23,14 @@ import com.project.senior.databinding.FragmentSignupBinding
 import com.project.senior.login.LoginViewModel
 import com.project.senior.utils.showPassword
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class SignupFragment : Fragment() {
 
     private lateinit var binding: FragmentSignupBinding
     private val viewModel: SignupViewModel by viewModels()
+    private lateinit var databaseRef: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,6 +96,12 @@ class SignupFragment : Fragment() {
     }
 
     private fun successState() {
+        viewModel.signupUser.observe(viewLifecycleOwner, Observer { user ->
+            runBlocking {
+                addUserToRealtimeDataBase(user)
+            }
+
+        })
         backToLoginFragment()
         Snackbar.make(requireView(),"Email accepted.", Snackbar.LENGTH_LONG).show()
     }
@@ -107,5 +118,10 @@ class SignupFragment : Fragment() {
             if(userResponse.status == "E03" || userResponse.status == "E00") binding.tvErrorSignup.text = userResponse.message
             else postRegisterUser()
         })
+    }
+
+    private fun addUserToRealtimeDataBase(user: AppUser) {
+        databaseRef = FirebaseDatabase.getInstance().reference
+        databaseRef.child("user").child(user.data?.user?.id.toString()).setValue(user)
     }
 }

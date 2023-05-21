@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.*
+import com.project.domain.model.AppUser
 import com.project.senior.R
 import com.project.senior.chat.recyclerview.ChatAdapter
 import com.project.senior.chat.recyclerview.ChatModel
@@ -20,7 +22,8 @@ class ChatFragment : Fragment() {
 
     private lateinit var binding: FragmentChatBinding
     private lateinit var chatAdapter: ChatAdapter
-    private val arr:ArrayList<ChatModel> = ArrayList()
+    private val usersList:ArrayList<ChatModel> = ArrayList()
+    private lateinit var databaseRef: DatabaseReference
 
 
     override fun onCreateView(
@@ -29,29 +32,38 @@ class ChatFragment : Fragment() {
     ): View? {
         binding =
             FragmentChatBinding.inflate(inflater , container , false)
+
+        databaseRef = FirebaseDatabase.getInstance().reference
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        arr.add(ChatModel(0,"Abdullah","hello, how are you?"))
-        arr.add(ChatModel(1,"Ahmed","hello, how are you?"))
-        arr.add(ChatModel(2,"khairy","hello, how are you?"))
-        arr.add(ChatModel(3,"Mostafa","hello, how are you?"))
-        arr.add(ChatModel(4,"Mohamed","hello, how are you?"))
-        arr.add(ChatModel(5,"Adb Elrahman","hello, how are you?"))
-        arr.add(ChatModel(6,"Ali","hello, how are you?"))
-        arr.add(ChatModel(7,"Salah","hello, how are you?"))
-        arr.add(ChatModel(8,"Mahmoud","hello, how are you?"))
-        arr.add(ChatModel(9,"Yasser","hello, how are you?"))
-
         val layoutManger = LinearLayoutManager(context)
         binding.rvChat.layoutManager = layoutManger
         chatAdapter = ChatAdapter()
         binding.rvChat.adapter = chatAdapter
-        chatAdapter.submitList(arr)
+
+        databaseRef.child("user").child("55").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    val item = dataSnapshot.getValue(AppUser::class.java)
+                    usersList.add(ChatModel(item?.data?.user?.id!!, item?.data?.user?.name!!, item?.data?.user?.username!!,
+                                                    item?.data?.user?.image!!, "Hello"))
+                    chatAdapter.submitList(usersList)
+                    // Handle the retrieved item here
+                } else {
+                    // Item with the specified ID does not exist
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle any errors that occur during the retrieval
+            }
+        })
+
+        //chatAdapter.submitList(arr)
 
         clickListener()
 
@@ -70,8 +82,5 @@ class ChatFragment : Fragment() {
     private fun navigateToProfileFragment() {
         findNavController().navigate(ChatFragmentDirections.actionChatFragmentToProfileFragment())
     }
-
-    private fun navigateToNotificationFragment() {
-        findNavController().navigate(ChatFragmentDirections.actionChatFragmentToNotificationFragment())
-    }
+    
 }

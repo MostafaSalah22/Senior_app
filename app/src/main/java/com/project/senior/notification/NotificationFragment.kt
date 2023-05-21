@@ -58,9 +58,9 @@ class NotificationFragment : Fragment() {
             backToChatFragment()
         }
 
-        binding.includeNotification.imgProfileNotification.setOnClickListener {
+        /*binding.includeNotification.imgProfileNotification.setOnClickListener {
             navigateToProfileFragment()
-        }
+        }*/
 
         binding.includeNotification.tvContactsNotification.setOnClickListener {
             backToChatFragment()
@@ -71,8 +71,8 @@ class NotificationFragment : Fragment() {
         findNavController().popBackStack()
     }
 
-    private fun navigateToProfileFragment() {
+    /*private fun navigateToProfileFragment() {
         findNavController().navigate(NotificationFragmentDirections.actionNotificationFragmentToProfileFragment())
-    }
+    }*/
 
 }

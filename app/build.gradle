@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
     id "dagger.hilt.android.plugin"
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -47,6 +48,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.gms:play-services-cast-framework:21.0.1'
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
@@ -76,6 +78,10 @@ dependencies {
 
     //datastore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     implementation project(path: ':domain')
     implementation project(path: ':data')

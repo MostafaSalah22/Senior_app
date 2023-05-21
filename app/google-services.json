@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "13155304073",
+    "project_id": "senior-chat-73113",
+    "storage_bucket": "senior-chat-73113.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13155304073:android:1c495f16584707e0b0fc58",
+        "android_client_info": {
+          "package_name": "com.project.senior"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13155304073-nnm8mf34sjg17ga6c78b9njoiasalurv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmq2XhysZWegK8l6DTucVbzMPSR02B8uY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13155304073-nnm8mf34sjg17ga6c78b9njoiasalurv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

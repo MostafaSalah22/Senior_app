@@ -19,7 +19,7 @@ class ChatAdapter : ListAdapter<ChatModel, ChatAdapter.ChatViewHolder>(ChatDiffC
     class ChatViewHolder(private val binding: ChatUserItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-            val username:TextView = binding.tvUsernameChatItem
+            val name:TextView = binding.tvNameChatItem
             val lastMessage:TextView = binding.tvLastMessageChatItem
             val userImg:ImageView = binding.imgUserChatItem
     }
@@ -36,7 +36,7 @@ class ChatAdapter : ListAdapter<ChatModel, ChatAdapter.ChatViewHolder>(ChatDiffC
 
     override fun onBindViewHolder(holder: ChatAdapter.ChatViewHolder, position: Int) {
         val item = getItem(position)
-        holder.username.text = item.username
+        holder.name.text = item.name
         holder.lastMessage.text = item.lastMessage
         //holder.userImg.setImageResource(R.drawable.me)
         holder.userImg.load(R.drawable.baseline_account_circle_24){
