@@ -17,6 +17,11 @@ object UseCaseModule {
     }
 
     @Provides
+    fun provideGetUserIdFromDataStoreUseCase(mainRepoInterface: MainRepoInterface): GetUserIdFromDataStoreUseCase{
+        return GetUserIdFromDataStoreUseCase(mainRepoInterface)
+    }
+
+    @Provides
     fun provideLoginUseCase(mainRepoInterface: MainRepoInterface): PostLoginUserUseCase{
         return PostLoginUserUseCase(mainRepoInterface)
     }

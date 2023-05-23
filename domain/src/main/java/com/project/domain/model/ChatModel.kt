@@ -1,4 +1,4 @@
-package com.project.senior.chat.recyclerview
+package com.project.domain.model
 
 data class ChatModel(
              val id:Int,

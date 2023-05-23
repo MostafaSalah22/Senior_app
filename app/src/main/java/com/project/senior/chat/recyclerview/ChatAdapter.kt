@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.project.domain.model.ChatModel
 import com.project.senior.R
 import com.project.senior.databinding.ChatUserItemBinding
 

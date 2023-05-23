@@ -21,6 +21,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         return dataStoreRepoInterface.readFromDataStore("type").toString()
     }
 
+    override suspend fun getUserId(): String {
+        return dataStoreRepoInterface.readFromDataStore("id").toString()
+    }
+
     override suspend fun postLoginUser(username: String, password: String): AppUser {
         response = if(dataStoreRepoInterface.readFromDataStore("type") == "user")
             apiService.postLoginUser(username, password)
