@@ -275,6 +275,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         return response.body() as MiniResponse
     }
 
+    override suspend fun checkCode(code: String, userId: Int) {
+        response = apiService.checkCode(dataStoreRepoInterface.readFromDataStore("token").toString(), code, userId)
+    }
+
     override suspend fun <T : Any> handleResponse(): LiveData<Resource<T>> {
         return handleResponse(response) as LiveData<Resource<T>>
     }

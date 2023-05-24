@@ -53,4 +53,7 @@
     <string name="bookings">الحجوزات</string>
     <string name="you_do_not_have_bookings">ليس لديك حجوزات.</string>
     <string name="bookings_alert_dialog">هل تريد حذف هذا الحجز؟</string>
+    <string name="enter_code">ادخل الكود</string>
+    <string name="enter_text">اكتب هنا</string>
+    <string name="check">تأكيد</string>
 </resources>

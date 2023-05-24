@@ -45,7 +45,7 @@ class ChatFragment : Fragment() {
         chatAdapter = ChatAdapter()
         binding.rvChat.adapter = chatAdapter
 
-        databaseRef.child("user").child("55").addListenerForSingleValueEvent(object : ValueEventListener {
+        databaseRef.child("user").child("57").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     val item = dataSnapshot.getValue(AppUser::class.java)

@@ -42,6 +42,7 @@ interface MainRepoInterface {
     suspend fun addNewCategoryDetails(categoryId: Int, userId: Int, title: String, description: String): MiniResponse
     suspend fun getBookingsData(): ArrayList<BookingsDetails>?
     suspend fun cancelBooking(bookingId: Int): MiniResponse
+    suspend fun checkCode(code: String, userId: Int)
     suspend fun <T:Any> handleResponse(): LiveData<Resource<T>>
 
 }

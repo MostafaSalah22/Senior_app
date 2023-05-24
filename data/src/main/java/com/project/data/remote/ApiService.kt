@@ -153,5 +153,10 @@ interface ApiService {
 
     @POST("doctors/bookings/cancel")
     suspend fun cancelBooking(@Query("token") token: String,
-                                @Query("booking_id") bookingId: Int): Response<MiniResponse>
+                              @Query("booking_id") bookingId: Int): Response<MiniResponse>
+
+    @POST("doctors/check-code")
+    suspend fun checkCode(@Query("token") token: String,
+                          @Query("code") code: String,
+                          @Query("user_id") userId: Int): Response<MiniResponse>
 }

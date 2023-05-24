@@ -149,4 +149,9 @@ object UseCaseModule {
     fun provideCancelBookingUseCase(mainRepoInterface: MainRepoInterface): CancelBookingUseCase{
         return CancelBookingUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideCheckCodeUseCase(mainRepoInterface: MainRepoInterface): CheckCodeUseCase{
+        return CheckCodeUseCase(mainRepoInterface)
+    }
 }

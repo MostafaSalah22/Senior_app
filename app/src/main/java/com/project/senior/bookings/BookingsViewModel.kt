@@ -10,6 +10,7 @@ import com.project.domain.model.InformationCategories
 import com.project.domain.model.MiniResponse
 import com.project.domain.repo.Resource
 import com.project.domain.usecase.CancelBookingUseCase
+import com.project.domain.usecase.CheckCodeUseCase
 import com.project.domain.usecase.GetBookingsDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class BookingsViewModel @Inject constructor(
     private val getBookingsDataUseCase: GetBookingsDataUseCase,
-    private val cancelBookingUseCase: CancelBookingUseCase
+    private val cancelBookingUseCase: CancelBookingUseCase,
+    private val checkCodeUseCase: CheckCodeUseCase
 ): ViewModel() {
 
     private val _getBookingsDataResponseState: MutableLiveData<Resource<BookingsData>?> = MutableLiveData()
@@ -31,6 +33,10 @@ class BookingsViewModel @Inject constructor(
     private val _cancelBookingResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
     val cancelBookingResponseState: LiveData<Resource<MiniResponse>?>
     get() = _cancelBookingResponseState
+
+    private val _checkCodeResponseState: MutableLiveData<Resource<MiniResponse>?> = MutableLiveData()
+    val checkCodeResponseState: LiveData<Resource<MiniResponse>?>
+    get() = _checkCodeResponseState
 
     suspend fun getBookingsData(){
         try {
@@ -52,6 +58,17 @@ class BookingsViewModel @Inject constructor(
         } catch (e: Exception){
             Log.e("BookingsViewModel",e.message.toString())
             _cancelBookingResponseState.value = Resource.Error(e.message.toString())
+        }
+    }
+
+    suspend fun checkCode(code: String, userId: Int){
+        try {
+            _checkCodeResponseState.value = Resource.Loading()
+            checkCodeUseCase(code, userId)
+            _checkCodeResponseState.value = checkCodeUseCase.handleResponse().value
+        } catch (e: Exception){
+            Log.e("BookingsViewModel",e.message.toString())
+            //_checkCodeResponseState.value = Resource.Error(e.message.toString())
         }
     }
 }

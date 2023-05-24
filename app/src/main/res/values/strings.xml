@@ -55,4 +55,8 @@
     <string name="bookings">Bookings</string>
     <string name="you_do_not_have_bookings">You do not have bookings.</string>
     <string name="bookings_alert_dialog">Are you sure to delete this booking?</string>
+    <string name="enter_code">Enter Code</string>
+    <string name="enter_text">Enter text</string>
+    <string name="check">Check</string>
+    <string name="medicines">Medicines</string>
 </resources>

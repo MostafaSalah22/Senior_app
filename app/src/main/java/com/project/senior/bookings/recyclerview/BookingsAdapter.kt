@@ -3,6 +3,8 @@ package com.project.senior.bookings.recyclerview
 import android.view.LayoutInflater
 import android.view.TextureView
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -14,13 +16,15 @@ class BookingsAdapter :
     ListAdapter<BookingsDetails, BookingsAdapter.BookingsViewHolder>(BookingsDiffUtilDiffCallback()) {
 
     var onCancelClick: ((BookingsDetails) -> Unit)? = null
+    var onDetailsClick: ((BookingsDetails) -> Unit)? = null
 
     class BookingsViewHolder(private val binding: BookingsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
             val name: TextView = binding.tvNameBookingsItem
             val date: TextView = binding.tvDateBookingsItem
-            val cancel: TextView = binding.btnCancelBookingsItem
+            val cancel: Button = binding.btnCancelBookingsItem
+            val details: ImageView = binding.imgDetailsBookings
 
     }
 
@@ -41,6 +45,10 @@ class BookingsAdapter :
 
         holder.cancel.setOnClickListener {
             onCancelClick?.invoke(item)
+        }
+
+        holder.details.setOnClickListener {
+            onDetailsClick?.invoke(item)
         }
     }
 
