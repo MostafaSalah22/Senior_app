@@ -246,5 +246,25 @@
         android:id="@+id/bookingDetailsFragment"
         android:name="com.project.senior.bookingDetails.BookingDetailsFragment"
         android:label="fragment_booking_details"
-        tools:layout="@layout/fragment_booking_details" />
+        tools:layout="@layout/fragment_booking_details" >
+        <argument
+            android:name="userId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_bookingDetailsFragment_to_bookingInformationFragment"
+            app:destination="@id/bookingInformationFragment"
+            app:enterAnim="@anim/anim_from_right"
+            app:exitAnim="@anim/anim_to_left"
+            app:popEnterAnim="@anim/anim_from_left"
+            app:popExitAnim="@anim/anim_to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/bookingInformationFragment"
+        android:name="com.project.senior.bookingInformation.BookingInformationFragment"
+        android:label="fragment_booking_information"
+        tools:layout="@layout/fragment_booking_information" >
+        <argument
+            android:name="userId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

@@ -192,7 +192,7 @@ class BookingsFragment : Fragment() {
 
                     viewModel.checkCodeResponseState.observe(viewLifecycleOwner, Observer { state ->
                         when (state) {
-                            is Resource.Success -> checkCodeSuccessState()
+                            is Resource.Success -> checkCodeSuccessState(userId)
                             is Resource.Loading -> checkCodeLoadingState(myDialog)
                             is Resource.Error -> checkCodeErrorState("Something Error! please, check code and try again.")
                             else -> checkCodeErrorState("Something Error! please, check code and try again.")
@@ -207,8 +207,8 @@ class BookingsFragment : Fragment() {
         }
     }
 
-    private fun checkCodeSuccessState() {
-        findNavController().navigate(BookingsFragmentDirections.actionBookingsFragmentToBookingDetailsFragment())
+    private fun checkCodeSuccessState(userId: Int) {
+        findNavController().navigate(BookingsFragmentDirections.actionBookingsFragmentToBookingDetailsFragment(userId))
     }
 
     private fun checkCodeLoadingState(myDialog: Dialog){

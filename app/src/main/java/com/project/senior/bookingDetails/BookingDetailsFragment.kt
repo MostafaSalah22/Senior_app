@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.project.senior.R
 import com.project.senior.databinding.FragmentBookingDetailsBinding
+import com.project.senior.seniorDetails.SeniorDetailsFragmentArgs
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class BookingDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentBookingDetailsBinding
+    private var userId: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -20,6 +24,8 @@ class BookingDetailsFragment : Fragment() {
     ): View? {
         binding =
                 FragmentBookingDetailsBinding.inflate(inflater, container, false)
+        val bookingDetailsFragmentArgs by navArgs<BookingDetailsFragmentArgs>()
+        userId = bookingDetailsFragmentArgs.userId
         return binding.root
     }
 
@@ -33,9 +39,17 @@ class BookingDetailsFragment : Fragment() {
         binding.imgBackBookingDetails.setOnClickListener {
             backToBookingsFragment()
         }
+
+        binding.cardInformationBookingDetails.setOnClickListener {
+            navigateToBookingInformationFragment(userId!!)
+        }
     }
 
     private fun backToBookingsFragment() {
         findNavController().popBackStack()
+    }
+
+    private fun navigateToBookingInformationFragment(userId: Int){
+        findNavController().navigate(BookingDetailsFragmentDirections.actionBookingDetailsFragmentToBookingInformationFragment(userId))
     }
 }

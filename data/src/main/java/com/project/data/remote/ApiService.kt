@@ -112,8 +112,7 @@ interface ApiService {
     suspend fun getSeniorProfile(@Query("user_id") userId: Int): Response<SeniorProfile>
 
     @GET("care-takers/history-categories")
-    suspend fun getInformationCategories(@Query("token") token: String,
-                                         @Query("user_id") userId: Int): Response<InformationCategories>
+    suspend fun getInformationCategories(@Query("user_id") userId: Int): Response<InformationCategories>
 
     @POST("care-takers/history-categories/delete")
     suspend fun deleteInformationCategory(@Query("token") token: String,
@@ -128,8 +127,7 @@ interface ApiService {
                                @Query("title") title: String): Response<MiniResponse>
 
     @GET("care-takers/history")
-    suspend fun getCategoryDetails(@Query("token") token: String,
-                                   @Query("history_category_id") categoryId: Int): Response<CategoryDetails>
+    suspend fun getCategoryDetails(@Query("history_category_id") categoryId: Int): Response<CategoryDetails>
 
     @POST("care-takers/history/delete")
     suspend fun deleteCategoryDetails(@Query("token") token: String,

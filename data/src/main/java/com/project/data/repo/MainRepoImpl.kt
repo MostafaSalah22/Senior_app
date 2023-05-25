@@ -202,8 +202,7 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     }
 
     override suspend fun getInformationCategories(userId: Int): ArrayList<CategoryData>? {
-        response = apiService.getInformationCategories(dataStoreRepoInterface.readFromDataStore("token").toString(),
-                                                                                    userId)
+        response = apiService.getInformationCategories(userId)
         return (response.body() as InformationCategories).data
     }
 
@@ -229,8 +228,7 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
     }
 
     override suspend fun getCategoryDetails(categoryId: Int): ArrayList<CategoryDetailsData>? {
-        response = apiService.getCategoryDetails(dataStoreRepoInterface.readFromDataStore("token").toString(),
-                                                                        categoryId)
+        response = apiService.getCategoryDetails(categoryId)
         return (response.body() as CategoryDetails).data
     }
 
