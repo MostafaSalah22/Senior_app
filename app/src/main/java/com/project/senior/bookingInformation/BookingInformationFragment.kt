@@ -112,6 +112,15 @@ class BookingInformationFragment : Fragment() {
         binding.imgBackBookingInformation.setOnClickListener {
             backToBookingDetailsFragment()
         }
+
+        bookingInformationAdapter.onItemClick = {categoryData ->
+
+            findNavController().navigate(BookingInformationFragmentDirections.actionBookingInformationFragmentToBookingInformationDetailsFragment(
+                categoryData.id,
+                categoryData.title
+            ))
+
+        }
     }
 
     private fun backToBookingDetailsFragment(){
