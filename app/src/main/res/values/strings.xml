@@ -59,4 +59,6 @@
     <string name="enter_text">Enter text</string>
     <string name="check">Check</string>
     <string name="medicines">Medicines</string>
+    <string name="chats">Chats</string>
+    <string name="SENIOR">SENIOR</string>
 </resources>
