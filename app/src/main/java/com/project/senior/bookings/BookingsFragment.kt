@@ -87,9 +87,6 @@ class BookingsFragment : Fragment() {
     }
 
     private fun clickListener() {
-        binding.imgBackBookings.setOnClickListener {
-            findNavController().popBackStack()
-        }
 
         bookingsAdapter.onCancelClick = {booking ->
             showDeleteDialog(booking.id)

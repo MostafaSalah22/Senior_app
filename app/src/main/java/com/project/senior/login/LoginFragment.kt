@@ -1,5 +1,6 @@
 package com.project.senior.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -14,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.project.domain.repo.Resource
+import com.project.senior.FirstActivity
 import com.project.senior.MainActivity
 import com.project.senior.R
 import com.project.senior.databinding.FragmentLoginBinding
@@ -36,7 +38,7 @@ class LoginFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             if (viewModel.isEmailLoggedIn()){
                 loadingState()
-                if((requireActivity() as MainActivity).isInternetAvailable)
+                if((requireActivity() as FirstActivity).isInternetAvailable)
                     viewModel.updateProfileData()
                 navigateToChatFragment()
             }
@@ -60,7 +62,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnLogin.setOnClickListener {
-            if ((requireActivity() as MainActivity).isInternetAvailable) {
+            if ((requireActivity() as FirstActivity).isInternetAvailable) {
                 lifecycleScope.launchWhenCreated {
                     postLoginUser()
 
@@ -79,11 +81,13 @@ class LoginFragment : Fragment() {
     }
 
     private fun navigateToSignupFragment() {
-        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignupFragment())
+        findNavController().navigate(LoginFragmentDirections.actionLoginFragment2ToSignupFragment2())
     }
 
     private fun navigateToChatFragment() {
-        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToChatFragment())
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
     }
 
     private fun postLoginUser(){

@@ -13,18 +13,6 @@
         android:visibility="gone"
         app:constraint_referenced_ids="img_empty_bookings,tv_empty_bookings" />
 
-    <ImageView
-        android:id="@+id/img_back_bookings"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/baseline_arrow_back_24"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_title_bookings"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_title_bookings"
-        app:tint="#000000" />
-
     <TextView
         android:id="@+id/tv_title_bookings"
         android:layout_width="wrap_content"

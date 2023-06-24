@@ -75,9 +75,6 @@ class SeniorsFragment : Fragment() {
     }
 
     private fun clickListener() {
-        binding.imgBackSeniors.setOnClickListener {
-            backToProfileFragment()
-        }
 
         binding.fabAddSeniors.setOnClickListener {
             showNewSeniorDialog(requireContext())

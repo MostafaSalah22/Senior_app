@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".profile.ProfileFragment">
 
+    <View
+        android:id="@+id/view10"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="15dp"
+        android:background="#706A6C"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_logout_profile" />
+
     <ProgressBar
         android:id="@+id/progressBar_profile"
         style="?android:attr/progressBarStyle"
@@ -21,7 +32,7 @@
         android:id="@+id/group_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="imageView6,tv_password_information,view6,imageView3,imageView4,img_editPassword_profile,btn_edit_profile,tv_phone_information,constraintLayout,tv_name_information,view5,imageView5,view,tv_email_information,view7,btn_logout_profile"
+        app:constraint_referenced_ids="imageView6,tv_password_information,view6,imageView3,imageView4,img_editPassword_profile,tv_phone_information,constraintLayout,tv_name_information,view5,imageView5,view,tv_email_information,view7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,24 +92,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_phone_information" />
 
-    <Button
-        android:id="@+id/btn_logout_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#F30000"
-        android:fontFamily="@font/fredoka_one"
-        android:paddingStart="20dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="10dp"
-        android:text="@string/logout"
-        android:textSize="20sp"
-        app:cornerRadius="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_edit_profile" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
@@ -120,17 +113,6 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:src="@drawable/me" />
 
-        <ImageView
-            android:id="@+id/img_back_profile"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/baseline_arrow_back_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/tv_name_profile"
             android:layout_width="wrap_content"
@@ -145,58 +127,20 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
-            android:id="@+id/img_seniors_profile"
+            android:id="@+id/img_edit_profile"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:adjustViewBounds="true"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/seniors"
-            android:visibility="gone"
+            android:src="@drawable/baseline_edit_profile_24"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
 
-        <TextView
-            android:id="@+id/tv_seniors_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/fredoka_one"
-            android:text="@string/seniors"
-            android:textColor="#FFFFFF"
-            android:textSize="8sp"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/img_seniors_profile"
-            app:layout_constraintStart_toStartOf="@+id/img_seniors_profile"
-            app:layout_constraintTop_toBottomOf="@+id/img_seniors_profile" />
 
-        <ImageView
-            android:id="@+id/img_bookings_profile"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:adjustViewBounds="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/doc_bookings"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_bookings_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:fontFamily="@font/fredoka_one"
-            android:text="@string/bookings"
-            android:textColor="#FFFFFF"
-            android:textSize="10sp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/img_bookings_profile"
-            app:layout_constraintStart_toStartOf="@+id/img_bookings_profile"
-            app:layout_constraintTop_toBottomOf="@+id/img_bookings_profile" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -285,21 +229,30 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_password_information"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_edit_profile"
+    <ImageView
+        android:id="@+id/imageView10"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/blue_button"
+        android:src="@drawable/baseline_logout_24"
+        app:layout_constraintStart_toStartOf="@+id/imageView6"
+        app:layout_constraintTop_toBottomOf="@+id/view7"
+        app:tint="#394CF9" />
+
+    <TextView
+        android:id="@+id/tv_logout_profile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/fredoka_one"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        android:text="@string/edit_profile"
-        android:textColor="#FFFFFF"
+        android:paddingTop="23dp"
+        android:text="@string/logout"
+        android:textColor="#000000"
         android:textSize="20sp"
-        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view7" />
+        app:layout_constraintStart_toStartOf="@+id/tv_password_information"
+        app:layout_constraintTop_toBottomOf="@+id/view7"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

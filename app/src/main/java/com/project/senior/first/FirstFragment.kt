@@ -53,7 +53,7 @@ class FirstFragment : Fragment() {
     }
 
     private fun navigateToLoginFragment() {
-        findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToLoginFragment())
+        findNavController().navigate(FirstFragmentDirections.actionFirstFragment2ToLoginFragment2())
     }
 
 }

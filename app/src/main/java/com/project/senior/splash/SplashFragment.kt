@@ -20,7 +20,7 @@ class SplashFragment : Fragment() {
         // Inflate the layout for this fragment
         Handler().postDelayed({
             lifecycleScope.launchWhenResumed {
-                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToFirstFragment())
+                findNavController().navigate(SplashFragmentDirections.actionSplashFragment2ToFirstFragment2())
             }
         }, 1700)
         return inflater.inflate(R.layout.fragment_splash, container, false)

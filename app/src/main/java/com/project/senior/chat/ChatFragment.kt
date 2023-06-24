@@ -72,9 +72,9 @@ class ChatFragment : Fragment() {
     }
 
     private fun clickListener() {
-        binding.includeChat.imgProfileChat.setOnClickListener {
+        /*binding.includeChat.imgProfileChat.setOnClickListener {
             navigateToProfileFragment()
-        }
+        }*/
 
         chatAdapter.onItemClick = {
             lifecycleScope.launchWhenCreated {
@@ -89,8 +89,8 @@ class ChatFragment : Fragment() {
         }
     }
 
-    private fun navigateToProfileFragment() {
+    /*private fun navigateToProfileFragment() {
         findNavController().navigate(ChatFragmentDirections.actionChatFragmentToProfileFragment())
-    }
+    }*/
     
 }

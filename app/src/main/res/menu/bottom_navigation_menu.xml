@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/chatFragment"
+        android:icon="@drawable/baseline_chat_24"
+        android:title="@string/chats" />
+    <item
+        android:id="@+id/seniorsFragment"
+        android:icon="@drawable/baseline_people_24"
+        android:title="@string/seniors" />
+    <item
+        android:id="@+id/bookingsFragment"
+        android:icon="@drawable/calendar"
+        android:title="@string/bookings" />
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/blue_account_circle_24"
+        android:title="@string/profile" />
+
+</menu>

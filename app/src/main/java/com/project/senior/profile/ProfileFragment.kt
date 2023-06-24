@@ -34,6 +34,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.snackbar.Snackbar
 import com.project.domain.repo.Resource
+import com.project.senior.FirstActivity
 import com.project.senior.R
 import com.project.senior.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,20 +58,6 @@ class ProfileFragment : Fragment() {
     ): View? {
         binding =
             FragmentProfileBinding.inflate(inflater , container , false)
-        lifecycleScope.launchWhenCreated {
-            if (viewModel.getType() == "user"){
-                binding.imgSeniorsProfile.visibility = View.VISIBLE
-                binding.tvSeniorsProfile.visibility = View.VISIBLE
-                binding.imgBookingsProfile.visibility = View.GONE
-                binding.tvBookingsProfile.visibility = View.GONE
-            }
-            else if(viewModel.getType() == "doctor"){
-                binding.imgSeniorsProfile.visibility = View.GONE
-                binding.tvSeniorsProfile.visibility = View.GONE
-                binding.imgBookingsProfile.visibility = View.VISIBLE
-                binding.tvBookingsProfile.visibility = View.VISIBLE
-            }
-        }
         return binding.root
     }
 
@@ -101,28 +88,17 @@ class ProfileFragment : Fragment() {
     }
 
     private fun clickListener() {
-        binding.imgBackProfile.setOnClickListener {
-            backToChatFragment()
-        }
-
-        binding.btnEditProfile.setOnClickListener {
-            navigateToEditProfileFragment()
-        }
 
         binding.imgEditPasswordProfile.setOnClickListener {
             showPasswordDialog(requireContext())
         }
 
-        binding.imgSeniorsProfile.setOnClickListener {
-            navigateToSeniorsFragment()
+        binding.imgEditProfile.setOnClickListener {
+            navigateToEditProfileFragment()
         }
 
-        binding.btnLogoutProfile.setOnClickListener {
+        binding.tvLogoutProfile.setOnClickListener {
             showLogoutDialog()
-        }
-
-        binding.imgBookingsProfile.setOnClickListener {
-            navigateToBookingsFragment()
         }
 
     }
@@ -146,24 +122,13 @@ class ProfileFragment : Fragment() {
         builder.show()
     }
 
-    private fun backToChatFragment() {
-        findNavController().popBackStack()
-    }
-
     private fun backToFirstFragment() {
-        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToFirstFragment())
+        val intent = Intent(requireContext(), FirstActivity::class.java)
+        startActivity(intent)
     }
 
     private fun navigateToEditProfileFragment() {
         findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment())
-    }
-
-    private fun navigateToSeniorsFragment() {
-        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToSeniorsFragment())
-    }
-
-    private fun navigateToBookingsFragment() {
-        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToBookingsFragment())
     }
 
     private fun showPasswordDialog(context: Context) {
@@ -205,7 +170,6 @@ class ProfileFragment : Fragment() {
                         else -> changeErrorState(myDialog, tvErrorPassword)
                     }
                 })
-                //myDialog.dismiss()
             }
         }
 
