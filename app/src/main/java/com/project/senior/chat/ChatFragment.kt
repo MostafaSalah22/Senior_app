@@ -76,6 +76,16 @@ class ChatFragment : Fragment() {
             navigateToProfileFragment()
         }*/
 
+        binding.fabAddChat.setOnClickListener {
+            lifecycleScope.launchWhenCreated {
+                findNavController().navigate(
+                    ChatFragmentDirections.actionChatFragmentToAddChatFragment(
+                        viewModel.getUserId()
+                    )
+                )
+            }
+        }
+
         chatAdapter.onItemClick = {
             lifecycleScope.launchWhenCreated {
                 findNavController().navigate(

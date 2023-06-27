@@ -30,7 +30,6 @@ class SignupFragment : Fragment() {
 
     private lateinit var binding: FragmentSignupBinding
     private val viewModel: SignupViewModel by viewModels()
-    private lateinit var databaseRef: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,12 +95,6 @@ class SignupFragment : Fragment() {
     }
 
     private fun successState() {
-        viewModel.signupUser.observe(viewLifecycleOwner, Observer { user ->
-            runBlocking {
-                addUserToRealtimeDataBase(user)
-            }
-
-        })
         backToLoginFragment()
         Snackbar.make(requireView(),"Email accepted.", Snackbar.LENGTH_LONG).show()
     }
@@ -118,10 +111,5 @@ class SignupFragment : Fragment() {
             if(userResponse.status == "E03" || userResponse.status == "E00") binding.tvErrorSignup.text = userResponse.message
             else postRegisterUser()
         })
-    }
-
-    private fun addUserToRealtimeDataBase(user: AppUser) {
-        databaseRef = FirebaseDatabase.getInstance().reference
-        databaseRef.child("user").child(user.data?.user?.id.toString()).setValue(user)
     }
 }

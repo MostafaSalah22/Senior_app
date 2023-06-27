@@ -43,6 +43,7 @@ interface MainRepoInterface {
     suspend fun getBookingsData(): ArrayList<BookingsDetails>?
     suspend fun cancelBooking(bookingId: Int): MiniResponse
     suspend fun checkCode(code: String, userId: Int)
+    suspend fun getAllUsers(): ChatUsers
     suspend fun <T:Any> handleResponse(): LiveData<Resource<T>>
 
 }

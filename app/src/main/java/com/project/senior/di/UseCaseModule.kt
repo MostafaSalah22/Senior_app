@@ -154,4 +154,9 @@ object UseCaseModule {
     fun provideCheckCodeUseCase(mainRepoInterface: MainRepoInterface): CheckCodeUseCase{
         return CheckCodeUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideGetAllUsersUseCase(mainRepoInterface: MainRepoInterface): GetAllUsersUseCase{
+        return GetAllUsersUseCase(mainRepoInterface)
+    }
 }

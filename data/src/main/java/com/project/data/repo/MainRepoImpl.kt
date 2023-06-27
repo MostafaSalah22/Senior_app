@@ -1,5 +1,6 @@
 package com.project.data.repo
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.project.data.remote.ApiService
 import com.project.domain.model.*
@@ -275,6 +276,12 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
 
     override suspend fun checkCode(code: String, userId: Int) {
         response = apiService.checkCode(dataStoreRepoInterface.readFromDataStore("token").toString(), code, userId)
+    }
+
+    override suspend fun getAllUsers(): ChatUsers {
+        response = apiService.getAllUsers()
+        Log.i("testt1", "api: ${response.body()}")
+        return response.body() as ChatUsers
     }
 
     override suspend fun <T : Any> handleResponse(): LiveData<Resource<T>> {

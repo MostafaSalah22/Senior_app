@@ -157,4 +157,6 @@ interface ApiService {
     suspend fun checkCode(@Query("token") token: String,
                           @Query("code") code: String,
                           @Query("user_id") userId: Int): Response<MiniResponse>
+    @GET("guest/users")
+    suspend fun getAllUsers(): Response<ChatUsers>
 }

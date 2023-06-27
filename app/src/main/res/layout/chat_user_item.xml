@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/img_user_chat_item"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginStart="10dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +36,7 @@
                 android:background="#5C5759"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_name_chat_item"
-                app:layout_constraintTop_toBottomOf="@+id/img_user_chat_item" />
+                app:layout_constraintTop_toBottomOf="@id/tv_last_message_chat_item" />
 
             <TextView
                 android:id="@+id/tv_last_message_chat_item"
