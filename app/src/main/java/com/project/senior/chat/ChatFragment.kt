@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.*
 import com.project.domain.model.AppUser
 import com.project.domain.model.ChatModel
+import com.project.domain.repo.Resource
 import com.project.senior.chat.recyclerview.ChatAdapter
 import com.project.senior.databinding.FragmentChatBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,8 +25,6 @@ class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
     private val viewModel: ChatViewModel by viewModels()
     private lateinit var chatAdapter: ChatAdapter
-    private val usersList:ArrayList<ChatModel> = ArrayList()
-    private lateinit var databaseRef: DatabaseReference
 
 
     override fun onCreateView(
@@ -33,7 +34,6 @@ class ChatFragment : Fragment() {
         binding =
             FragmentChatBinding.inflate(inflater , container , false)
 
-        databaseRef = FirebaseDatabase.getInstance().reference
         return binding.root
     }
 
@@ -45,27 +45,21 @@ class ChatFragment : Fragment() {
         chatAdapter = ChatAdapter()
         binding.rvChat.adapter = chatAdapter
 
-        databaseRef.child("user").child("57").addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    val item = dataSnapshot.getValue(AppUser::class.java)
-                    usersList.add(
-                        ChatModel(item?.data?.user?.id!!, item?.data?.user?.name!!, item?.data?.user?.username!!,
-                                                    item?.data?.user?.image!!, "Hello")
-                    )
-                    chatAdapter.submitList(usersList)
-                    // Handle the retrieved item here
-                } else {
-                    // Item with the specified ID does not exist
-                }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.getChats(viewModel.getUserId().toInt())
+        }
+
+        viewModel.getChatsResponseState.observe(viewLifecycleOwner, Observer { state ->
+
+            when (state) {
+                is Resource.Success -> successState()
+                is Resource.Loading -> loadingState()
+                is Resource.Error -> errorState()
+                else -> errorState()
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Handle any errors that occur during the retrieval
-            }
         })
-
-        //chatAdapter.submitList(arr)
 
         clickListener()
 
@@ -99,8 +93,22 @@ class ChatFragment : Fragment() {
         }
     }
 
-    /*private fun navigateToProfileFragment() {
-        findNavController().navigate(ChatFragmentDirections.actionChatFragmentToProfileFragment())
-    }*/
+    private fun successState() {
+        viewModel.usersList.observe(viewLifecycleOwner, Observer {usersList ->
+            //usersListFilter = usersList
+            chatAdapter.submitList(usersList)
+            binding.rvChat.visibility = View.VISIBLE
+            binding.progressBarChat.visibility = View.GONE
+        })
+    }
+
+    private fun loadingState() {
+        binding.rvChat.visibility = View.GONE
+        binding.progressBarChat.visibility = View.VISIBLE
+    }
+
+    private fun errorState() {
+        Snackbar.make(requireView(), "Error", Snackbar.LENGTH_LONG).show()
+    }
     
 }

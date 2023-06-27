@@ -38,7 +38,7 @@ class ChatAdapter : ListAdapter<ChatModel, ChatAdapter.ChatViewHolder>(ChatDiffC
     override fun onBindViewHolder(holder: ChatAdapter.ChatViewHolder, position: Int) {
         val item = getItem(position)
         holder.name.text = item.name
-        holder.lastMessage.text = item.lastMessage
+        holder.lastMessage.text = item.message
         //holder.userImg.setImageResource(R.drawable.me)
         holder.userImg.load(item.image){
             placeholder(R.drawable.loading_img)

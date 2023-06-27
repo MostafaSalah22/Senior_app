@@ -159,4 +159,12 @@ interface ApiService {
                           @Query("user_id") userId: Int): Response<MiniResponse>
     @GET("guest/users")
     suspend fun getAllUsers(): Response<ChatUsers>
+
+    @GET("guest/massages")
+    suspend fun getChats(@Query("user_id") userId: Int): Response<ChatUsers>
+
+    @POST("guest/massages/send")
+    suspend fun sendMessage(@Query("from_id") currentUserId: Int,
+                            @Query("to_id") receiverUserId: Int,
+                            @Query("message") message: String): Response<MiniResponse>
 }

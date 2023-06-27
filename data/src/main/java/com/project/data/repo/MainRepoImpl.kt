@@ -280,8 +280,17 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
 
     override suspend fun getAllUsers(): ChatUsers {
         response = apiService.getAllUsers()
-        Log.i("testt1", "api: ${response.body()}")
         return response.body() as ChatUsers
+    }
+
+    override suspend fun getChats(userId: Int): ChatUsers {
+        response = apiService.getChats(userId)
+        //Log.i("testt1", "getChats: ${response.body()}")
+        return response.body() as ChatUsers
+    }
+
+    override suspend fun sendMessage(currentUserId: Int, receiverUserId: Int, message: String) {
+        response = apiService.sendMessage(currentUserId, receiverUserId, message)
     }
 
     override suspend fun <T : Any> handleResponse(): LiveData<Resource<T>> {

@@ -6,11 +6,15 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.database.*
 import com.project.domain.model.Message
 import com.project.domain.usecase.GetUserIdFromDataStoreUseCase
+import com.project.domain.usecase.SendMessageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import retrofit2.http.Query
 import javax.inject.Inject
 import kotlin.random.Random
-
-class MessagesViewModel : ViewModel() {
+@HiltViewModel
+class MessagesViewModel @Inject constructor(
+    private val sendMessageUseCase: SendMessageUseCase
+) : ViewModel() {
 
 
     fun sendMessage(message: String, databaseRef: DatabaseReference, currentUserId: String, senderRoom: String, receiverRoom: String){
@@ -45,5 +49,9 @@ class MessagesViewModel : ViewModel() {
                     TODO("Not yet implemented")
                 }
             })
+    }
+
+    suspend fun sendMessage(currentUserId: Int, receiverUserId: Int, message: String){
+        sendMessageUseCase(currentUserId, receiverUserId, message)
     }
 }

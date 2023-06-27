@@ -5,5 +5,5 @@ data class ChatModel(
              val name:String,
              val username:String,
              val image:String,
-             val lastMessage:String
+             val message:String
 )

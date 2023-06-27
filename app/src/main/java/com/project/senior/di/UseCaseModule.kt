@@ -159,4 +159,14 @@ object UseCaseModule {
     fun provideGetAllUsersUseCase(mainRepoInterface: MainRepoInterface): GetAllUsersUseCase{
         return GetAllUsersUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideGetChatsUseCase(mainRepoInterface: MainRepoInterface): GetChatsUseCase{
+        return GetChatsUseCase(mainRepoInterface)
+    }
+
+    @Provides
+    fun provideSendMessageUseCase(mainRepoInterface: MainRepoInterface): SendMessageUseCase{
+        return SendMessageUseCase(mainRepoInterface)
+    }
 }

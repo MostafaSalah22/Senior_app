@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
@@ -87,6 +88,9 @@ class MessagesFragment : Fragment() {
                     senderRoom!!,
                     receiverRoom!!
                 )
+                lifecycleScope.launchWhenCreated {
+                    viewModel.sendMessage(currentUserId!!.toInt(), receiverId!!.toInt(), message)
+                }
                 binding.etTextMessages.setText("")
             }
         }
