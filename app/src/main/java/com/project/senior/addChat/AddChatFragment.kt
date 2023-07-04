@@ -94,7 +94,7 @@ class AddChatFragment : Fragment() {
 
         usersAdapter.onItemClick = {
             findNavController().navigate(AddChatFragmentDirections.actionAddChatFragmentToMessagesFragment(
-                it.name, it.id.toString(), currentUserId!!
+                it.name, it.id.toString(), currentUserId!!, it.image
             ))
         }
     }

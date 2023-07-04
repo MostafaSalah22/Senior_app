@@ -86,7 +86,8 @@ class ChatFragment : Fragment() {
                     ChatFragmentDirections.actionChatFragmentToMessagesFragment(
                         it.name,
                         it.id.toString(),
-                        viewModel.getUserId()
+                        viewModel.getUserId(),
+                        it.image
                     )
                 )
             }
@@ -109,6 +110,9 @@ class ChatFragment : Fragment() {
 
     private fun errorState() {
         Snackbar.make(requireView(), "Error", Snackbar.LENGTH_LONG).show()
+        lifecycleScope.launchWhenCreated {
+            viewModel.getChats(viewModel.getUserId().toInt())
+        }
     }
     
 }

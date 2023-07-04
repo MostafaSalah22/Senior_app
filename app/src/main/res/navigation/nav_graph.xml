@@ -163,6 +163,9 @@
             android:name="receiverId"
             app:argType="string" />
         <argument android:name="currentUserId" />
+        <argument
+            android:name="userImg"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/bookingDetailsFragment"

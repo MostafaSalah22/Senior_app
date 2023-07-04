@@ -40,13 +40,16 @@
 
             <TextView
                 android:id="@+id/tv_last_message_chat_item"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
+                android:ellipsize="end"
                 android:fontFamily="@font/fredoka_one"
+                android:maxLines="1"
                 android:text="hello, how are you?"
                 android:textColor="#605757"
                 android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_name_chat_item"
                 app:layout_constraintTop_toBottomOf="@+id/tv_name_chat_item" />
 
