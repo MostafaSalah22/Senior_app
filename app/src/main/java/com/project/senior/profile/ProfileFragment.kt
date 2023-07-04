@@ -125,6 +125,7 @@ class ProfileFragment : Fragment() {
     private fun backToFirstFragment() {
         val intent = Intent(requireContext(), FirstActivity::class.java)
         startActivity(intent)
+        requireActivity().finish()
     }
 
     private fun navigateToEditProfileFragment() {

@@ -103,11 +103,11 @@ class InformationDetailsFragment : Fragment() {
         }
 
         detailsAdapter.onEditClick = {categoryDetailsData ->
-            titleAndDescriptionDialog(requireContext(), categoryDetailsData.id, 1)
+            titleAndDescriptionDialog(requireContext(), categoryDetailsData.id, 1, categoryDetailsData.title, categoryDetailsData.description)
         }
 
         binding.fabAddInformationDetails.setOnClickListener {
-            titleAndDescriptionDialog(requireContext(), categoryId!!, 2)
+            titleAndDescriptionDialog(requireContext(), categoryId!!, 2, null, null)
         }
     }
 
@@ -182,7 +182,7 @@ class InformationDetailsFragment : Fragment() {
         successState()
     }
 
-    private fun titleAndDescriptionDialog(context: Context, requiredId: Int, funId: Int) {
+    private fun titleAndDescriptionDialog(context: Context, requiredId: Int, funId: Int, categoryTitle: String?, categoryDescription: String?) {
         val dialogBinding = layoutInflater.inflate(R.layout.edit_category_details_dialog,null)
 
         val myDialog = Dialog(context)
@@ -201,6 +201,11 @@ class InformationDetailsFragment : Fragment() {
 
         val title = dialogBinding.findViewById<EditText>(R.id.et_title_edit_category_details)
         val description = dialogBinding.findViewById<EditText>(R.id.et_description_edit_category_details)
+
+        if (categoryTitle != null){
+            title.setText(categoryTitle)
+            description.setText(categoryDescription)
+        }
 
         val saveBtn = dialogBinding.findViewById<Button>(R.id.btn_edit_category_details)
         saveBtn.setOnClickListener {
