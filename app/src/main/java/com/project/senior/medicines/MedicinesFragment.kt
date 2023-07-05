@@ -1,6 +1,11 @@
 package com.project.senior.medicines
 
+import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +24,7 @@ import com.project.senior.informationDetails.InformationDetailsViewModel
 import com.project.senior.informationDetails.recyclerview.DetailsAdapter
 import com.project.senior.medicines.recyclerview.MedicineAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class MedicinesFragment : Fragment() {
@@ -84,6 +90,10 @@ class MedicinesFragment : Fragment() {
         binding.imgBackMedicines.setOnClickListener {
             backToBookingDetailsFragment()
         }
+
+        medicinesAdapter.onDeleteClick = {medicineData ->
+            showDeleteDialog(medicineData.id)
+        }
     }
 
     private fun successState() {
@@ -109,6 +119,49 @@ class MedicinesFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.getMedicines(userId!!)
         }
+    }
+
+
+    private fun showDeleteDialog(medicineId: Int) {
+        fun deleteErrorState() {
+            lifecycleScope.launchWhenCreated {
+                viewModel.deleteMedicineCategory(medicineId)
+            }
+
+        }
+        val builder = AlertDialog.Builder(requireContext())
+        val title = SpannableString(getString(R.string.delete))
+        title.setSpan(ForegroundColorSpan(Color.RED), 0, title.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.setTitle(title)
+        builder.setMessage(getString(R.string.medicine_alert_dialog))
+        builder.setPositiveButton(getString(R.string.yes)) { dialog, which ->
+            dialog.dismiss()
+            lifecycleScope.launchWhenCreated {
+                viewModel.deleteMedicineCategory(medicineId)
+            }
+            viewModel.deleteMedicineResponseState.observe(viewLifecycleOwner, Observer { state->
+
+                when(state){
+                    is Resource.Success -> getMedicinesAndSuccessState()
+                    is Resource.Loading -> loadingState()
+                    is Resource.Error -> deleteErrorState()
+                    else -> deleteErrorState()
+                }
+            })
+        }
+        builder.setNegativeButton(getString(R.string.no)) { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
+
+
+    }
+
+    private fun getMedicinesAndSuccessState() {
+        runBlocking {
+            viewModel.getMedicines(userId!!)
+        }
+        successState()
     }
 
     private fun backToBookingDetailsFragment() {
