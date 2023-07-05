@@ -31,15 +31,15 @@
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginEnd="10dp"
                 android:background="#706A6C"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_dose_medicine" />
 
             <TextView
-                android:id="@+id/tv_title_information_details_item"
+                android:id="@+id/tv_name_medicine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -54,7 +54,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/img_cancel_information_details_item"
+                android:id="@+id/img_delete_medicine"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
@@ -65,29 +65,38 @@
                 app:srcCompat="@drawable/red_cancel" />
 
             <ImageView
-                android:id="@+id/img_edit_information_details_item"
+                android:id="@+id/img_edit_medicine"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/img_cancel_information_details_item"
-                app:layout_constraintStart_toStartOf="@+id/img_cancel_information_details_item"
-                app:layout_constraintTop_toBottomOf="@+id/img_cancel_information_details_item"
+                app:layout_constraintEnd_toEndOf="@+id/img_delete_medicine"
+                app:layout_constraintStart_toStartOf="@+id/img_delete_medicine"
+                app:layout_constraintTop_toBottomOf="@+id/img_delete_medicine"
                 app:srcCompat="@drawable/baseline_edit_note_24" />
 
             <TextView
-                android:id="@+id/tv_description_information_details_item"
+                android:id="@+id/tv_description_medicine"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/fredoka_one"
                 android:gravity="start"
                 android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/img_edit_information_details_item"
-                app:layout_constraintStart_toStartOf="@+id/tv_title_information_details_item"
+                app:layout_constraintEnd_toStartOf="@+id/img_edit_medicine"
+                app:layout_constraintStart_toStartOf="@+id/tv_dose_medicine"
                 app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+            <TextView
+                android:id="@+id/tv_dose_medicine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/fredoka_one"
+                android:text="TextView"
+                app:layout_constraintStart_toStartOf="@+id/tv_name_medicine"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name_medicine" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

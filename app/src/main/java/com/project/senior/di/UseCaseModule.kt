@@ -169,4 +169,24 @@ object UseCaseModule {
     fun provideSendMessageUseCase(mainRepoInterface: MainRepoInterface): SendMessageUseCase{
         return SendMessageUseCase(mainRepoInterface)
     }
+
+    @Provides
+    fun provideGetMedicinesOfBookingUseCase(mainRepoInterface: MainRepoInterface): GetMedicinesOfBookingUseCase{
+        return GetMedicinesOfBookingUseCase(mainRepoInterface)
+    }
+
+    @Provides
+    fun provideAddNewMedicineUseCase(mainRepoInterface: MainRepoInterface): AddNewMedicineUseCase{
+        return AddNewMedicineUseCase(mainRepoInterface)
+    }
+
+    @Provides
+    fun provideDeleteMedicineUseCase(mainRepoInterface: MainRepoInterface): DeleteMedicineUseCase{
+        return DeleteMedicineUseCase(mainRepoInterface)
+    }
+
+    @Provides
+    fun provideUpdateMedicineUseCase(mainRepoInterface: MainRepoInterface): UpdateMedicineUseCase{
+        return UpdateMedicineUseCase(mainRepoInterface)
+    }
 }

@@ -293,6 +293,36 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         response = apiService.sendMessage(currentUserId, receiverUserId, message)
     }
 
+    override suspend fun getMedicinesOfBooking(userId: Int): ArrayList<MedicineData> {
+        response = apiService.getMedicinesOfBooking(dataStoreRepoInterface.readFromDataStore("token").toString(), userId)
+
+        return (response.body() as MedicinesModel).data
+    }
+
+    override suspend fun addNewMedicine(
+        userId: Int,
+        medicineName: String,
+        medicineDose: Int,
+        medicineDescription: String
+    ) {
+        response = apiService.addNewMedicine(dataStoreRepoInterface.readFromDataStore("token").toString(),
+            userId, medicineName, medicineDose, medicineDescription)
+    }
+
+    override suspend fun deleteMedicine(medicineId: Int) {
+        response = apiService.deleteMedicine(dataStoreRepoInterface.readFromDataStore("token").toString(), medicineId)
+    }
+
+    override suspend fun updateMedicine(
+        medicineId: Int,
+        medicineName: String,
+        medicineDose: Int,
+        medicineDescription: String
+    ) {
+        response = apiService.updateMedicine(dataStoreRepoInterface.readFromDataStore("token").toString(),
+            medicineId, medicineName, medicineDose, medicineDescription)
+    }
+
     override suspend fun <T : Any> handleResponse(): LiveData<Resource<T>> {
         return handleResponse(response) as LiveData<Resource<T>>
     }

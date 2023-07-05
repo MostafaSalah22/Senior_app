@@ -43,6 +43,10 @@ class BookingDetailsFragment : Fragment() {
         binding.cardInformationBookingDetails.setOnClickListener {
             navigateToBookingInformationFragment(userId!!)
         }
+
+        binding.cardMedicinesBookingDetails.setOnClickListener {
+            navigateToMedicinesFragment(userId!!)
+        }
     }
 
     private fun backToBookingsFragment() {
@@ -51,5 +55,9 @@ class BookingDetailsFragment : Fragment() {
 
     private fun navigateToBookingInformationFragment(userId: Int){
         findNavController().navigate(BookingDetailsFragmentDirections.actionBookingDetailsFragmentToBookingInformationFragment(userId))
+    }
+
+    private fun navigateToMedicinesFragment(userId: Int){
+        findNavController().navigate(BookingDetailsFragmentDirections.actionBookingDetailsFragmentToMedicinesFragment(userId))
     }
 }

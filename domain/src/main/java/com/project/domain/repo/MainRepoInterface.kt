@@ -3,6 +3,8 @@ package com.project.domain.repo
 import androidx.lifecycle.LiveData
 import com.project.domain.model.*
 import okhttp3.MultipartBody
+import retrofit2.Response
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface MainRepoInterface {
@@ -47,6 +49,10 @@ interface MainRepoInterface {
     suspend fun getAllUsers(): ChatUsers
     suspend fun getChats(userId: Int): ChatUsers
     suspend fun sendMessage(currentUserId: Int, receiverUserId: Int, message: String)
+    suspend fun getMedicinesOfBooking(userId: Int): ArrayList<MedicineData>
+    suspend fun addNewMedicine(userId: Int, medicineName:String, medicineDose: Int, medicineDescription: String)
+    suspend fun deleteMedicine(medicineId: Int)
+    suspend fun updateMedicine(medicineId: Int, medicineName: String, medicineDose: Int, medicineDescription: String)
     suspend fun <T:Any> handleResponse(): LiveData<Resource<T>>
 
 }

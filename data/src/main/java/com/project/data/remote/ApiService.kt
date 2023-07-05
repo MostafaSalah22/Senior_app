@@ -167,4 +167,26 @@ interface ApiService {
     suspend fun sendMessage(@Query("from_id") currentUserId: Int,
                             @Query("to_id") receiverUserId: Int,
                             @Query("message") message: String): Response<MiniResponse>
+
+    @GET("doctors/medications")
+    suspend fun getMedicinesOfBooking(@Query("token") token: String,
+                                      @Query("user_id") userId: Int): Response<MedicinesModel>
+
+    @POST("doctors/medications/create")
+    suspend fun addNewMedicine(@Query("token") token: String,
+                               @Query("user_id") userId: Int,
+                               @Query("medication") medicineName:String,
+                               @Query("medication_dose") medicineDose: Int,
+                               @Query("description") medicineDescription: String): Response<MiniResponse>
+
+    @POST("doctors/medications/delete")
+    suspend fun deleteMedicine(@Query("token") token: String,
+                               @Query("medication_id") medicineId: Int): Response<MiniResponse>
+
+    @POST("doctors/medications/update")
+    suspend fun updateMedicine(@Query("token") token: String,
+                               @Query("medication_id") medicineId: Int,
+                               @Query("medication") medicineName: String,
+                               @Query("medication_dose") medicineDose: Int,
+                               @Query("description") medicineDescription: String): Response<MiniResponse>
 }

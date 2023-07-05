@@ -182,6 +182,13 @@
             app:exitAnim="@anim/anim_to_left"
             app:popEnterAnim="@anim/anim_from_left"
             app:popExitAnim="@anim/anim_to_right"/>
+        <action
+            android:id="@+id/action_bookingDetailsFragment_to_medicinesFragment"
+            app:destination="@id/medicinesFragment"
+            app:enterAnim="@anim/anim_from_right"
+            app:exitAnim="@anim/anim_to_left"
+            app:popEnterAnim="@anim/anim_from_left"
+            app:popExitAnim="@anim/anim_to_right"/>
     </fragment>
     <fragment
         android:id="@+id/bookingInformationFragment"
@@ -222,5 +229,14 @@
             android:id="@+id/action_addChatFragment_to_messagesFragment"
             app:destination="@id/messagesFragment"
             app:popUpTo="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/medicinesFragment"
+        android:name="com.project.senior.medicines.MedicinesFragment"
+        android:label="fragment_medicines"
+        tools:layout="@layout/fragment_medicines" >
+        <argument
+            android:name="userId"
+            app:argType="integer" />
     </fragment>
 </navigation>
