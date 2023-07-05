@@ -52,7 +52,7 @@ class MedicineAdapter(private val context: Context) :
         }
         else holder.description.text = item.description
 
-        holder.dose.text = "${item.medication_dose} times a day"
+        holder.dose.text = "${item.medication_dose} ${context.getString(R.string.times_a_day)}"
 
         holder.deleteMedicine.setOnClickListener {
             onDeleteClick?.invoke(item)

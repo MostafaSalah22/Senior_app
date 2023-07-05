@@ -238,5 +238,9 @@
         <argument
             android:name="userId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_medicinesFragment_self"
+            app:destination="@id/medicinesFragment"
+            app:popUpTo="@id/bookingDetailsFragment" />
     </fragment>
 </navigation>

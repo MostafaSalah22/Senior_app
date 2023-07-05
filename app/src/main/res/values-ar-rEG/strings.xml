@@ -60,4 +60,5 @@
     <string name="chats">المحادثات</string>
     <string name="search">بحث</string>
     <string name="medicine_alert_dialog">هل تريد حذف هذا الدواء؟</string>
+    <string name="times_a_day">مرات في اليوم</string>
 </resources>
