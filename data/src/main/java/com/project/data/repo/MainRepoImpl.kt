@@ -32,6 +32,10 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         else
             apiService.postLoginDoctor(username, password)
 
+        return returnTrueResponse(response as Response<AppUser>)
+    }
+
+    override suspend fun saveDataToDataStore() {
         dataStoreRepoInterface.saveToDataStore("token", (response.body() as AppUser).data?.token.toString())
 
         dataStoreRepoInterface.saveToDataStore("id",
@@ -57,8 +61,6 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         dataStoreRepoInterface.saveToDataStore("image",
             (response.body() as AppUser).data?.user?.image.toString()
         )
-
-        return returnTrueResponse(response as Response<AppUser>)
     }
 
     override suspend fun isEmailLoggedIn(): Boolean {

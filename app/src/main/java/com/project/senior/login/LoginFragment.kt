@@ -49,6 +49,15 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.imgShowPassLogin.tag = R.drawable.baseline_visibility_off_24
+
+        viewModel.responseState.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is Resource.Success -> successState()
+                is Resource.Loading -> loadingState()
+                is Resource.Error -> errorState()
+                else -> Log.i("LoginViewModel", "ERROR")
+            }
+        })
         clickListener()
     }
 
@@ -63,18 +72,10 @@ class LoginFragment : Fragment() {
 
         binding.btnLogin.setOnClickListener {
             if ((requireActivity() as FirstActivity).isInternetAvailable) {
-                lifecycleScope.launchWhenCreated {
+                runBlocking {
                     postLoginUser()
-
-                    viewModel.responseState.observe(viewLifecycleOwner, Observer { state ->
-                        when (state) {
-                            is Resource.Success -> successState()
-                            is Resource.Loading -> loadingState()
-                            is Resource.Error -> errorState()
-                            else -> Log.i("LoginViewModel", "ERROR")
-                        }
-                    })
                 }
+
             }
             else Snackbar.make(requireView(), "Check the internet and try again.", Snackbar.LENGTH_LONG).show()
         }
@@ -97,7 +98,10 @@ class LoginFragment : Fragment() {
         )
     }
 
-    private fun successState() = navigateToChatFragment()
+    private fun successState() {
+        navigateToChatFragment()
+        viewModel.saveDataToDataStore()
+    }
 
     private fun loadingState() {
         binding.groupLogin.visibility = View.GONE
@@ -109,7 +113,6 @@ class LoginFragment : Fragment() {
         binding.groupLogin.visibility = View.VISIBLE
         viewModel.loginUser.observe(viewLifecycleOwner, Observer { userResponse ->
             if(userResponse.status == "E03" || userResponse.status == "E00") binding.tvErrorLogin.text = userResponse.message
-            else postLoginUser()
         })
     }
 }

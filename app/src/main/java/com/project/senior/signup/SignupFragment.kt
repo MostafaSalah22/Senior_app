@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.project.domain.model.AppUser
 import com.project.domain.repo.Resource
+import com.project.senior.FirstActivity
 import com.project.senior.MainActivity
 import com.project.senior.R
 import com.project.senior.databinding.FragmentSignupBinding
@@ -44,6 +45,15 @@ class SignupFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.imgShowPassSignup.tag = R.drawable.baseline_visibility_off_24
         binding.imgShowConfirmPassSignup.tag = R.drawable.baseline_visibility_off_24
+
+        viewModel.responseState.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is Resource.Success -> successState()
+                is Resource.Loading -> loadingState()
+                is Resource.Error -> errorState()
+                else -> Log.i("LoginViewModel", "ERROR")
+            }
+        })
         clickListener()
     }
 
@@ -61,19 +71,11 @@ class SignupFragment : Fragment() {
         }
 
         binding.btnSignup.setOnClickListener {
-            if((requireActivity() as MainActivity).isInternetAvailable) {
-                lifecycleScope.launchWhenCreated {
+            if((requireActivity() as FirstActivity).isInternetAvailable) {
+                runBlocking {
                     postRegisterUser()
-
-                    viewModel.responseState.observe(viewLifecycleOwner, Observer { state ->
-                        when (state) {
-                            is Resource.Success -> successState()
-                            is Resource.Loading -> loadingState()
-                            is Resource.Error -> errorState()
-                            else -> Log.i("LoginViewModel", "ERROR")
-                        }
-                    })
                 }
+
             }
             else Snackbar.make(requireView(), "Check the internet and try again.", Snackbar.LENGTH_LONG).show()
         }
@@ -109,7 +111,6 @@ class SignupFragment : Fragment() {
         binding.groupSignup.visibility = View.VISIBLE
         viewModel.signupUser.observe(viewLifecycleOwner, Observer { userResponse ->
             if(userResponse.status == "E03" || userResponse.status == "E00") binding.tvErrorSignup.text = userResponse.message
-            else postRegisterUser()
         })
     }
 }
