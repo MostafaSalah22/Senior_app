@@ -37,10 +37,10 @@ class LoginFragment : Fragment() {
             FragmentLoginBinding.inflate(inflater, container , false)
         lifecycleScope.launchWhenCreated {
             if (viewModel.isEmailLoggedIn()){
-                loadingState()
+                navigateToChatFragment()
                 if((requireActivity() as FirstActivity).isInternetAvailable)
                     viewModel.updateProfileData()
-                navigateToChatFragment()
+
             }
         }
         return binding.root
