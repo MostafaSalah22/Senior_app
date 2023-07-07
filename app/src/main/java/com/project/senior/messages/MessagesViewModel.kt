@@ -18,7 +18,7 @@ class MessagesViewModel @Inject constructor(
 
 
     fun sendMessage(message: String, databaseRef: DatabaseReference, currentUserId: String, senderRoom: String, receiverRoom: String){
-        val messageObject = Message(message = message, senderId = currentUserId, id = Random.nextInt())
+        val messageObject = Message(message = message, senderId = currentUserId.toLong(), id = Random.nextInt())
 
         databaseRef.child("chats").child(senderRoom).child("messages").push()
             .setValue(messageObject).addOnSuccessListener {

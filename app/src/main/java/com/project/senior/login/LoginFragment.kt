@@ -37,6 +37,7 @@ class LoginFragment : Fragment() {
             FragmentLoginBinding.inflate(inflater, container , false)
         lifecycleScope.launchWhenCreated {
             if (viewModel.isEmailLoggedIn()){
+                loadingState()
                 navigateToChatFragment()
                 if((requireActivity() as FirstActivity).isInternetAvailable)
                     viewModel.updateProfileData()
@@ -99,8 +100,10 @@ class LoginFragment : Fragment() {
     }
 
     private fun successState() {
+        runBlocking {
+            viewModel.saveDataToDataStore()
+        }
         navigateToChatFragment()
-        viewModel.saveDataToDataStore()
     }
 
     private fun loadingState() {

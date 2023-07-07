@@ -9,7 +9,7 @@ import com.project.domain.model.Message
 import com.project.senior.databinding.ReceiveItemBinding
 import com.project.senior.databinding.SentItemBinding
 
-class MessagesAdapter(private val sentId: String) :
+class MessagesAdapter(private val sentId: Long) :
     ListAdapter<Message, RecyclerView.ViewHolder>(MessageDiffCallback()) {
 
     val ITEM_RECEIVE = 1

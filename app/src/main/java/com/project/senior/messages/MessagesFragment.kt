@@ -58,7 +58,7 @@ class MessagesFragment : Fragment() {
 
         val layoutManger = LinearLayoutManager(context)
         binding.rvMessages.layoutManager = layoutManger
-        messagesAdapter = MessagesAdapter(currentUserId!!)
+        messagesAdapter = MessagesAdapter(currentUserId!!.toLong())
         binding.rvMessages.adapter = messagesAdapter
 
 
