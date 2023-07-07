@@ -12,6 +12,7 @@
         android:layout_marginBottom="5dp"
         android:background="@drawable/blue_background"
         android:gravity="center"
+        android:layoutDirection="ltr"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layoutDirection="ltr"
             android:padding="10dp"
             android:text="This is sent message"
             android:textColor="@color/white"
