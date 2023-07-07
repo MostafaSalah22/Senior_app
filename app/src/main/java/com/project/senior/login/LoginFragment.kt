@@ -99,12 +99,7 @@ class LoginFragment : Fragment() {
         )
     }
 
-    private fun successState() {
-        runBlocking {
-            viewModel.saveDataToDataStore()
-        }
-        navigateToChatFragment()
-    }
+    private fun successState() = navigateToChatFragment()
 
     private fun loadingState() {
         binding.groupLogin.visibility = View.GONE

@@ -24,6 +24,7 @@
         android:background="@drawable/black_transparent_button"
         android:backgroundTint="#27aae2"
         android:ems="10"
+        android:layoutDirection="ltr"
         android:hint="@string/enter_text"
         android:inputType="textPersonName"
         android:paddingStart="20dp"
@@ -41,6 +42,7 @@
         android:adjustViewBounds="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/send_message_icon"
+        android:layoutDirection="ltr"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
