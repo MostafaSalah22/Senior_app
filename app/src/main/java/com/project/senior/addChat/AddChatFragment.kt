@@ -30,7 +30,7 @@ class AddChatFragment : Fragment() {
     private lateinit var usersAdapter: AddChatAdapter
     private val viewModel: AddChatViewModel by viewModels()
     private var currentUserId: String? = null
-    private lateinit var usersListFilter: ArrayList<ChatModel>
+    private var usersListFilter: ArrayList<ChatModel> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

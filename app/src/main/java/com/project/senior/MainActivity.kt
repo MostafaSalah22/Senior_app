@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.project.domain.usecase.DataStoreTypeUseCase
@@ -64,6 +65,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.bottomNavigation.setupWithNavController(navController)
+
+        // always show selected Bottom Navigation item as selected (return true)
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            // In order to get the expected behavior, you have to call default Navigation method manually
+            NavigationUI.onNavDestinationSelected(item, navController)
+
+            return@setOnItemSelectedListener true
+        }
 
     }
 
