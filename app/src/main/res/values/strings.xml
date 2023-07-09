@@ -49,6 +49,7 @@
     <string name="medicine_alert_dialog">Are you sure you want to delete this medicine?</string>
     <string name="schedule_alert_dialog">Are you sure you want to delete this appointment?</string>
     <string name="logout_alert_dialog">Are you sure you want to logout?</string>
+    <string name="delete_senior_alert_dialog">Are you sure you want to delete this senior?</string>
     <string name="no_description">No Description.</string>
     <string name="empty_details">No details were added, add the details you need.</string>
     <string name="enter_title">Enter Title</string>

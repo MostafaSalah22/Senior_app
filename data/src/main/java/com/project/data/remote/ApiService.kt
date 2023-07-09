@@ -172,8 +172,19 @@ interface ApiService {
     suspend fun getMedicinesOfBooking(@Query("token") token: String,
                                       @Query("user_id") userId: Int): Response<MedicinesModel>
 
+    @GET("care-takers/medications")
+    suspend fun getMedicinesForUser(@Query("token") token: String,
+                                    @Query("user_id") userId: Int): Response<MedicinesModel>
+
     @POST("doctors/medications/create")
     suspend fun addNewMedicine(@Query("token") token: String,
+                               @Query("user_id") userId: Int,
+                               @Query("medication") medicineName:String,
+                               @Query("medication_dose") medicineDose: Int,
+                               @Query("description") medicineDescription: String): Response<MiniResponse>
+
+    @POST("care-takers/medications/create")
+    suspend fun addNewMedicineForUser(@Query("token") token: String,
                                @Query("user_id") userId: Int,
                                @Query("medication") medicineName:String,
                                @Query("medication_dose") medicineDose: Int,
@@ -183,8 +194,19 @@ interface ApiService {
     suspend fun deleteMedicine(@Query("token") token: String,
                                @Query("medication_id") medicineId: Int): Response<MiniResponse>
 
+    @POST("care-takers/medications/delete")
+    suspend fun deleteMedicineForUser(@Query("token") token: String,
+                               @Query("medication_id") medicineId: Int): Response<MiniResponse>
+
     @POST("doctors/medications/update")
     suspend fun updateMedicine(@Query("token") token: String,
+                               @Query("medication_id") medicineId: Int,
+                               @Query("medication") medicineName: String,
+                               @Query("medication_dose") medicineDose: Int,
+                               @Query("description") medicineDescription: String): Response<MiniResponse>
+
+    @POST("care-takers/medications/update")
+    suspend fun updateMedicineForUser(@Query("token") token: String,
                                @Query("medication_id") medicineId: Int,
                                @Query("medication") medicineName: String,
                                @Query("medication_dose") medicineDose: Int,

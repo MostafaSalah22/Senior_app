@@ -1,6 +1,5 @@
 package com.project.data.repo
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.project.data.remote.ApiService
 import com.project.domain.model.*
@@ -322,8 +321,11 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         response = apiService.sendMessage(currentUserId, receiverUserId, message)
     }
 
-    override suspend fun getMedicinesOfBooking(userId: Int): ArrayList<MedicineData> {
-        response = apiService.getMedicinesOfBooking(dataStoreRepoInterface.readFromDataStore("token").toString(), userId)
+    override suspend fun getMedicines(userId: Int): ArrayList<MedicineData> {
+        response =  if(dataStoreRepoInterface.readFromDataStore("type") == "user")
+                    apiService.getMedicinesForUser(dataStoreRepoInterface.readFromDataStore("token").toString(), userId)
+
+                    else apiService.getMedicinesOfBooking(dataStoreRepoInterface.readFromDataStore("token").toString(), userId)
 
         return (response.body() as MedicinesModel).data
     }
@@ -334,12 +336,19 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         medicineDose: Int,
         medicineDescription: String
     ) {
-        response = apiService.addNewMedicine(dataStoreRepoInterface.readFromDataStore("token").toString(),
-            userId, medicineName, medicineDose, medicineDescription)
+        response = if(dataStoreRepoInterface.readFromDataStore("type") == "user")
+                    apiService.addNewMedicineForUser(dataStoreRepoInterface.readFromDataStore("token").toString(),
+                                                userId, medicineName, medicineDose, medicineDescription)
+
+        else apiService.addNewMedicine(dataStoreRepoInterface.readFromDataStore("token").toString(),
+                                                userId, medicineName, medicineDose, medicineDescription)
     }
 
     override suspend fun deleteMedicine(medicineId: Int) {
-        response = apiService.deleteMedicine(dataStoreRepoInterface.readFromDataStore("token").toString(), medicineId)
+        response = if(dataStoreRepoInterface.readFromDataStore("type") == "user")
+                    apiService.deleteMedicineForUser(dataStoreRepoInterface.readFromDataStore("token").toString(), medicineId)
+
+        else apiService.deleteMedicine(dataStoreRepoInterface.readFromDataStore("token").toString(), medicineId)
     }
 
     override suspend fun updateMedicine(
@@ -348,8 +357,12 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         medicineDose: Int,
         medicineDescription: String
     ) {
-        response = apiService.updateMedicine(dataStoreRepoInterface.readFromDataStore("token").toString(),
-            medicineId, medicineName, medicineDose, medicineDescription)
+        response = if(dataStoreRepoInterface.readFromDataStore("type") == "user")
+                    apiService.updateMedicineForUser(dataStoreRepoInterface.readFromDataStore("token").toString(),
+                                                            medicineId, medicineName, medicineDose, medicineDescription)
+
+        else apiService.updateMedicine(dataStoreRepoInterface.readFromDataStore("token").toString(),
+                                            medicineId, medicineName, medicineDose, medicineDescription)
     }
 
     override suspend fun <T : Any> handleResponse(): LiveData<Resource<T>> {

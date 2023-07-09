@@ -90,6 +90,13 @@
             app:exitAnim="@anim/anim_to_left"
             app:popEnterAnim="@anim/anim_from_left"
             app:popExitAnim="@anim/anim_to_right"/>
+        <action
+            android:id="@+id/action_seniorDetailsFragment_to_medicinesFragment"
+            app:destination="@id/medicinesFragment"
+            app:enterAnim="@anim/anim_from_right"
+            app:exitAnim="@anim/anim_to_left"
+            app:popEnterAnim="@anim/anim_from_left"
+            app:popExitAnim="@anim/anim_to_right"/>
     </fragment>
     <fragment
         android:id="@+id/seniorProfileFragment"
@@ -241,6 +248,7 @@
         <action
             android:id="@+id/action_medicinesFragment_self"
             app:destination="@id/medicinesFragment"
-            app:popUpTo="@id/bookingDetailsFragment" />
+            app:popUpTo="@id/medicinesFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

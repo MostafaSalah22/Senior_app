@@ -50,7 +50,7 @@ interface MainRepoInterface {
     suspend fun getAllUsers(): ChatUsers
     suspend fun getChats(userId: Int): ChatUsers
     suspend fun sendMessage(currentUserId: Int, receiverUserId: Int, message: String)
-    suspend fun getMedicinesOfBooking(userId: Int): ArrayList<MedicineData>
+    suspend fun getMedicines(userId: Int): ArrayList<MedicineData>
     suspend fun addNewMedicine(userId: Int, medicineName:String, medicineDose: Int, medicineDescription: String)
     suspend fun deleteMedicine(medicineId: Int)
     suspend fun updateMedicine(medicineId: Int, medicineName: String, medicineDose: Int, medicineDescription: String)

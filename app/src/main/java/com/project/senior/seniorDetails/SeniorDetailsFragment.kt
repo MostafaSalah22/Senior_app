@@ -3,7 +3,6 @@ package com.project.senior.seniorDetails
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,10 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.project.domain.repo.Resource
 import com.project.senior.R
 import com.project.senior.databinding.FragmentSeniorDetailsBinding
-import com.project.senior.databinding.FragmentSeniorsBinding
-import com.project.senior.schedule.ScheduleViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SeniorDetailsFragment : Fragment() {
@@ -55,8 +51,8 @@ class SeniorDetailsFragment : Fragment() {
             navigateToScheduleFragment(userId!!)
         }
 
-        binding.cardProfileSeniorDetails.setOnClickListener {
-            navigateToSeniorProfileFragment(userId!!)
+        binding.cardMedicinesSeniorDetails.setOnClickListener {
+            navigateToMedicinesFragment(userId!!)
         }
 
         binding.cardInformationSeniorDetails.setOnClickListener {
@@ -76,8 +72,8 @@ class SeniorDetailsFragment : Fragment() {
         findNavController().navigate(SeniorDetailsFragmentDirections.actionSeniorDetailsFragmentToScheduleFragment(userId))
     }
 
-    private fun navigateToSeniorProfileFragment(userId: Int) {
-        findNavController().navigate(SeniorDetailsFragmentDirections.actionSeniorDetailsFragmentToSeniorProfileFragment(userId))
+    private fun navigateToMedicinesFragment(userId: Int) {
+        findNavController().navigate(SeniorDetailsFragmentDirections.actionSeniorDetailsFragmentToMedicinesFragment(userId))
     }
 
     private fun navigateToSeniorInformationFragment(userId: Int) {
