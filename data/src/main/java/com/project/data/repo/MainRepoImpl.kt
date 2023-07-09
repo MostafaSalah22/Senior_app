@@ -225,11 +225,6 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         //returnChangeTrueResponse(sendNotificationResponse)
     }
 
-    override suspend fun getSeniorProfile(userId: Int): SeniorProfile {
-        response = apiService.getSeniorProfile(userId)
-        return response.body() as SeniorProfile
-    }
-
     override suspend fun getInformationCategories(userId: Int): ArrayList<CategoryData>? {
         response = apiService.getInformationCategories(userId)
         return (response.body() as InformationCategories).data

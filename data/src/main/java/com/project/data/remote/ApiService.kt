@@ -108,9 +108,6 @@ interface ApiService {
                                  @Query("title") title: String,
                                  @Query("content") content: String): Response<MiniResponse>
 
-    @GET("guest/seniors/profile")
-    suspend fun getSeniorProfile(@Query("user_id") userId: Int): Response<SeniorProfile>
-
     @GET("care-takers/history-categories")
     suspend fun getInformationCategories(@Query("user_id") userId: Int): Response<InformationCategories>
 

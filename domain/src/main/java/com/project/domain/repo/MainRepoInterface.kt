@@ -35,7 +35,6 @@ interface MainRepoInterface {
     suspend fun cancelSchedule(scheduleId: Int): MiniResponse
     suspend fun addNewSchedule(userId: Int, title: String, date: String, time: String, description: String)
     suspend fun sendNotification(userId: Int, title: String, content: String)
-    suspend fun getSeniorProfile(userId: Int): SeniorProfile
     suspend fun getInformationCategories(userId: Int): ArrayList<CategoryData>?
     suspend fun deleteInformationCategory(categoryId: Int): MiniResponse
     suspend fun editInformationCategoryTitle(categoryId: Int, title: String): MiniResponse
