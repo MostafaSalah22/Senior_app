@@ -64,11 +64,6 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun saveDataToDataStore(){
-        viewModelScope.launch {
-            postLoginUserUseCase.saveDataToDataStore()
-        }
-    }
 
     suspend fun isEmailLoggedIn(): Boolean{
         return postLoginUserUseCase.isEmailLoggedIn()

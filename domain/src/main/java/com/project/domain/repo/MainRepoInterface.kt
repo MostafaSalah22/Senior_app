@@ -13,7 +13,6 @@ interface MainRepoInterface {
     suspend fun getUserType(): String
     suspend fun getUserId(): String
     suspend fun postLoginUser(username:String,password:String): AppUser
-    suspend fun saveDataToDataStore()
     suspend fun isEmailLoggedIn(): Boolean
     suspend fun postRegisterUser(username: String, name: String,
                                  password: String, confirm_password:String,

@@ -61,34 +61,6 @@ class MainRepoImpl(private val apiService: ApiService, private val dataStoreRepo
         return returnTrueResponse(response as Response<AppUser>)
     }
 
-    override suspend fun saveDataToDataStore() {
-        dataStoreRepoInterface.saveToDataStore("token", (response.body() as AppUser).data?.token.toString())
-
-        dataStoreRepoInterface.saveToDataStore("id",
-            (response.body() as AppUser).data?.user?.id.toString()
-        )
-
-        dataStoreRepoInterface.saveToDataStore("username",
-            (response.body() as AppUser).data?.user?.username.toString()
-        )
-
-        dataStoreRepoInterface.saveToDataStore("name",
-            (response.body() as AppUser).data?.user?.name.toString()
-        )
-
-        dataStoreRepoInterface.saveToDataStore("phone",
-            (response.body() as AppUser).data?.user?.phone.toString()
-        )
-
-        dataStoreRepoInterface.saveToDataStore("email",
-            (response.body() as AppUser).data?.user?.email.toString()
-        )
-
-        dataStoreRepoInterface.saveToDataStore("image",
-            (response.body() as AppUser).data?.user?.image.toString()
-        )
-    }
-
     override suspend fun isEmailLoggedIn(): Boolean {
         return !(dataStoreRepoInterface.readFromDataStore("token") == null.toString() || dataStoreRepoInterface.readFromDataStore("token") == null)
     }
